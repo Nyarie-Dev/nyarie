@@ -1,4 +1,4 @@
-package eu.nyarie.api;
+package eu.nyarie.core.api;
 
 public class ApiClass {
 
