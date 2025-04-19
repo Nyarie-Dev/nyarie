@@ -1,6 +1,6 @@
 package eu.nyarie.core;
 
-import eu.nyarie.api.ApiClass;
+import eu.nyarie.core.api.ApiClass;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
