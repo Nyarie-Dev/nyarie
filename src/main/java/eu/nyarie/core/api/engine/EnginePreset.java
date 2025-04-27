@@ -2,7 +2,7 @@ package eu.nyarie.core.api.engine;
 
 import eu.nyarie.core.api.service.FactionService;
 
-public interface EngineServices {
+public interface EnginePreset {
 
-    FactionService factionService();
+    FactionService getFactionService();
 }
