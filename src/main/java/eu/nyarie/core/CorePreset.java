@@ -1,13 +1,13 @@
 package eu.nyarie.core;
 
-import eu.nyarie.core.api.engine.EngineServices;
+import eu.nyarie.core.api.engine.EnginePreset;
 import eu.nyarie.core.api.service.FactionService;
 import eu.nyarie.core.domain.faction.FactionServiceProvider;
 
-public class CoreServices implements EngineServices {
+public class CorePreset implements EnginePreset {
 
     @Override
-    public FactionService factionService() {
+    public FactionService getFactionService() {
         return new FactionServiceProvider();
     }
 }
