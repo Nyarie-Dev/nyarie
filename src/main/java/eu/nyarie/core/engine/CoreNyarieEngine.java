@@ -1,6 +1,6 @@
 package eu.nyarie.core.engine;
 
-import eu.nyarie.core.CorePreset;
+import eu.nyarie.core.DefaultServiceProfile;
 import eu.nyarie.core.api.engine.NyarieEngine;
 import eu.nyarie.core.api.service.CharacterService;
 import eu.nyarie.core.api.service.FactionService;
@@ -17,7 +17,7 @@ public class CoreNyarieEngine implements NyarieEngine {
     }
 
     public static CoreNyarieEngineBuilder withDefaults() {
-        return new CoreNyarieEngineBuilder().loadPreset(new CorePreset());
+        return new CoreNyarieEngineBuilder().loadPreset(new DefaultServiceProfile());
     }
 
     @Override

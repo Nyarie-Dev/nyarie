@@ -1,6 +1,6 @@
 package eu.nyarie.core.engine;
 
-import eu.nyarie.core.api.engine.EnginePreset;
+import eu.nyarie.core.api.engine.EngineServiceProfile;
 import eu.nyarie.core.api.service.FactionService;
 
 public class CoreNyarieEngineBuilder {
@@ -11,7 +11,7 @@ public class CoreNyarieEngineBuilder {
             this.engine = new CoreNyarieEngine();
         }
 
-        public CoreNyarieEngineBuilder loadPreset(EnginePreset preset) {
+        public CoreNyarieEngineBuilder loadPreset(EngineServiceProfile preset) {
             preset.getFactionService(engine)
                     .ifPresent(factionService -> engine.factionService = factionService);
 
