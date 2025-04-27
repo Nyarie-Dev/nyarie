@@ -1,6 +1,5 @@
 package eu.nyarie.core.domain.faction;
 
-import eu.nyarie.core.api.data.character.CharacterData;
 import eu.nyarie.core.api.data.faction.FactionCharacterData;
 import eu.nyarie.core.api.commands.character.CharacterCommands;
 import eu.nyarie.core.api.commands.faction.FactionCharacterCommands;
@@ -32,18 +31,8 @@ public class FactionCharacter extends Faction implements FactionCharacterCommand
     }
 
     @Override
-    public Set<CharacterData> getCharacters() {
+    public Set<CharacterCommands> getCharacters() {
         return Collections.unmodifiableSet(characters);
-    }
-
-    @Override
-    public void addCharacter(CharacterCommands character) {
-        characters.add(character);
-    }
-
-    @Override
-    public void removeCharacter(CharacterCommands character) {
-        characters.remove(character);
     }
 
     @Override
