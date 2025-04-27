@@ -5,5 +5,5 @@ import eu.nyarie.core.api.data.character.CharacterData;
 import java.util.Set;
 
 public interface FactionCharacterData extends FactionData {
-    Set<CharacterData> getCharacters();
+    Set<? extends CharacterData> getCharacters();
 }
