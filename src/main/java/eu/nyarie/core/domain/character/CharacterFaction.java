@@ -3,6 +3,7 @@ package eu.nyarie.core.domain.character;
 import eu.nyarie.core.api.commands.character.CharacterFactionCommands;
 import eu.nyarie.core.api.commands.faction.FactionCommands;
 import eu.nyarie.core.api.data.character.CharacterData;
+import eu.nyarie.core.api.persistence.CharacterRepository;
 import lombok.Getter;
 
 @Getter
@@ -10,8 +11,8 @@ public class CharacterFaction extends Character implements CharacterFactionComma
 
     private FactionCommands faction;
 
-    public CharacterFaction(CharacterData characterData, FactionCommands factionCommands) {
-        super(characterData);
+    public CharacterFaction(CharacterData characterData, FactionCommands factionCommands, CharacterRepository repository) {
+        super(repository, characterData);
     }
 
     @Override

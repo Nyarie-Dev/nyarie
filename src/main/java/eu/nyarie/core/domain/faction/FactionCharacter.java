@@ -1,33 +1,18 @@
 package eu.nyarie.core.domain.faction;
 
-import eu.nyarie.core.api.data.faction.FactionCharacterData;
 import eu.nyarie.core.api.commands.character.CharacterCommands;
 import eu.nyarie.core.api.commands.faction.FactionCharacterCommands;
-import eu.nyarie.core.api.persistence.FactionRepository;
-import eu.nyarie.core.domain.character.Character;
-import lombok.val;
+import eu.nyarie.core.api.data.faction.FactionData;
 
-import java.util.Collections;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class FactionCharacter extends Faction implements FactionCharacterCommands {
 
     private final Set<CharacterCommands> characters;
 
-    FactionCharacter(FactionCharacterData factionCharacterData) {
-        super(factionCharacterData);
-        this.characters = factionCharacterData.getCharacters()
-                .stream()
-                .map(Character::new)
-                .collect(Collectors.toSet());
-    }
-
-    public static FactionCharacter query(FactionRepository repository, UUID id) {
-        val data = repository.getFactionWithCharacters(id);
-
-        return new FactionCharacter(data.orElseThrow());
+    FactionCharacter(FactionData factionData, Collection<CharacterCommands> characters) {
+        super(factionData);
+        this.characters = new HashSet<>(characters);
     }
 
     @Override
