@@ -13,12 +13,8 @@ public class CoreNyarieEngine extends NyarieEngine {
         super(persistenceContext);
     }
 
-    public static CoreNyarieEngineBuilder builder() {
-        return new CoreNyarieEngineBuilder(null);
-    }
-
-    public static CoreNyarieEngineBuilder withDefaults() {
-        return new CoreNyarieEngineBuilder(null).loadPreset(new DefaultServiceProfile());
+    public static CoreNyarieEnginePersistenceContextBuilder withPersistenceContext(EnginePersistenceContext context) {
+        return new CoreNyarieEnginePersistenceContextBuilder(context);
     }
 
     @Override
@@ -28,6 +24,24 @@ public class CoreNyarieEngine extends NyarieEngine {
 
     @Override
     public void stop() {
+
+    }
+
+    public static class CoreNyarieEnginePersistenceContextBuilder {
+
+        private final CoreNyarieEngineBuilder engineBuilder;
+
+        public CoreNyarieEnginePersistenceContextBuilder(EnginePersistenceContext persistenceContext) {
+            this.engineBuilder = new CoreNyarieEngineBuilder(persistenceContext);
+        }
+
+        public CoreNyarieEngineBuilder builder() {
+            return engineBuilder;
+        }
+
+        public CoreNyarieEngineBuilder withDefaults() {
+            return engineBuilder.loadPreset(new DefaultServiceProfile());
+        }
 
     }
 

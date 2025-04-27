@@ -13,6 +13,7 @@ public class CoreClass {
         val apiClass = new ApiClass();
 
         val engine = CoreNyarieEngine
+                .withPersistenceContext(null)
                 .withDefaults()
                 .build();
 
