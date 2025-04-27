@@ -6,8 +6,10 @@ import eu.nyarie.core.api.engine.NyarieEngine;
 import eu.nyarie.core.api.service.FactionService;
 import lombok.Getter;
 
+import java.util.Optional;
+
 @Getter
-public class CoreNyarieEngine implements NyarieEngine, EnginePreset {
+public class CoreNyarieEngine implements NyarieEngine {
 
     private FactionService factionService;
 
@@ -38,8 +40,8 @@ public class CoreNyarieEngine implements NyarieEngine, EnginePreset {
         }
 
         public CoreNyarieEngineBuilder loadPreset(EnginePreset preset) {
-            if(preset.getFactionService() != null)
-                engine.factionService = preset.getFactionService();
+            preset.getFactionService(engine)
+                    .ifPresent(factionService -> engine.factionService = factionService);
 
             return this;
         }
