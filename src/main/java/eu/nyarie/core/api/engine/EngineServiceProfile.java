@@ -4,7 +4,7 @@ import eu.nyarie.core.api.service.FactionService;
 
 import java.util.Optional;
 
-public interface EnginePreset {
+public interface EngineServiceProfile {
 
     Optional<FactionService> getFactionService(NyarieEngine engine);
 }
