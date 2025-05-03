@@ -1,5 +1,7 @@
 package eu.nyarie.core.api.engine;
 
+import eu.nyarie.core.api.persistence.CharacterRepository;
+import eu.nyarie.core.api.persistence.FactionRepository;
 import eu.nyarie.core.api.service.CharacterService;
 import eu.nyarie.core.api.service.FactionService;
 
@@ -19,8 +21,15 @@ public abstract class NyarieEngine {
     public FactionService getFactionService() {
         return factionService;
     }
-
     public CharacterService getCharacterService() {
         return characterService;
     }
+
+    public FactionRepository getFactionRepository() {
+        return this.persistenceContext.factionRepository();
+    }
+    public CharacterRepository getCharacterRepository() {
+        return this.persistenceContext.characterRepository();
+    }
+
 }
