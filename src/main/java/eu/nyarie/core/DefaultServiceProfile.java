@@ -2,7 +2,9 @@ package eu.nyarie.core;
 
 import eu.nyarie.core.api.engine.EngineServiceProfile;
 import eu.nyarie.core.api.engine.NyarieEngine;
+import eu.nyarie.core.api.service.CharacterService;
 import eu.nyarie.core.api.service.FactionService;
+import eu.nyarie.core.domain.character.DefaultCharacterService;
 import eu.nyarie.core.domain.faction.DefaultFactionService;
 
 import java.util.Optional;
@@ -12,6 +14,11 @@ public class DefaultServiceProfile implements EngineServiceProfile {
     @Override
     public Optional<FactionService> getFactionService(NyarieEngine engine) {
         return Optional.of(new DefaultFactionService(engine));
+    }
+
+    @Override
+    public Optional<CharacterService> getCharacterService(NyarieEngine engine) {
+        return Optional.of(new DefaultCharacterService(engine));
     }
 
 }

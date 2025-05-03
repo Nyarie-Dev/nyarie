@@ -56,6 +56,8 @@ public class CoreNyarieEngine extends NyarieEngine {
         public CoreNyarieEngineBuilder loadPreset(EngineServiceProfile preset) {
             preset.getFactionService(engine)
                     .ifPresent(factionService -> engine.factionService = factionService);
+            preset.getCharacterService(engine)
+                    .ifPresent(characterService -> engine.characterService = characterService);
 
             return this;
         }
