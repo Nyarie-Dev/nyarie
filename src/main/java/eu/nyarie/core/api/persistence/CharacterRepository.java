@@ -7,6 +7,5 @@ import java.util.UUID;
 
 public interface CharacterRepository {
 
-    Set<CharacterData> getCharactersInFaction(UUID factionId);
-    Set<CharacterData> getCharactersByName(String name);
+    Set<? extends CharacterData> getCharactersInFaction(UUID factionId);
 }

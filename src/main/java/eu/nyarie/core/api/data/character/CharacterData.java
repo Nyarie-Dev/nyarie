@@ -4,14 +4,10 @@ import eu.nyarie.core.api.data.Identifiable;
 
 import java.util.UUID;
 
-public interface CharacterData extends Identifiable {
+public interface CharacterData extends Identifiable, CreateCharacterData {
 
-    String getName();
-    String getTitle();
     float getHealth();
-    String getGear();
 
-    UUID getFactionId();
     String getCurrentRegionId();
     UUID getCommandedGroupId();
 }

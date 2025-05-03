@@ -26,10 +26,10 @@ public abstract class NyarieEngine {
     }
 
     public FactionRepository getFactionRepository() {
-        return this.persistenceContext.factionRepository();
+        return this.persistenceContext.getFactionRepository();
     }
     public CharacterRepository getCharacterRepository() {
-        return this.persistenceContext.characterRepository();
+        return this.persistenceContext.getCharacterRepository();
     }
 
 }

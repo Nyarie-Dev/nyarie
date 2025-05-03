@@ -1,5 +1,6 @@
 package eu.nyarie.core.api.engine;
 
+import eu.nyarie.core.api.service.CharacterService;
 import eu.nyarie.core.api.service.FactionService;
 
 import java.util.Optional;
@@ -7,4 +8,5 @@ import java.util.Optional;
 public interface EngineServiceProfile {
 
     Optional<FactionService> getFactionService(NyarieEngine engine);
+    Optional<CharacterService> getCharacterService(NyarieEngine engine);
 }

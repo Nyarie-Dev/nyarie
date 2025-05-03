@@ -7,6 +7,6 @@ import eu.nyarie.core.api.data.faction.FactionData;
 
 public interface FactionService extends NyarieService {
 
-    FactionCommands createFaction(FactionData factionData);
-    FactionCharacterCommands createFactionCharacter(FactionCharacterData characterData);
+    FactionCommands getFaction(FactionData factionData);
+    FactionCharacterCommands getFactionCharacter(FactionCharacterData characterData);
 }
