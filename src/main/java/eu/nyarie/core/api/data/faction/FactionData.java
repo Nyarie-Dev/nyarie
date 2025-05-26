@@ -4,13 +4,6 @@ import eu.nyarie.core.api.data.Identifiable;
 
 import java.util.UUID;
 
-public interface FactionData extends Identifiable {
+public interface FactionData extends Identifiable, CreateFactionData {
 
-    String getName();
-    String getDescription();
-    String getMotto();
-
-    UUID getOriginFactionId();
-
-    UUID getLeaderCharacterId();
 }
