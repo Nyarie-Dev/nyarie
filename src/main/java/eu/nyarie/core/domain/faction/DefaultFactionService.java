@@ -2,6 +2,7 @@ package eu.nyarie.core.domain.faction;
 
 import eu.nyarie.core.api.commands.faction.FactionCharacterCommands;
 import eu.nyarie.core.api.commands.faction.FactionCommands;
+import eu.nyarie.core.api.data.faction.CreateFactionData;
 import eu.nyarie.core.api.data.faction.FactionCharacterData;
 import eu.nyarie.core.api.data.faction.FactionData;
 import eu.nyarie.core.api.engine.NyarieEngine;
@@ -11,14 +12,15 @@ import lombok.Getter;
 import lombok.val;
 
 @Getter
-public class DefaultFactionService implements FactionService {
-
-    private final NyarieEngine engine;
-    private final FactionRepository factionRepository;
+public class DefaultFactionService extends FactionService {
 
     public DefaultFactionService(NyarieEngine engine) {
-        this.engine = engine;
-        this.factionRepository = engine.getFactionRepository();
+        super(engine, engine.getFactionRepository());
+    }
+
+    @Override
+    public FactionCommands createFaction(CreateFactionData createFactionData) {
+        return new Faction(createFactionData);
     }
 
     @Override
