@@ -23,6 +23,7 @@ dependencies {
 
     testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.24.3")
     testImplementation("org.mockito:mockito-core:2.1.0")
+    testImplementation("org.mockito:mockito-junit-jupiter:5.18.0")
 
     //Lombok
     compileOnly(lombokVersion)
