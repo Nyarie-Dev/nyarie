@@ -3,13 +3,12 @@ package eu.nyarie.core.domain.character;
 import eu.nyarie.core.api.data.character.CharacterData;
 import eu.nyarie.core.api.data.character.CreateCharacterData;
 import eu.nyarie.core.api.data.map.RegionData;
-import eu.nyarie.core.api.persistence.CharacterRepository;
+import eu.nyarie.core.api.exception.data.FactionNotFoundException;
 import eu.nyarie.core.api.persistence.FactionRepository;
 import eu.nyarie.core.domain.Identity;
 import eu.nyarie.core.domain.constant.map.Region;
 import eu.nyarie.core.api.commands.character.CharacterCommands;
 import lombok.Getter;
-import lombok.val;
 
 import java.util.UUID;
 
@@ -39,8 +38,8 @@ public class Character extends Identity implements CharacterCommands {
 
     public Character(FactionRepository factionRepository, CreateCharacterData data) {
         if(data.getFactionId() != null) {
-            factionRepository.getFaction(data.getFactionId())
-                    .orElseThrow();
+            factionRepository.findById(data.getFactionId())
+                    .orElseThrow(() -> FactionNotFoundException.factionWithIdNotFound(data.getFactionId()));
         }
 
         super(UUID.randomUUID());
