@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface FactionRepository {
 
-    Optional<? extends FactionData> getFaction(UUID factionId);
+    Optional<? extends FactionData> findById(UUID factionId);
 
-    Optional<? extends FactionCharacterData> getFactionWithCharacters(UUID factionId);
+    Optional<? extends FactionCharacterData> findByIdWithCharacters(UUID factionId);
 }
