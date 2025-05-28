@@ -17,6 +17,7 @@ dependencies {
     implementation("org.tomlj:tomlj:1.1.1")
     implementation("org.slf4j:slf4j-api:2.0.17")
     implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
+    implementation("org.jspecify:jspecify:1.0.0")
     implementation(project(":nyarie-api"))
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
