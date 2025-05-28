@@ -7,6 +7,7 @@ group = "eu.nyarie"
 version = "1.0-SNAPSHOT"
 val javaVersion by extra(24)
 val lombokVersion by extra("1.18.38")
+val jacksonVersion by extra("2.19.0")
 
 repositories {
     mavenCentral()
@@ -15,6 +16,7 @@ repositories {
 dependencies {
     implementation("org.tomlj:tomlj:1.1.1")
     implementation("org.slf4j:slf4j-api:2.0.17")
+    implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
     implementation(project(":nyarie-api"))
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
