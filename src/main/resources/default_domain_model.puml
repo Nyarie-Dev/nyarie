@@ -22,6 +22,7 @@ class Faction {
   + motto: String
   + leaderCharacterId: UUID
   + originFactionId: UUID
+  + homeRegion: Region
 }
 
 class FactionCharacter extends Faction {
@@ -48,6 +49,7 @@ CharacterFaction "1" -- "1" Faction : member of
 FactionCharacter "1" o-- "*" Character : has members
 Region "1" -- "1" TerrainType : has >
 Region "*" -- "*" Region : neighbors >
+Faction "1" -- "1" Region : has home >
 
 ' Interfaces from nyarie-api are omitted for simplicity
 ' but implemented classes are shown (e.g., Character, Faction)
@@ -65,26 +67,77 @@ interface Commandable {
 }
 
 Character ..|> Moveable
-Unit ..|> Moveable
+Specialist ..|> Moveable
 Company ..|> Moveable
 Company ..|> Commandable
 Army ..|> Moveable
 Army ..|> Commandable
 
-class Army {
+class CombatUnitType {
+  + name: String
+  + tokenCost: int
+  + maxHealth: int
+}
+
+class CombatUnit {
   + id: UUID
+  + type: CombatUnitType
+  + health: int
+  + commandedBy: Commandable
+}
+
+class SpecialistType {
+  + name: String
+  + tokenCost: int
+  + maxHealth: int
+}
+
+class Specialist {
+  + id: UUID
+  + type: SpecialistType
+  + health: int
+  + region: Region
+}
+
+class ArmyConfig {
+  + maxArmyTokens: int
+}
+
+class CompanyConfig {
+  + maxCompanyTokens: int
+}
+
+class Army {
+  + name: String
+  + region: Region
+  + factionId: UUID
+  + combatUnitTypes: Set<UUID>
 }
 
 class Company {
-  + id: UUID
+  + name: String
+  + region: Region
+  + factionId: UUID
+  + combatUnitTypes: Set<UUID>
 }
 
-class Unit {
-  + id: UUID
+class ArmyCombatUnit extends Army {
+  + combatUnits: Set<CombatUnitCommands>
 }
 
-Army "1" o-- "*" Company : consists of >
-Company "1" o-- "*" Unit : consists of >
+class CompanyCombatUnit extends Company {
+  + combatUnits: Set<CombatUnitCommands>
+}
+
+CombatUnit "1" -- "1" CombatUnitType : is of type >
+Specialist "1" -- "1" SpecialistType : is of type >
+ArmyConfig "1" -- "*" Army : configures >
+CompanyConfig "1" -- "*" Company : configures >
+Army "1" -- "1" Region : located in >
+Company "1" -- "1" Region : located in >
+Specialist "1" -- "1" Region : located in >
+ArmyCombatUnit "1" o-- "*" CombatUnit : commands >
+CompanyCombatUnit "1" o-- "*" CombatUnit : commands >
 
 class Claimbuild {
   + name: String
@@ -105,7 +158,7 @@ class ClaimbuildType {
   + allowedFactions: Set<UUID>
   + allowedRegions: Set<Region>
   + allowedTerrainTypes: Set<TerrainType>
-  + allowedProductionSites: Set<ProductionSite>
+  + allowedProductionSites: Set<ProductionSiteType>
   + productionSiteSlots: Integer
   + specialSitesSlots: Integer
   + housingRequirements: Map<HouseType, Integer>
@@ -121,12 +174,62 @@ class HouseType {
   + providedCitizens: Integer
 }
 
-class ProductionSite {
+class ProductionSiteType {
   + name: String
   + producedResources: Set<ResourceWithAmount>
   + allowedFactions: Filter<UUID>
   + allowedRegions: Filter<Region>
   + allowedTerrainTypes: Filter<TerrainType>
 }
+
+class ProductionSiteCategory {
+  + name: String
+}
+
+class ProductionSite {
+  + id: UUID
+  + claimbuild: UUID
+  + type: ProductionSiteType
+  + faction: UUID
+}
+
+class ClaimbuildProductionSite {
+  + productionSites: Set<ProductionSiteCommands>
+}
+
+class FactionProductionSite {
+  + productionSites: Set<ProductionSiteCommands>
+}
+
+class FactionClaimbuild {
+  + claimbuilds: Set<ClaimbuildCommands>
+}
+
+class Resource {
+  + name: String
+  + resourceType: ResourceType
+}
+
+class ResourceType {
+  + name: String
+}
+
+class ResourceWithAmount {
+  + resource: Resource
+  + amount: Integer
+}
+
+Resource "1" -- "1" ResourceType : has type >
+ResourceWithAmount "1" -- "1" Resource : contains >
+ProductionSiteType "1" o-- "*" ResourceWithAmount : produces >
+ProductionSiteType "1" -- "1" ProductionSiteCategory : has type >
+ProductionSite "*" -- "1" ProductionSiteType : is of type >
+ClaimbuildProductionSite "1" -- "1" Claimbuild : belongs to >
+ClaimbuildProductionSite "1" o-- "*" ProductionSite : manages >
+FactionProductionSite "1" -- "1" Faction : belongs to >
+FactionProductionSite "1" o-- "*" ProductionSite : manages >
+FactionClaimbuild "1" -- "1" Faction : belongs to >
+FactionClaimbuild "1" o-- "*" Claimbuild : manages >
+Region "1" -- "*" Claimbuild : contains >
 
 @enduml default_domain_model
