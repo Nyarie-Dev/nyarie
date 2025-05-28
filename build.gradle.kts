@@ -40,6 +40,14 @@ java {
     }
 }
 
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "eu.nyarie.core.Main"
+    }
+    // If you have external dependencies and want a "fat jar"
+    // from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
 publishing {
     publications {
         register("mavenJava", MavenPublication::class) {
