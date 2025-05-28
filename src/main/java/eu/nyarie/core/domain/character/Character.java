@@ -6,7 +6,7 @@ import eu.nyarie.core.api.data.map.RegionData;
 import eu.nyarie.core.api.exception.data.FactionNotFoundException;
 import eu.nyarie.core.api.persistence.FactionRepository;
 import eu.nyarie.core.domain.Identity;
-import eu.nyarie.core.domain.constant.map.Region;
+import eu.nyarie.core.domain.constant.Region;
 import eu.nyarie.core.api.commands.character.CharacterCommands;
 import lombok.Getter;
 

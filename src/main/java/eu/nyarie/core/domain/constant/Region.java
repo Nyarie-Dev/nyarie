@@ -1,4 +1,4 @@
-package eu.nyarie.core.domain.constant.map;
+package eu.nyarie.core.domain.constant;
 
 import eu.nyarie.core.api.data.map.RegionData;
 import lombok.Getter;
