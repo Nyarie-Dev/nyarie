@@ -5,8 +5,8 @@ plugins {
 
 group = "eu.nyarie"
 version = "1.0-SNAPSHOT"
-val javaVersion = 24
-val lombokVersion = "org.projectlombok:lombok:1.18.38"
+val javaVersion by extra(24)
+val lombokVersion by extra("1.18.38")
 
 repositories {
     mavenCentral()
@@ -26,10 +26,10 @@ dependencies {
     testImplementation("org.mockito:mockito-junit-jupiter:5.18.0")
 
     //Lombok
-    compileOnly(lombokVersion)
-    annotationProcessor(lombokVersion)
-    testCompileOnly(lombokVersion)
-    testAnnotationProcessor(lombokVersion)
+    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+    testCompileOnly("org.projectlombok:lombok:${lombokVersion}")
+    testAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
 }
 
 java {
