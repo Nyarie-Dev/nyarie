@@ -17,14 +17,14 @@ public class ConstRegions {
     private static final List<Region> regions = new ArrayList<>(200);
 
     /// @return An unmodifiable {@link List} containing all the loaded regions.
-    public List<Region> getAll() {
+    public static List<Region> getAll() {
         return Collections.unmodifiableList(regions);
     }
 
     /// Finds the region with the passed `id`.
     /// @param id The {@link Region#getId()} to query for
     /// @return An {@link Optional} containing the found region. {@link Optional#empty()} if no region was found.
-    public Optional<Region> byId(String id) {
+    public static Optional<Region> byId(String id) {
         return regions.stream()
                 .filter(region -> region.getId().equals(id))
                 .findAny();
