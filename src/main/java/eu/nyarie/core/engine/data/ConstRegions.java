@@ -12,7 +12,7 @@ import java.util.Optional;
 ///
 /// For more information on how to set up constant data, see {@link ConstDataLoader}.
 /// @see ConstDataLoader
-public class ConstRegions extends ConstData<Region> {
+public class ConstRegions {
 
     private static final List<Region> regions = new ArrayList<>(200);
 
@@ -31,8 +31,8 @@ public class ConstRegions extends ConstData<Region> {
 
     }
 
-    @Override
-    void load(List<Region> items) {
-        regions.addAll(items);
+    /// Loads the passed list of {@link Region Regions} into const memory
+    static void load(List<Region> regions) {
+        ConstRegions.regions.addAll(regions);
     }
 }
