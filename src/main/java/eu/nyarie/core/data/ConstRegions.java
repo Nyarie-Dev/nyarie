@@ -1,4 +1,4 @@
-package eu.nyarie.core.engine.data;
+package eu.nyarie.core.data;
 
 import eu.nyarie.core.domain.constant.map.Region;
 

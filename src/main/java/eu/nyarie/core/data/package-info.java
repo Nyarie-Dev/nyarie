@@ -1,4 +1,4 @@
 @NullMarked
-package eu.nyarie.core.engine.data;
+package eu.nyarie.core.data;
 
 import org.jspecify.annotations.NullMarked;

@@ -1,4 +1,4 @@
-package eu.nyarie.core.engine.data;
+package eu.nyarie.core.data;
 
 public class ConstDataLoader {
 
