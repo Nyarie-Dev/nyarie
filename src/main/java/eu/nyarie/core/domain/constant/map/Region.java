@@ -29,14 +29,17 @@ public class Region implements RegionData {
         this.claimbuildIds = new HashSet<>(claimbuildIds);
     }
 
+    @Override
     public Set<RegionData> getNeighboringRegions() {
         return Collections.unmodifiableSet(neighboringRegions);
     }
 
+    @Override
     public Set<UUID> getClaimantFactionIds() {
         return Collections.unmodifiableSet(claimantFactionIds);
     }
 
+    @Override
     public Set<UUID> getClaimbuildIds() {
         return Collections.unmodifiableSet(claimbuildIds);
     }

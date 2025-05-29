@@ -16,6 +16,7 @@ public class ConstRegions {
 
     private static final List<Region> regions = new ArrayList<>(200);
 
+    /// Returns an unmodifiable {@link List} containing all the loaded regions.
     /// @return An unmodifiable {@link List} containing all the loaded regions.
     public static List<Region> getAll() {
         return Collections.unmodifiableList(regions);
