@@ -9,10 +9,15 @@ class Character {
   + factionId: UUID
   + currentRegion: Region
   + commandedGroupId: UUID
+  + culture: UUID
 }
 
 class CharacterFaction extends Character {
   + faction: FactionCommands
+}
+
+class CharacterCulture extends Character {
+  + culture: Culture
 }
 
 class Faction {
@@ -23,10 +28,15 @@ class Faction {
   + leaderCharacterId: UUID
   + originFactionId: UUID
   + homeRegion: Region
+  + culture: UUID
 }
 
 class FactionCharacter extends Faction {
   + characters: Set<CharacterCommands>
+}
+
+class FactionCulture extends Faction {
+  + culture: Culture
 }
 
 class Region {
@@ -193,8 +203,27 @@ class ProductionSite {
   + faction: UUID
 }
 
+class SpecialSiteType {
+  + name: String
+  + allowedFactions: Filter<Faction>
+  + allowedTerrainTypes: Filter<TerrainType>
+  + allowedRegions: Filter<Region>
+  + allowedClaimbuildTypes: Filter<ClaimbuildType>
+}
+
+class SpecialSite {
+  + id: UUID
+  + type: SpecialSiteType
+  + claimbuild: UUID
+  + faction: UUID
+}
+
 class ClaimbuildProductionSite {
   + productionSites: Set<ProductionSiteCommands>
+}
+
+class ClaimbuildSpecialSite extends Claimbuild {
+  + specialSites: Set<SpecialSite>
 }
 
 class FactionProductionSite {
@@ -219,8 +248,22 @@ class ResourceWithAmount {
   + amount: Integer
 }
 
+class CulturalPillar {
+  + name: String
+}
+
+class Culture {
+  + id: UUID
+  + name: String
+  + pillars: Set<CulturalPillar>
+  + ancestors: Set<UUID>
+}
+
 Resource "1" -- "1" ResourceType : has type >
 ResourceWithAmount "1" -- "1" Resource : contains >
+Culture "1" o-- "*" CulturalPillar : has pillars >
+CharacterCulture "1" -- "1" Culture : has culture >
+FactionCulture "1" -- "1" Culture : has culture >
 ProductionSiteType "1" o-- "*" ResourceWithAmount : produces >
 ProductionSiteType "1" -- "1" ProductionSiteCategory : has type >
 ProductionSite "*" -- "1" ProductionSiteType : is of type >
@@ -231,5 +274,7 @@ FactionProductionSite "1" o-- "*" ProductionSite : manages >
 FactionClaimbuild "1" -- "1" Faction : belongs to >
 FactionClaimbuild "1" o-- "*" Claimbuild : manages >
 Region "1" -- "*" Claimbuild : contains >
+SpecialSite "*" -- "1" SpecialSiteType : is of type >
+ClaimbuildSpecialSite "1" o-- "*" SpecialSite : manages >
 
 @enduml default_domain_model
