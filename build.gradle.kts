@@ -1,6 +1,7 @@
 plugins {
     id("java")
     id("maven-publish")
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "eu.nyarie"
@@ -18,6 +19,8 @@ dependencies {
     implementation("org.slf4j:slf4j-api:2.0.17")
     implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
     implementation("org.jspecify:jspecify:1.0.0")
+    //Just for testing purposes, can be removed tbh
+    implementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.24.3")
     implementation(project(":nyarie-api"))
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
@@ -46,7 +49,7 @@ tasks.jar {
         attributes["Main-Class"] = "eu.nyarie.core.Main"
     }
     // If you have external dependencies and want a "fat jar"
-    // from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+//     from { configurations.runtimeClasspath. { it.isDirectory() ? it : zipTree(it) } }
 }
 
 publishing {
