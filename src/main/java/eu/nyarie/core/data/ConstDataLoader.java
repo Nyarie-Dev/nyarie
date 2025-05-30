@@ -13,6 +13,8 @@ import java.util.Optional;
 /// 2. Setting a `NYARIE_CORE_DATA_PATH` environment variable
 ///
 /// The values must contain the **absolute path** of the directory in which the const data JSON files are located in.
+///
+/// If no file with the required name was found, then the classpath is searched.
 @Slf4j
 public class ConstDataLoader {
 
@@ -35,7 +37,5 @@ public class ConstDataLoader {
         val path = systemPropertyPath
                 .orElse(envPath
                         .orElse(DEFAULT_PATH));
-
-        System.out.println(path);
     }
 }
