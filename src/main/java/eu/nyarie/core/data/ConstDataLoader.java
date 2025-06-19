@@ -1,9 +1,21 @@
 package eu.nyarie.core.data;
 
+import eu.nyarie.core.exception.data.ConstDataLoadingException;
+import eu.nyarie.core.exception.data.ConstDataNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /// Class for loading the data from the const data JSON files (for example `regions.json`)
 ///
@@ -20,6 +32,34 @@ public class ConstDataLoader {
 
 
     public static void loadDataFromJson() {
+        val path = getConfiguredPath();
+        val directory = new File(path);
+
+        log.debug("Checking if path exists: {}", path);
+        if(!directory.exists()) {
+            log.error("Directory could not be found: {}", path);
+            try {
+                throw new FileNotFoundException("Directory could not be found: %s".formatted(path));
+            } catch (FileNotFoundException e) {
+                throw ConstDataNotFoundException.constDataDirectoryNotFound(path, e);
+            }
+        }
+
+        log.debug("Checking if path is directory: {}", path);
+        if(!directory.isDirectory()) {
+            log.error("Configured path is no directory: {}", path);
+            throw ConstDataLoadingException.pathIsNoDirectory(path);
+        }
+
+        val filenameEnums = Arrays.asList(ConstDataFileNames.values());
+        val constDataFiles = filenameEnums.stream()
+                .map(filename -> Map.of(filename, new File(path + filename.getFilename())));
+
+        log.debug("Checking if all required files are present");
+        //TODO check if all files exist
+    }
+
+    private static String getConfiguredPath() {
         val SYSTEM_PROPERTY_NAME = "eu.nyarie.core.data.path";
         val ENV_NAME = "NYARIE_CORE_DATA_PATH";
         val DEFAULT_PATH = ConstDataLoader.class.getProtectionDomain().getCodeSource().getLocation().getPath();
@@ -37,5 +77,9 @@ public class ConstDataLoader {
         val path = systemPropertyPath
                 .orElse(envPath
                         .orElse(DEFAULT_PATH));
+
+        if(path.endsWith("/"))
+            return path;
+        return path + "/";
     }
 }
