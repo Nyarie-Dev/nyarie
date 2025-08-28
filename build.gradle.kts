@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 plugins {
     id("java")
     id("maven-publish")
@@ -78,4 +80,9 @@ tasks.withType<JavaExec> {
 
 tasks.test {
     useJUnitPlatform()
+
+    testLogging {
+        events = setOf(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
+        showStandardStreams = true
+    }
 }
