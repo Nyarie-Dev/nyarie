@@ -23,8 +23,9 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.24.3")
     implementation(project(":nyarie-api"))
 
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    testImplementation(platform("org.junit:junit-bom:5.13.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.junit.platform:junit-platform-launcher")
     testImplementation("org.assertj:assertj-core:3.27.2")
 
     testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.24.3")
