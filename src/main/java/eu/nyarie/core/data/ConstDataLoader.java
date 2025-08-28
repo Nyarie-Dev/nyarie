@@ -27,6 +27,8 @@ public class ConstDataLoader {
 
     public static void loadDataFromJson() {
         val path = getConfiguredPath();
+
+        //TODO: Use NIO Files here
         val directory = new File(path);
 
         log.debug("Checking if path exists: {}", path);
