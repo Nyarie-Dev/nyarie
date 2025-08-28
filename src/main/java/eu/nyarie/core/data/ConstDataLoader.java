@@ -7,15 +7,9 @@ import lombok.val;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /// Class for loading the data from the const data JSON files (for example `regions.json`)
 ///
