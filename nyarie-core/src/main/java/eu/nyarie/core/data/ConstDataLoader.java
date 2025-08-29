@@ -29,19 +29,6 @@ public class ConstDataLoader {
     public static void loadDataFromJson() {
         val path = getConfiguredPath();
 
-        log.debug("Checking if path exists: {}", path);
-        if(Files.notExists(path)) {
-            log.error("Directory could not be found: {}", path);
-            val fileNotFoundException = new FileNotFoundException("Directory could not be found: %s".formatted(path));
-            throw ConstDataNotFoundException.constDataDirectoryNotFound(path.toString(), fileNotFoundException);
-        }
-
-        log.debug("Checking if path is directory: {}", path);
-        if(!Files.isDirectory(path)) {
-            log.error("Configured path is no directory: {}", path);
-            throw ConstDataLoadingException.pathIsNoDirectory(path.toString());
-        }
-
         val filenameEnums = Arrays.asList(ConstDataFileNames.values());
 
         log.debug("Checking if all required files are present");
@@ -78,6 +65,19 @@ public class ConstDataLoader {
                         _ -> log.info("Const data path was set using environment variable value: {}", path),
                         () -> log.info("No configured const data path found - using default: {}", DEFAULT_PATH)
                 ));
+
+        log.debug("Checking if path exists: {}", path);
+        if(Files.notExists(path)) {
+            log.error("Directory could not be found: {}", path);
+            val fileNotFoundException = new FileNotFoundException("Directory could not be found: %s".formatted(path));
+            throw ConstDataNotFoundException.constDataDirectoryNotFound(path.toString(), fileNotFoundException);
+        }
+
+        log.debug("Checking if path is directory: {}", path);
+        if(!Files.isDirectory(path)) {
+            log.error("Configured path is no directory: {}", path);
+            throw ConstDataLoadingException.pathIsNoDirectory(path.toString());
+        }
 
         return path;
     }
