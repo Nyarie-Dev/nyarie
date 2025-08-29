@@ -1,0 +1,280 @@
+@startuml default_domain_model
+
+class Character {
+  + id: UUID
+  + name: String
+  + title: String
+  + health: float
+  + gear: String
+  + factionId: UUID
+  + currentRegion: Region
+  + commandedGroupId: UUID
+  + culture: UUID
+}
+
+class CharacterFaction extends Character {
+  + faction: FactionCommands
+}
+
+class CharacterCulture extends Character {
+  + culture: Culture
+}
+
+class Faction {
+  + id: UUID
+  + name: String
+  + description: String
+  + motto: String
+  + leaderCharacterId: UUID
+  + originFactionId: UUID
+  + homeRegion: Region
+  + culture: UUID
+}
+
+class FactionCharacter extends Faction {
+  + characters: Set<CharacterCommands>
+}
+
+class FactionCulture extends Faction {
+  + culture: Culture
+}
+
+class Region {
+  + id: String
+  + name: String
+  + terrainType: TerrainType
+  + neighboringRegions: Set<Region>
+  + claimantFactionIds: Set<UUID>
+  + claimbuildIds: Set<UUID>
+}
+
+class TerrainType {
+  + id: String
+  + name: String
+  + movementDuration: Duration
+}
+
+Character "1" -- "1" Region : resides in >
+CharacterFaction "1" -- "1" Faction : member of
+FactionCharacter "1" o-- "*" Character : has members
+Region "1" -- "1" TerrainType : has >
+Region "*" -- "*" Region : neighbors >
+Faction "1" -- "1" Region : has home >
+
+' Interfaces from nyarie-api are omitted for simplicity
+' but implemented classes are shown (e.g., Character, Faction)
+' Details like Identifiable, CharacterCommands, FactionCommands etc. are implied by inheritance/implementation
+
+interface Moveable {
+  + moveTo(Region region)
+  + cancelMovement()
+  + getMovement()
+  + getRemainingDuration()
+}
+interface Commandable {
+  + getCommanderId()
+  + setCommanderId(UUID id)
+}
+
+Character ..|> Moveable
+Specialist ..|> Moveable
+Company ..|> Moveable
+Company ..|> Commandable
+Army ..|> Moveable
+Army ..|> Commandable
+
+class CombatUnitType {
+  + name: String
+  + tokenCost: int
+  + maxHealth: int
+}
+
+class CombatUnit {
+  + id: UUID
+  + type: CombatUnitType
+  + health: int
+  + commandedBy: Commandable
+}
+
+class SpecialistType {
+  + name: String
+  + tokenCost: int
+  + maxHealth: int
+}
+
+class Specialist {
+  + id: UUID
+  + type: SpecialistType
+  + health: int
+  + region: Region
+}
+
+class ArmyConfig {
+  + maxArmyTokens: int
+}
+
+class CompanyConfig {
+  + maxCompanyTokens: int
+}
+
+class Army {
+  + name: String
+  + region: Region
+  + factionId: UUID
+  + combatUnitTypes: Set<UUID>
+}
+
+class Company {
+  + name: String
+  + region: Region
+  + factionId: UUID
+  + combatUnitTypes: Set<UUID>
+}
+
+class ArmyCombatUnit extends Army {
+  + combatUnits: Set<CombatUnitCommands>
+}
+
+class CompanyCombatUnit extends Company {
+  + combatUnits: Set<CombatUnitCommands>
+}
+
+CombatUnit "1" -- "1" CombatUnitType : is of type >
+Specialist "1" -- "1" SpecialistType : is of type >
+ArmyConfig "1" -- "*" Army : configures >
+CompanyConfig "1" -- "*" Company : configures >
+Army "1" -- "1" Region : located in >
+Company "1" -- "1" Region : located in >
+Specialist "1" -- "1" Region : located in >
+ArmyCombatUnit "1" o-- "*" CombatUnit : commands >
+CompanyCombatUnit "1" o-- "*" CombatUnit : commands >
+
+class Claimbuild {
+  + name: String
+  + region: Region
+  + claimbuildType: ClaimbuildType
+  + owningFactionId: UUID
+  + coordinates: Coordinate
+  + stationedUnits: Set<UUID>
+  + createdUnits: Set<UUID>
+  + productionSites: Set<UUID>
+  + specialSites: Set<UUID>
+  + houses: Map<HouseType, Integer>
+  + owningCharacters: Set<UUID>
+}
+
+class ClaimbuildType {
+  + name: String
+  + allowedFactions: Set<UUID>
+  + allowedRegions: Set<Region>
+  + allowedTerrainTypes: Set<TerrainType>
+  + allowedProductionSites: Set<ProductionSiteType>
+  + productionSiteSlots: Integer
+  + specialSitesSlots: Integer
+  + housingRequirements: Map<HouseType, Integer>
+}
+
+Claimbuild "1" -- "1" ClaimbuildType : has type >
+Claimbuild "1" o-- "*" HouseType : has houses >
+ClaimbuildType "1" o-- "*" HouseType : requires >
+
+class HouseType {
+  + name: String
+  + foodConsumption: Float
+  + providedCitizens: Integer
+}
+
+class ProductionSiteType {
+  + name: String
+  + producedResources: Set<ResourceWithAmount>
+  + allowedFactions: Filter<UUID>
+  + allowedRegions: Filter<Region>
+  + allowedTerrainTypes: Filter<TerrainType>
+}
+
+class ProductionSiteCategory {
+  + name: String
+}
+
+class ProductionSite {
+  + id: UUID
+  + claimbuild: UUID
+  + type: ProductionSiteType
+  + faction: UUID
+}
+
+class SpecialSiteType {
+  + name: String
+  + allowedFactions: Filter<Faction>
+  + allowedTerrainTypes: Filter<TerrainType>
+  + allowedRegions: Filter<Region>
+  + allowedClaimbuildTypes: Filter<ClaimbuildType>
+}
+
+class SpecialSite {
+  + id: UUID
+  + type: SpecialSiteType
+  + claimbuild: UUID
+  + faction: UUID
+}
+
+class ClaimbuildProductionSite {
+  + productionSites: Set<ProductionSiteCommands>
+}
+
+class ClaimbuildSpecialSite extends Claimbuild {
+  + specialSites: Set<SpecialSite>
+}
+
+class FactionProductionSite {
+  + productionSites: Set<ProductionSiteCommands>
+}
+
+class FactionClaimbuild {
+  + claimbuilds: Set<ClaimbuildCommands>
+}
+
+class Resource {
+  + name: String
+  + resourceType: ResourceType
+}
+
+class ResourceType {
+  + name: String
+}
+
+class ResourceWithAmount {
+  + resource: Resource
+  + amount: Integer
+}
+
+class CulturalPillar {
+  + name: String
+}
+
+class Culture {
+  + id: UUID
+  + name: String
+  + pillars: Set<CulturalPillar>
+  + ancestors: Set<UUID>
+}
+
+Resource "1" -- "1" ResourceType : has type >
+ResourceWithAmount "1" -- "1" Resource : contains >
+Culture "1" o-- "*" CulturalPillar : has pillars >
+CharacterCulture "1" -- "1" Culture : has culture >
+FactionCulture "1" -- "1" Culture : has culture >
+ProductionSiteType "1" o-- "*" ResourceWithAmount : produces >
+ProductionSiteType "1" -- "1" ProductionSiteCategory : has type >
+ProductionSite "*" -- "1" ProductionSiteType : is of type >
+ClaimbuildProductionSite "1" -- "1" Claimbuild : belongs to >
+ClaimbuildProductionSite "1" o-- "*" ProductionSite : manages >
+FactionProductionSite "1" -- "1" Faction : belongs to >
+FactionProductionSite "1" o-- "*" ProductionSite : manages >
+FactionClaimbuild "1" -- "1" Faction : belongs to >
+FactionClaimbuild "1" o-- "*" Claimbuild : manages >
+Region "1" -- "*" Claimbuild : contains >
+SpecialSite "*" -- "1" SpecialSiteType : is of type >
+ClaimbuildSpecialSite "1" o-- "*" SpecialSite : manages >
+
+@enduml default_domain_model
