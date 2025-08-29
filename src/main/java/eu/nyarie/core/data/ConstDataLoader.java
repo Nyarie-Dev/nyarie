@@ -7,6 +7,9 @@ import lombok.val;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
@@ -28,23 +31,20 @@ public class ConstDataLoader {
     public static void loadDataFromJson() {
         val path = getConfiguredPath();
 
-        //TODO: Use NIO Files here
-        val directory = new File(path);
-
         log.debug("Checking if path exists: {}", path);
-        if(!directory.exists()) {
+        if(Files.notExists(path)) {
             log.error("Directory could not be found: {}", path);
             try {
                 throw new FileNotFoundException("Directory could not be found: %s".formatted(path));
             } catch (FileNotFoundException e) {
-                throw ConstDataNotFoundException.constDataDirectoryNotFound(path, e);
+                throw ConstDataNotFoundException.constDataDirectoryNotFound(path.toString(), e);
             }
         }
 
         log.debug("Checking if path is directory: {}", path);
-        if(!directory.isDirectory()) {
+        if(Files.isDirectory(path)) {
             log.error("Configured path is no directory: {}", path);
-            throw ConstDataLoadingException.pathIsNoDirectory(path);
+            throw ConstDataLoadingException.pathIsNoDirectory(path.toString());
         }
 
         val filenameEnums = Arrays.asList(ConstDataFileNames.values());
@@ -55,7 +55,7 @@ public class ConstDataLoader {
         //TODO check if all files exist
     }
 
-    private static String getConfiguredPath() {
+    private static Path getConfiguredPath() {
         val SYSTEM_PROPERTY_NAME = "eu.nyarie.core.data.path";
         val ENV_NAME = "NYARIE_CORE_DATA_PATH";
         val DEFAULT_PATH = ConstDataLoader.class.getProtectionDomain().getCodeSource().getLocation().getPath();
@@ -74,8 +74,6 @@ public class ConstDataLoader {
                 .orElse(envPath
                         .orElse(DEFAULT_PATH));
 
-        if(path.endsWith("/"))
-            return path;
-        return path + "/";
+        return Paths.get(path);
     }
 }
