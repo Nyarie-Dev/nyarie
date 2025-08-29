@@ -60,16 +60,17 @@ public class ConstDataLoader {
         val systemPropertyPath = Optional.ofNullable(System.getProperty(SYSTEM_PROPERTY_NAME));
         val envPath = Optional.ofNullable(System.getenv(ENV_NAME));
 
-        systemPropertyPath.ifPresentOrElse(
-                path -> log.info("Const data path was set using system property value: {}", path),
-                () -> envPath.ifPresentOrElse(
-                        path -> log.info("Const data path was set using environment variable value: {}", path),
-                        () -> log.info("Using default const data path: {}", DEFAULT_PATH)
-                ));
-
         val path = systemPropertyPath
                 .orElse(envPath
                         .orElse(DEFAULT_PATH));
+
+        systemPropertyPath.ifPresentOrElse(
+                _ -> log.info("Const data path was set using system property value: {}", path),
+                () -> envPath.ifPresentOrElse(
+                        _ -> log.info("Const data path was set using environment variable value: {}", path),
+                        () -> log.info("Using default const data path: {}", DEFAULT_PATH)
+                ));
+
 
         return Paths.get(path);
     }
