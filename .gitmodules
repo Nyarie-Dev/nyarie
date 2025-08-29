@@ -1,6 +1,0 @@
-[submodule "nyarie-api"]
-	path = nyarie-api
-	url = git@github.com:Nyarie-Dev/nyarie-api.git
-[submodule "nyarie-core"]
-	path = nyarie-core
-	url = git@github.com:Nyarie-Dev/nyarie-core.git
