@@ -5,13 +5,11 @@ import eu.nyarie.core.exception.data.ConstDataNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Optional;
 
 /// Class for loading the data from the const data JSON files (for example `regions.json`)
@@ -45,10 +43,18 @@ public class ConstDataLoader {
         }
 
         val filenameEnums = Arrays.asList(ConstDataFileNames.values());
-        val constDataFiles = filenameEnums.stream()
-                .map(filename -> Map.of(filename, new File(path + filename.getFilename())));
 
         log.debug("Checking if all required files are present");
+        filenameEnums.stream()
+                .map(ConstDataFileNames::getFilename)
+                .forEach(filename -> {
+                    log.trace("Creating path for file: {}", filename);
+                    val filePath = Paths.get(path.toString(), filename);
+                    log.debug("Checking if {} is present", filePath);
+                    if(Files.notExists(filePath)) {
+                        log.error("Could not find const data file: {}", filePath);
+                    }
+                });
         //TODO check if all files exist
     }
 
