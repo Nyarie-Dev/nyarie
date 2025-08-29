@@ -34,11 +34,8 @@ public class ConstDataLoader {
         log.debug("Checking if path exists: {}", path);
         if(Files.notExists(path)) {
             log.error("Directory could not be found: {}", path);
-            try {
-                throw new FileNotFoundException("Directory could not be found: %s".formatted(path));
-            } catch (FileNotFoundException e) {
-                throw ConstDataNotFoundException.constDataDirectoryNotFound(path.toString(), e);
-            }
+            val fileNotFoundException = new FileNotFoundException("Directory could not be found: %s".formatted(path));
+            throw ConstDataNotFoundException.constDataDirectoryNotFound(path.toString(), fileNotFoundException);
         }
 
         log.debug("Checking if path is directory: {}", path);
