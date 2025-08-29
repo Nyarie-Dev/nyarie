@@ -39,7 +39,7 @@ public class ConstDataLoader {
         }
 
         log.debug("Checking if path is directory: {}", path);
-        if(Files.isDirectory(path)) {
+        if(!Files.isDirectory(path)) {
             log.error("Configured path is no directory: {}", path);
             throw ConstDataLoadingException.pathIsNoDirectory(path.toString());
         }
@@ -70,7 +70,7 @@ public class ConstDataLoader {
                 _ -> log.info("Const data path was set using system property value: {}", path),
                 () -> envPath.ifPresentOrElse(
                         _ -> log.info("Const data path was set using environment variable value: {}", path),
-                        () -> log.info("Using default const data path: {}", DEFAULT_PATH)
+                        () -> log.info("No configured const data path found - using default: {}", DEFAULT_PATH)
                 ));
 
         return path;
