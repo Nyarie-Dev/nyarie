@@ -6,7 +6,6 @@ import lombok.val;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /// Class that handles all things regarding the engine's **installation directory**
 ///
@@ -27,13 +26,13 @@ public class InstallationDirectory {
         log.debug("Initializing engine's installation path");
 
         log.trace("Locating jar location");
-        this.path = Paths.get(InstallationDirectory.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        this.path = Path.of(InstallationDirectory.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         log.debug("Located jar file location: {}", path);
 
         log.info("Initializing installation directory: {}", path);
         log.info("Checking if all directories exist...");
 
-        val assetsPath = Paths.get(path.toString(), "assets");
+        val assetsPath = Path.of(path.toString(), "assets");
         log.debug("Checking if assets path exists: {}", assetsPath);
         if(Files.notExists(assetsPath)) {
             log.debug("Assets path does not exist - creating it");
