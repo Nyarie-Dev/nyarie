@@ -10,9 +10,9 @@ import java.util.Optional;
 /// Class which holds all the {@link Region Regions} of the playable map.<br>
 /// The regions are loaded from the `regions.json` data file.
 ///
-/// For more information on how to set up constant data, see {@link AssetsLoader}.
+/// For more information on how to set up assets, see {@link AssetsLoader}.
 /// @see AssetsLoader
-public class ConstRegions {
+public class RegionsAssets {
 
     private static final List<Region> regions = new ArrayList<>(200);
 
@@ -32,8 +32,8 @@ public class ConstRegions {
 
     }
 
-    /// Loads the passed list of {@link Region Regions} into const memory
+    /// Loads the passed list of {@link Region Regions} into asset memory
     static void load(List<Region> regions) {
-        ConstRegions.regions.addAll(regions);
+        RegionsAssets.regions.addAll(regions);
     }
 }
