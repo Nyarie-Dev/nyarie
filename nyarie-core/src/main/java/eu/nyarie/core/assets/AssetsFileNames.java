@@ -1,4 +1,4 @@
-package eu.nyarie.core.data;
+package eu.nyarie.core.assets;
 
 enum AssetsFileNames {
     REGIONS("regions.json");
