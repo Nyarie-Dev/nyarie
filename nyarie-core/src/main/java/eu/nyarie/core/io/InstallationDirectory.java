@@ -6,6 +6,7 @@ import lombok.val;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 /// Class that handles all things regarding the engine's **installation directory**
 ///
@@ -30,20 +31,37 @@ public class InstallationDirectory {
         log.debug("Located jar file location: {}", path);
 
         log.info("Initializing installation directory: {}", path);
-        log.info("Checking if all directories exist...");
+        log.info("Checking if all subdirectories exist...");
 
-        val assetsPath = path.resolve(InstallationDirectorySubpath.ASSETS.getSubpath());
-        log.debug("Checking if assets path exists: {}", assetsPath);
-        if(Files.notExists(assetsPath)) {
-            log.debug("Assets path does not exist - creating it");
-            try {
-                Files.createDirectories(assetsPath);
-            } catch (IOException e) {
-                //TODO: wrap in own exception
-                throw new RuntimeException(e);
+        val subDirectories = Arrays.stream(InstallationDirectorySubpath.values())
+                .map(InstallationDirectorySubpath::getSubpath)
+                .toList();
+
+        log.info("Required directories are:");
+        log.info("|");
+        subDirectories.forEach(subpath -> {
+            log.info("|-- /{}", subpath);
+        });
+
+
+        subDirectories.forEach(subpath -> {
+            val combinedPath = path.resolve(InstallationDirectorySubpath.ASSETS.getSubpath());
+            log.debug("Checking if '{}' subpath exists: {}", subpath, combinedPath);
+            if(Files.notExists(combinedPath)) {
+                log.debug("Subpath '/{}' does not exist - creating it", subpath);
+                try {
+                    Files.createDirectories(combinedPath);
+                } catch (IOException e) {
+                    //TODO: wrap in own exception
+                    throw new RuntimeException(e);
+                }
+                log.info("Created missing '/{}' directory", subpath);
             }
-            log.info("Created missing `/assets` directory");
-        }
+        });
+
+        log.info("All subdirectories exist");
+
+        log.info("Finished initialization of installation directory");
     }
 
     /// Gets the [Path] of the engine's installation directory. This is equivalent to the location where the `.jar` file containing the engine was executed.

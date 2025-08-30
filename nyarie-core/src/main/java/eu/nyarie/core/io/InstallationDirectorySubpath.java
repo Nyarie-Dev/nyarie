@@ -6,7 +6,8 @@ import java.nio.file.Path;
 
 /// Defines the subpaths of the installation directory
 public enum InstallationDirectorySubpath {
-    ASSETS(Path.of("assets"));
+    ASSETS(Path.of("assets")),
+    ;
 
     @Getter
     private final Path subpath;
