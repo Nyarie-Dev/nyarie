@@ -32,7 +32,7 @@ public class InstallationDirectory {
         log.info("Initializing installation directory: {}", path);
         log.info("Checking if all directories exist...");
 
-        val assetsPath = Path.of(path.toString(), "assets");
+        val assetsPath = path.resolve(InstallationDirectorySubpath.ASSETS.getSubpath());
         log.debug("Checking if assets path exists: {}", assetsPath);
         if(Files.notExists(assetsPath)) {
             log.debug("Assets path does not exist - creating it");
