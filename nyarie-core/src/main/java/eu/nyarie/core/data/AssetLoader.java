@@ -28,11 +28,11 @@ public class AssetLoader {
     public static void loadDataFromJson() {
         val path = getConfiguredPath();
 
-        val filenameEnums = Arrays.asList(ConstDataFileNames.values());
+        val filenameEnums = Arrays.asList(AssetsFileNames.values());
 
         log.debug("Checking if all required files are present");
         filenameEnums.stream()
-                .map(ConstDataFileNames::getFilename)
+                .map(AssetsFileNames::getFilename)
                 .forEach(filename -> {
                     log.trace("Creating path for file: {}", filename);
                     val filePath = Paths.get(path.toString(), filename);

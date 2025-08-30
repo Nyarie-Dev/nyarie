@@ -1,11 +1,11 @@
 package eu.nyarie.core.data;
 
-enum ConstDataFileNames {
+enum AssetsFileNames {
     REGIONS("regions.json");
 
     private final String filename;
 
-    ConstDataFileNames(String filename) {
+    AssetsFileNames(String filename) {
         this.filename = filename;
     }
 
