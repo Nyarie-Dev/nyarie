@@ -2,11 +2,11 @@ package eu.nyarie.core.data;
 
 import org.junit.jupiter.api.Test;
 
-public class AssetLoaderTest {
+public class AssetsLoaderTest {
 
     @Test
     void runLoadDataFromJson() {
-        AssetLoader.loadDataFromJson();
+        AssetsLoader.loadDataFromJson();
     }
 
 }

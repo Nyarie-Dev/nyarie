@@ -23,7 +23,7 @@ import java.util.Optional;
 ///
 /// If no file with the required name was found, then the classpath is searched.
 @Slf4j
-public class AssetLoader {
+public class AssetsLoader {
 
     public static void loadDataFromJson() {
         val path = getConfiguredPath();
@@ -47,7 +47,7 @@ public class AssetLoader {
     private static Path getConfiguredPath() {
         val SYSTEM_PROPERTY_NAME = "eu.nyarie.core.data.path";
         val ENV_NAME = "NYARIE_CORE_DATA_PATH";
-        val DEFAULT_PATH = AssetLoader.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        val DEFAULT_PATH = AssetsLoader.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 
         val systemPropertyPath = Optional.ofNullable(System.getProperty(SYSTEM_PROPERTY_NAME));
         val envPath = Optional.ofNullable(System.getenv(ENV_NAME));
