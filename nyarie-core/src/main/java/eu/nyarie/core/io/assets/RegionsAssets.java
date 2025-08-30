@@ -1,4 +1,4 @@
-package eu.nyarie.core.assets;
+package eu.nyarie.core.io.assets;
 
 import eu.nyarie.core.domain.constant.map.Region;
 
