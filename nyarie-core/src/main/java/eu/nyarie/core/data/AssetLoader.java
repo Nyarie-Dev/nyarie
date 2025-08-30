@@ -12,19 +12,18 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Optional;
 
-/// Class for loading the data from the const data JSON files (for example `regions.json`)
+/// Class for loading the data from the asset JSON files (for example `regions.json`)
 ///
 /// By default, the files will be searched inside the same directory that the jar executable is located in.
 /// The default path can be overwritten by:
 /// 1. Setting the `eu.nyarie.core.data.path` Java System property
 /// 2. Setting a `NYARIE_CORE_DATA_PATH` environment variable
 ///
-/// The values must contain the **absolute path** of the directory in which the const data JSON files are located in.
+/// The values must contain the **absolute path** of the directory in which the asset JSON files are located in.
 ///
 /// If no file with the required name was found, then the classpath is searched.
 @Slf4j
-public class ConstDataLoader {
-
+public class AssetLoader {
 
     public static void loadDataFromJson() {
         val path = getConfiguredPath();
@@ -39,7 +38,7 @@ public class ConstDataLoader {
                     val filePath = Paths.get(path.toString(), filename);
                     log.debug("Checking if {} is present", filePath);
                     if(Files.notExists(filePath)) {
-                        log.error("Could not find const data file: {}", filePath);
+                        log.error("Could not find asset file: {}", filePath);
                     }
                 });
         //TODO check if all files exist
@@ -48,7 +47,7 @@ public class ConstDataLoader {
     private static Path getConfiguredPath() {
         val SYSTEM_PROPERTY_NAME = "eu.nyarie.core.data.path";
         val ENV_NAME = "NYARIE_CORE_DATA_PATH";
-        val DEFAULT_PATH = ConstDataLoader.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        val DEFAULT_PATH = AssetLoader.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 
         val systemPropertyPath = Optional.ofNullable(System.getProperty(SYSTEM_PROPERTY_NAME));
         val envPath = Optional.ofNullable(System.getenv(ENV_NAME));
@@ -60,10 +59,10 @@ public class ConstDataLoader {
         val path = Paths.get(chosenPathStr);
 
         systemPropertyPath.ifPresentOrElse(
-                _ -> log.info("Const data path was set using system property value: {}", path),
+                _ -> log.info("Asset path was set using system property value: {}", path),
                 () -> envPath.ifPresentOrElse(
-                        _ -> log.info("Const data path was set using environment variable value: {}", path),
-                        () -> log.info("No configured const data path found - using default: {}", DEFAULT_PATH)
+                        _ -> log.info("Asset path was set using environment variable value: {}", path),
+                        () -> log.info("No configured asset path found - using default: {}", DEFAULT_PATH)
                 ));
 
         log.debug("Checking if path exists: {}", path);

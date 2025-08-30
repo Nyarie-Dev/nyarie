@@ -10,8 +10,8 @@ import java.util.Optional;
 /// Class which holds all the {@link Region Regions} of the playable map.<br>
 /// The regions are loaded from the `regions.json` data file.
 ///
-/// For more information on how to set up constant data, see {@link ConstDataLoader}.
-/// @see ConstDataLoader
+/// For more information on how to set up constant data, see {@link AssetLoader}.
+/// @see AssetLoader
 public class ConstRegions {
 
     private static final List<Region> regions = new ArrayList<>(200);
