@@ -30,14 +30,13 @@ import java.util.Arrays;
 @Slf4j
 public class InstallationDirectory {
 
-    private final Path path;
+    private final InstallationDirectoryPath path;
 
     public InstallationDirectory() {
         log.debug("Initializing engine's installation path");
 
         log.trace("Locating jar location");
-        val installationDirectoryPath = new InstallationDirectoryPath();
-        this.path = installationDirectoryPath.getPath();
+        this.path = new InstallationDirectoryPath();
         log.debug("Located jar file location: {}", path);
 
         log.info("Initializing installation directory: {}", path);
@@ -55,7 +54,7 @@ public class InstallationDirectory {
 
 
         subDirectories.forEach(subpath -> {
-            val combinedPath = path.resolve(InstallationDirectorySubpath.ASSETS.getSubpath());
+            val combinedPath = path.getPath().resolve(InstallationDirectorySubpath.ASSETS.getSubpath());
             log.debug("Checking if '{}' subpath exists: {}", subpath, combinedPath);
             if(Files.notExists(combinedPath)) {
                 log.debug("Subpath '/{}' does not exist - creating it", subpath);
@@ -77,7 +76,7 @@ public class InstallationDirectory {
     /// Gets the [Path] of the engine's installation directory. This is equivalent to the location where the `.jar` file containing the engine was executed.
     /// @return The [Path] of the installation directory.
     public Path getPath() {
-        return path;
+        return path.getPath();
     }
 
     /// Gets the [Path] of the `/assets` directory inside the installation directory.
@@ -85,6 +84,6 @@ public class InstallationDirectory {
     /// This is equal to the [assets path][InstallationDirectorySubpath#ASSETS] appended to the [installation directory path][#getPath()]
     /// @return The [Path] of the `/assets` directory inside the installation directory.
     public Path getAssetsPath() {
-        return path.resolve(InstallationDirectorySubpath.ASSETS.getSubpath());
+        return path.getPath().resolve(InstallationDirectorySubpath.ASSETS.getSubpath());
     }
 }
