@@ -13,6 +13,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+/// Class responsible for getting the path that should be used for the [InstallationDirectory].
+///
+/// When creating an instance of this class, the location of the installation directory will be determined.
+/// By default, this will be the same directory that the `.jar` executable is located in.
+/// The default path can be overwritten by (higher number means higher priority):
+/// 1. Setting the `eu.nyarie.core.installation.path` Java System property
+/// 2. Setting a `NYARIE_CORE_INSTALLATION_PATH` environment variable
+///
+/// The values must contain the **absolute path** of the directory in which the asset JSON files are located in.
 @Slf4j
 class InstallationDirectoryPath {
 

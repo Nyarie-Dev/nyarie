@@ -12,22 +12,21 @@ import java.util.Arrays;
 ///
 /// ### Installation Directory Location
 ///
-/// When creating an instance of this class, the location of the installation directory will be determined.
-/// By default, this will be the same directory that the `.jar` executable is located in.
-/// The default path can be overwritten by (higher number means higher priority):
-/// 1. Setting the `eu.nyarie.core.installation.path` Java System property
-/// 2. Setting a `NYARIE_CORE_INSTALLATION_PATH` environment variable
+/// The location of the installation directory is customizable.
+/// By default, it is the location where the project's `.jar` file is located.
 ///
-/// The values must contain the **absolute path** of the directory in which the asset JSON files are located in.
-///
+/// For more information on how to configure the installation path, see [InstallationDirectoryPath].
 /// ### Creation of required subdirectories
 ///
 /// After the location of the installation directory, the engine's required
-/// subdirectories, if they do not already exist, will be created. These include:
+/// subdirectories, if they do not already exist, will be created.
+/// These include:
 ///
 /// - `/assets`
 ///
 /// This class then provides an interfaces for interacting with the data in the installation directory.
+///
+/// @see InstallationDirectoryPath
 @Slf4j
 public class InstallationDirectory {
 
