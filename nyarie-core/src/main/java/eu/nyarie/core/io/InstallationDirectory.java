@@ -69,4 +69,12 @@ public class InstallationDirectory {
     public Path getPath() {
         return path;
     }
+
+    /// Gets the [Path] of the `/assets` directory inside the installation directory.
+    ///
+    /// This is equal to the [assets path][InstallationDirectorySubpath#ASSETS] appended to the [installation directory path][#getPath()]
+    /// @return The [Path] of the `/assets` directory inside the installation directory.
+    public Path getAssetsPath() {
+        return path.resolve(InstallationDirectorySubpath.ASSETS.getSubpath());
+    }
 }
