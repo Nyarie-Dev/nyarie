@@ -2,6 +2,7 @@ package eu.nyarie.core.io.assets;
 
 import eu.nyarie.core.exception.data.ConstDataLoadingException;
 import eu.nyarie.core.exception.data.ConstDataNotFoundException;
+import eu.nyarie.core.io.InstallationDirectory;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -14,14 +15,12 @@ import java.util.Optional;
 
 /// Class for loading the data from the asset JSON files (for example `regions.json`)
 ///
-/// By default, the files will be searched inside the same directory that the jar executable is located in.
-/// The default path can be overwritten by:
-/// 1. Setting the `eu.nyarie.core.data.path` Java System property
-/// 2. Setting a `NYARIE_CORE_DATA_PATH` environment variable
+/// First, the [assets path][InstallationDirectory#getAssetsPath()] of the [InstallationDirectory] is searched for the asset files. <br>
+/// If no file for the asset could be found, then the classpath is searched in the `assets` package.
 ///
-/// The values must contain the **absolute path** of the directory in which the asset JSON files are located in.
+/// **This means that asset files inside the [InstallationDirectory] have a higher priority over the ones on the classpath.**
 ///
-/// If no file with the required name was found, then the classpath is searched.
+/// The exact paths and filenames of the asset files are defined in [AssetsFileNames].
 @Slf4j
 public class AssetsLoader {
 
