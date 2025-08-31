@@ -9,7 +9,8 @@ This project has *purposely* been released **without** any license. This means t
 From the official [GitHub license guide](https://choosealicense.com/no-permission/):
 > Unless you include a license that specifies otherwise, nobody else can copy, distribute, or modify your work without being at risk of take-downs, shake-downs, or litigation.
 
-> [!CAUTION] You **may** use this code on GitHub itself. This includes:
+> [!CAUTION] 
+> You **may** use this code on GitHub itself. This includes:
 > - viewing this codebase
 > - forking this codebase
 > 
