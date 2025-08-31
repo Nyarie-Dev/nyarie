@@ -10,10 +10,20 @@ import java.util.Arrays;
 
 /// Class that handles all things regarding the engine's **installation directory**
 ///
-/// When creating an instance of this class, the location of the engine's `.jar` file will be located.
+/// ### Installation Directory Location
 ///
-/// Then, if they do not already exist, the engine's required
-/// subdirectories will be created. These include:
+/// When creating an instance of this class, the location of the installation directory will be determined.
+/// By default, this will be the same directory that the `.jar` executable is located in.
+/// The default path can be overwritten by (higher number means higher priority):
+/// 1. Setting the `eu.nyarie.core.installation.path` Java System property
+/// 2. Setting a `NYARIE_CORE_INSTALLATION_PATH` environment variable
+///
+/// The values must contain the **absolute path** of the directory in which the asset JSON files are located in.
+///
+/// ### Creation of required subdirectories
+/// 
+/// After the location of the installation directory, the engine's required
+/// subdirectories, if they do not already exist, will be created. These include:
 ///
 /// - `/assets`
 ///
