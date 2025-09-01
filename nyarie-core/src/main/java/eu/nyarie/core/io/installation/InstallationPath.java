@@ -1,4 +1,4 @@
-package eu.nyarie.core.io;
+package eu.nyarie.core.io.installation;
 
 import eu.nyarie.core.exception.data.ConstDataLoadingException;
 import eu.nyarie.core.exception.data.ConstDataNotFoundException;
