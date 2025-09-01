@@ -30,20 +30,20 @@ import java.util.Arrays;
 @Slf4j
 public class InstallationDirectory {
 
-    private final InstallationDirectoryPath path;
+    private final Path rootPath;
 
     public InstallationDirectory() {
         log.debug("Initializing engine's installation path");
 
         log.trace("Locating jar location");
-        this.path = new InstallationDirectoryPath();
-        log.debug("Located jar file location: {}", path);
+        this.rootPath = InstallationDirectoryPath.ROOT.getSubpath();
+        log.debug("Located jar file location: {}", rootPath);
 
-        log.info("Initializing installation directory: {}", path);
+        log.info("Initializing installation directory: {}", rootPath);
         log.info("Checking if all subdirectories exist...");
 
-        val subDirectories = Arrays.stream(InstallationDirectoryPaths.values())
-                .map(InstallationDirectoryPaths::getSubpath)
+        val subDirectories = Arrays.stream(InstallationDirectoryPath.values())
+                .map(InstallationDirectoryPath::getSubpath)
                 .toList();
 
         log.info("Required directories are:");
@@ -54,7 +54,7 @@ public class InstallationDirectory {
 
 
         subDirectories.forEach(subpath -> {
-            val combinedPath = path.getPath().resolve(InstallationDirectoryPaths.ASSETS.getSubpath());
+            val combinedPath = rootPath.resolve(InstallationDirectoryPath.ASSETS.getSubpath());
             log.debug("Checking if '{}' subpath exists: {}", subpath, combinedPath);
             if(Files.notExists(combinedPath)) {
                 log.debug("Subpath '/{}' does not exist - creating it", subpath);
@@ -75,15 +75,15 @@ public class InstallationDirectory {
 
     /// Gets the [Path] of the engine's installation directory. This is equivalent to the location where the `.jar` file containing the engine was executed.
     /// @return The [Path] of the installation directory.
-    public Path getPath() {
-        return path.getPath();
+    public Path getRootPath() {
+        return rootPath;
     }
 
     /// Gets the [Path] of the `/assets` directory inside the installation directory.
     ///
-    /// This is equal to the [assets path][InstallationDirectoryPaths#ASSETS] appended to the [installation directory path][#getPath()]
+    /// This is equal to the [assets path][InstallationDirectoryPath#ASSETS] appended to the [installation directory path][#getRootPath()]
     /// @return The [Path] of the `/assets` directory inside the installation directory.
     public Path getAssetsPath() {
-        return path.getPath().resolve(InstallationDirectoryPaths.ASSETS.getSubpath());
+        return rootPath.resolve(InstallationDirectoryPath.ASSETS.getSubpath());
     }
 }
