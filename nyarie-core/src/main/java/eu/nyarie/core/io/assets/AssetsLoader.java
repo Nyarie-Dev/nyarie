@@ -15,19 +15,18 @@ import java.util.Arrays;
 ///
 /// **This means that asset files inside the [InstallationDirectory] have a higher priority over the ones on the classpath.**
 ///
-/// The exact paths and filenames of the asset files are defined in [AssetsFileNames].
+/// The exact paths and filenames of the asset files are defined in [AssetPath].
 @Slf4j
 public class AssetsLoader {
 
     public static void loadDataFromJson() {
         val installationDirectory = new InstallationDirectory();
         val path = installationDirectory.getAssetsPath();
-
-        val filenameEnums = Arrays.asList(AssetsFileNames.values());
+        val filenameEnums = Arrays.asList(AssetPath.values());
 
         log.debug("Checking if all required files are present");
         filenameEnums.stream()
-                .map(AssetsFileNames::getFilename)
+                .map(AssetPath::getFilename)
                 .forEach(filename -> {
                     log.trace("Creating path for file: {}", filename);
                     val filePath = Paths.get(path.toString(), filename);
