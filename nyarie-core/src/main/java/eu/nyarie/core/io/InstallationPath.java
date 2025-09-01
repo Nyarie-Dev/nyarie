@@ -22,15 +22,15 @@ import java.util.Optional;
 ///
 /// The values must contain the **absolute path** of the directory in which the asset JSON files are located in.
 @Slf4j
-public enum InstallationDirectoryPath {
+public enum InstallationPath {
     ROOT(determineInstallationDirectoryPath()),
-    ASSETS(Path.of("assets")),
+    ASSETS(ROOT.subpath.resolve("assets")),
     ;
 
     @Getter
     private final Path subpath;
 
-    InstallationDirectoryPath(Path subpath) {
+    InstallationPath(Path subpath) {
         this.subpath = subpath;
     }
 

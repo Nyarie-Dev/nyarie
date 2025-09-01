@@ -15,7 +15,7 @@ import java.util.Arrays;
 /// The location of the installation directory is customizable.
 /// By default, it is the location where the project's `.jar` file is located.
 ///
-/// For more information on how to configure the installation path, see [InstallationDirectoryPath].
+/// For more information on how to configure the installation path, see [InstallationPath].
 /// ### Creation of required subdirectories
 ///
 /// After the location of the installation directory, the engine's required
@@ -26,7 +26,7 @@ import java.util.Arrays;
 ///
 /// This class then provides an interfaces for interacting with the data in the installation directory.
 ///
-/// @see InstallationDirectoryPath
+/// @see InstallationPath
 @Slf4j
 public class InstallationDirectory {
 
@@ -36,14 +36,14 @@ public class InstallationDirectory {
         log.debug("Initializing engine's installation path");
 
         log.trace("Locating jar location");
-        this.rootPath = InstallationDirectoryPath.ROOT.getSubpath();
+        this.rootPath = InstallationPath.ROOT.getSubpath();
         log.debug("Located jar file location: {}", rootPath);
 
         log.info("Initializing installation directory: {}", rootPath);
         log.info("Checking if all subdirectories exist...");
 
-        val subDirectories = Arrays.stream(InstallationDirectoryPath.values())
-                .map(InstallationDirectoryPath::getSubpath)
+        val subDirectories = Arrays.stream(InstallationPath.values())
+                .map(InstallationPath::getSubpath)
                 .toList();
 
         log.info("Required directories are:");
@@ -54,7 +54,7 @@ public class InstallationDirectory {
 
 
         subDirectories.forEach(subpath -> {
-            val combinedPath = rootPath.resolve(InstallationDirectoryPath.ASSETS.getSubpath());
+            val combinedPath = rootPath.resolve(InstallationPath.ASSETS.getSubpath());
             log.debug("Checking if '{}' subpath exists: {}", subpath, combinedPath);
             if(Files.notExists(combinedPath)) {
                 log.debug("Subpath '/{}' does not exist - creating it", subpath);
@@ -81,9 +81,9 @@ public class InstallationDirectory {
 
     /// Gets the [Path] of the `/assets` directory inside the installation directory.
     ///
-    /// This is equal to the [assets path][InstallationDirectoryPath#ASSETS] appended to the [installation directory path][#getRootPath()]
+    /// This is equal to the [assets path][InstallationPath#ASSETS] appended to the [installation directory path][#getRootPath()]
     /// @return The [Path] of the `/assets` directory inside the installation directory.
     public Path getAssetsPath() {
-        return rootPath.resolve(InstallationDirectoryPath.ASSETS.getSubpath());
+        return rootPath.resolve(InstallationPath.ASSETS.getSubpath());
     }
 }
