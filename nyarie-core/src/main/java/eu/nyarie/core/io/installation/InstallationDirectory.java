@@ -8,24 +8,24 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 
-/// Class that handles all things regarding the engine's **installation directory**
+/// Class that allows interaction with the engine's **installation directory**
 ///
-/// ### Installation Directory Location
+/// When a new instance of this class is initialized,
+/// all the necessary directories inside the **installation directory** are created and set up.
 ///
-/// The location of the installation directory is customizable.
-/// By default, it is the location where the project's `.jar` file is located.
+/// ### Installation Directory Paths
 ///
-/// For more information on how to configure the installation path, see [InstallationPath].
+/// The paths of the installation directory and its subdirectories are defined in the [InstallationPath] class.
+///
 /// ### Creation of required subdirectories
 ///
-/// After the location of the installation directory, the engine's required
+/// After the location of the installation directory is retrieved, the engine's required
 /// subdirectories, if they do not already exist, will be created.
 /// These include:
 ///
 /// - `/assets`
 ///
-/// This class then provides an interfaces for interacting with the data in the installation directory.
-///
+/// This class then provides methods for interacting with the data in the installation directory.
 /// @see InstallationPath
 @Slf4j
 public class InstallationDirectory {
@@ -36,14 +36,14 @@ public class InstallationDirectory {
         log.debug("Initializing engine's installation path");
 
         log.trace("Locating jar location");
-        this.rootPath = InstallationPath.ROOT.getSubpath();
+        this.rootPath = InstallationPath.ROOT.getPath();
         log.debug("Located jar file location: {}", rootPath);
 
         log.info("Initializing installation directory: {}", rootPath);
         log.info("Checking if all subdirectories exist...");
 
         val subDirectories = Arrays.stream(InstallationPath.values())
-                .map(InstallationPath::getSubpath)
+                .map(InstallationPath::getPath)
                 .toList();
 
         log.info("Required directories are:");
@@ -54,7 +54,7 @@ public class InstallationDirectory {
 
 
         subDirectories.forEach(subpath -> {
-            val combinedPath = rootPath.resolve(InstallationPath.ASSETS.getSubpath());
+            val combinedPath = rootPath.resolve(InstallationPath.ASSETS.getPath());
             log.debug("Checking if '{}' subpath exists: {}", subpath, combinedPath);
             if(Files.notExists(combinedPath)) {
                 log.debug("Subpath '/{}' does not exist - creating it", subpath);
@@ -84,6 +84,6 @@ public class InstallationDirectory {
     /// This is equal to the [assets path][InstallationPath#ASSETS] appended to the [installation directory path][#getRootPath()]
     /// @return The [Path] of the `/assets` directory inside the installation directory.
     public Path getAssetsPath() {
-        return rootPath.resolve(InstallationPath.ASSETS.getSubpath());
+        return rootPath.resolve(InstallationPath.ASSETS.getPath());
     }
 }
