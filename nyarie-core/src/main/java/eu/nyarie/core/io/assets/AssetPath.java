@@ -6,14 +6,12 @@ import java.nio.file.Path;
 
 @Getter
 enum AssetPath {
-    ROOT("assets", Path.of("assets")),
-    REGIONS("regions.json", ROOT.path.resolve("map", "regions.json"));
+    ROOT(Path.of("assets")),
+    REGIONS(ROOT.path.resolve("map", "regions.json"));
 
-    private final String filename;
     private final Path path;
 
-    AssetPath(String filename, Path path) {
-        this.filename = filename;
+    AssetPath(Path path) {
         this.path = path;
     }
 

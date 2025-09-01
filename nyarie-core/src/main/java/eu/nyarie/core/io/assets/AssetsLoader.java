@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
 
 /// Class for loading the data from the asset JSON files (for example `regions.json`)
@@ -21,15 +20,15 @@ public class AssetsLoader {
 
     public static void loadDataFromJson() {
         val installationDirectory = new InstallationDirectory();
-        val path = installationDirectory.getAssetsPath();
-        val filenameEnums = Arrays.asList(AssetPath.values());
+        val assetDirectoryPath = installationDirectory.getAssetsPath();
+        val assetPaths = Arrays.asList(AssetPath.values());
 
         log.debug("Checking if all required files are present");
-        filenameEnums.stream()
-                .map(AssetPath::getFilename)
-                .forEach(filename -> {
-                    log.trace("Creating path for file: {}", filename);
-                    val filePath = Paths.get(path.toString(), filename);
+        assetPaths.stream()
+                .map(AssetPath::getPath)
+                .forEach(path -> {
+                    log.trace("Creating assetDirectoryPath for file: {}", path);
+                    val filePath = assetDirectoryPath.resolve(path);
                     log.debug("Checking if {} is present", filePath);
                     if(Files.notExists(filePath)) {
                         log.error("Could not find asset file: {}", filePath);
