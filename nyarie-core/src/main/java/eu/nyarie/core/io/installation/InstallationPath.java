@@ -12,7 +12,7 @@ import java.nio.file.Path;
 ///
 /// @see InstallationPathResolver
 @Slf4j
-public enum InstallationPath {
+enum InstallationPath {
     ROOT(new InstallationPathResolver().determineInstallationDirectoryPath()),
     ASSETS(ROOT.path.resolve("assets")),
     ;

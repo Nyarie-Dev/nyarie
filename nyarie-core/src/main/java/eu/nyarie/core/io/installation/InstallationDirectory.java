@@ -30,13 +30,11 @@ import java.util.Arrays;
 @Slf4j
 public class InstallationDirectory {
 
-    private final Path rootPath;
-
     public InstallationDirectory() {
         log.debug("Initializing engine's installation path");
 
         log.trace("Locating jar location");
-        this.rootPath = InstallationPath.ROOT.getPath();
+        val rootPath = InstallationPath.ROOT.getPath();
         log.debug("Located jar file location: {}", rootPath);
 
         log.info("Initializing installation directory: {}", rootPath);
@@ -76,7 +74,7 @@ public class InstallationDirectory {
     /// Gets the [Path] of the engine's installation directory. This is equivalent to the location where the `.jar` file containing the engine was executed.
     /// @return The [Path] of the installation directory.
     public Path getRootPath() {
-        return rootPath;
+        return InstallationPath.ROOT.getPath();
     }
 
     /// Gets the [Path] of the `/assets` directory inside the installation directory.
@@ -84,6 +82,6 @@ public class InstallationDirectory {
     /// This is equal to the [assets path][InstallationPath#ASSETS] appended to the [installation directory path][#getRootPath()]
     /// @return The [Path] of the `/assets` directory inside the installation directory.
     public Path getAssetsPath() {
-        return rootPath.resolve(InstallationPath.ASSETS.getPath());
+        return InstallationPath.ASSETS.getPath();
     }
 }
