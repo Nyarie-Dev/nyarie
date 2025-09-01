@@ -42,8 +42,8 @@ public class InstallationDirectory {
         log.info("Initializing installation directory: {}", path);
         log.info("Checking if all subdirectories exist...");
 
-        val subDirectories = Arrays.stream(InstallationDirectorySubpath.values())
-                .map(InstallationDirectorySubpath::getSubpath)
+        val subDirectories = Arrays.stream(InstallationDirectoryPaths.values())
+                .map(InstallationDirectoryPaths::getSubpath)
                 .toList();
 
         log.info("Required directories are:");
@@ -54,7 +54,7 @@ public class InstallationDirectory {
 
 
         subDirectories.forEach(subpath -> {
-            val combinedPath = path.getPath().resolve(InstallationDirectorySubpath.ASSETS.getSubpath());
+            val combinedPath = path.getPath().resolve(InstallationDirectoryPaths.ASSETS.getSubpath());
             log.debug("Checking if '{}' subpath exists: {}", subpath, combinedPath);
             if(Files.notExists(combinedPath)) {
                 log.debug("Subpath '/{}' does not exist - creating it", subpath);
@@ -81,9 +81,9 @@ public class InstallationDirectory {
 
     /// Gets the [Path] of the `/assets` directory inside the installation directory.
     ///
-    /// This is equal to the [assets path][InstallationDirectorySubpath#ASSETS] appended to the [installation directory path][#getPath()]
+    /// This is equal to the [assets path][InstallationDirectoryPaths#ASSETS] appended to the [installation directory path][#getPath()]
     /// @return The [Path] of the `/assets` directory inside the installation directory.
     public Path getAssetsPath() {
-        return path.getPath().resolve(InstallationDirectorySubpath.ASSETS.getSubpath());
+        return path.getPath().resolve(InstallationDirectoryPaths.ASSETS.getSubpath());
     }
 }
