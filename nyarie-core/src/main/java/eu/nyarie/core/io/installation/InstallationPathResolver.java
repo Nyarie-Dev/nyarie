@@ -1,7 +1,7 @@
 package eu.nyarie.core.io.installation;
 
 import eu.nyarie.core.exception.data.ConstDataLoadingException;
-import eu.nyarie.core.exception.data.ConstDataNotFoundException;
+import eu.nyarie.core.exception.data.AssetNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -51,7 +51,7 @@ final class InstallationPathResolver {
         if (Files.notExists(path)) {
             log.error("Directory could not be found: {}", path);
             val fileNotFoundException = new FileNotFoundException("Directory could not be found: %s".formatted(path));
-            throw ConstDataNotFoundException.constDataDirectoryNotFound(path.toString(), fileNotFoundException);
+            throw AssetNotFoundException.assetDirectoryNotFound(path.toString(), fileNotFoundException);
         }
 
         log.debug("Checking if path is directory: {}", path);

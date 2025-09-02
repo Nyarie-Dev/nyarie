@@ -1,6 +1,6 @@
 package eu.nyarie.core.io.installation;
 
-import eu.nyarie.core.exception.data.ConstDataNotFoundException;
+import eu.nyarie.core.exception.data.AssetNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.ThrowableAssertAlternative;
 import org.junit.jupiter.api.*;
@@ -116,13 +116,13 @@ class InstallationPathResolverTest extends AbstractIoTest {
                     @Test
                     @DisplayName("with type ConstDataNotFoundException")
                     void withTypeConstDataNotFoundException() {
-                        exception.isExactlyInstanceOf(ConstDataNotFoundException.class);
+                        exception.isExactlyInstanceOf(AssetNotFoundException.class);
                     }
 
                     @Test
                     @DisplayName("with correct message")
                     void withCorrectMessage() {
-                        exception.withMessage(ConstDataNotFoundException.constDataDirectoryNotFound(expected.toString(), new FileNotFoundException()).getMessage());
+                        exception.withMessage(AssetNotFoundException.assetDirectoryNotFound(expected.toString(), new FileNotFoundException()).getMessage());
                     }
 
                 }
