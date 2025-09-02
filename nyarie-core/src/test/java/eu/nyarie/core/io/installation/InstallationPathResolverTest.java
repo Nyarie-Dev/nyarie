@@ -1,9 +1,12 @@
 package eu.nyarie.core.io.installation;
 
+import eu.nyarie.core.exception.data.ConstDataNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.ThrowableAssertAlternative;
 import org.junit.jupiter.api.*;
 import util.abstraction.AbstractIoTest;
 
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 
 @Slf4j
@@ -15,10 +18,16 @@ class InstallationPathResolverTest extends AbstractIoTest {
     @DisplayName("when calling determineInstallationDirectoryPath()")
     class DetermineInstallationDirectoryPathTest {
 
-        final Path result = installationPathResolver.determineInstallationDirectoryPath();
         final Path testClassPath = Path.of(InstallationPathResolver.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 
-        abstract class SuccessfulInstallationPathResolverTest {
+        abstract static class SuccessfulInstallationPathResolverTest {
+
+            Path result;
+
+            @BeforeEach
+            void getResult() {
+                result = installationPathResolver.determineInstallationDirectoryPath();
+            }
 
             @Test
             @DisplayName("should return a directory path")
@@ -57,14 +66,8 @@ class InstallationPathResolverTest extends AbstractIoTest {
 
             Path expected;
 
-            @BeforeEach
-            void setSystemProperty() {
-                expected = testClassPath.getRoot();
-                System.setProperty("eu.nyarie.core.installation.path", expected.toString());
-            }
-
-            @AfterAll
-            static void unsetProperty() {
+            @AfterEach
+            void unsetProperty() {
                 System.clearProperty("eu.nyarie.core.installation.path");
             }
 
@@ -72,11 +75,56 @@ class InstallationPathResolverTest extends AbstractIoTest {
             @DisplayName("existing absolute path (root)")
             class ExistingAbsolutePath extends SuccessfulInstallationPathResolverTest {
 
+                @BeforeEach
+                void setSystemProperty() {
+                    expected = testClassPath.getRoot();
+                    System.setProperty("eu.nyarie.core.installation.path", expected.toString());
+                    getResult();
+                }
+
                 @Test
                 @DisplayName("should return configured path (root)")
                 void shouldReturnConfiguredPath() {
-                    log.info("Result: {}", result);
                     assertThat(result).isEqualTo(expected);
+                }
+            }
+
+            @Nested
+            @DisplayName("non-existing absolute path")
+            class NonExistingAbsolutePath {
+
+                @BeforeEach
+                void setSystemProperty() {
+                    expected = Path.of("this", "hopefully", "does", "not", "exist");
+                    System.setProperty("eu.nyarie.core.installation.path", expected.toString());
+                }
+
+                @Nested
+                @DisplayName("Should throw Exception")
+                class ShouldThrowException {
+
+                    private ThrowableAssertAlternative<Exception> exception;
+
+                    @BeforeEach
+                    void setSystemProperty() {
+                        expected = Path.of("this", "hopefully", "does", "not", "exist");
+                        System.setProperty("eu.nyarie.core.installation.path", expected.toString());
+                        exception = assertThatException().isThrownBy(installationPathResolver::determineInstallationDirectoryPath);
+                    }
+
+
+                    @Test
+                    @DisplayName("with type ConstDataNotFoundException")
+                    void withTypeConstDataNotFoundException() {
+                        exception.isExactlyInstanceOf(ConstDataNotFoundException.class);
+                    }
+
+                    @Test
+                    @DisplayName("with correct message")
+                    void withCorrectMessage() {
+                        exception.withMessage(ConstDataNotFoundException.constDataDirectoryNotFound(expected.toString(), new FileNotFoundException()).getMessage());
+                    }
+
                 }
             }
 
