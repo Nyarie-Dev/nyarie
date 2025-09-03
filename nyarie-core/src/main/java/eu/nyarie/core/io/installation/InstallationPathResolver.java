@@ -1,7 +1,7 @@
 package eu.nyarie.core.io.installation;
 
-import eu.nyarie.core.exception.data.AssetLoadingException;
-import eu.nyarie.core.exception.data.AssetNotFoundException;
+import eu.nyarie.core.io.assets.exception.AssetLoadingException;
+import eu.nyarie.core.io.assets.exception.AssetNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 

@@ -1,4 +1,4 @@
-package eu.nyarie.core.exception.data;
+package eu.nyarie.core.io.assets.exception;
 
 public class AssetLoadingException extends AssetException {
 
