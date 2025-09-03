@@ -2,7 +2,7 @@ package eu.nyarie.core.exception.data;
 
 import java.io.FileNotFoundException;
 
-public class AssetNotFoundException extends ConstDataException {
+public class AssetNotFoundException extends AssetException {
 
     private static final String CONFIGURED_DIRECTORY_NOT_FOUND = "The configured asset directory could not be found: %s";
 
