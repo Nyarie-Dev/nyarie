@@ -23,17 +23,23 @@ import java.util.Optional;
 @Slf4j
 final class InstallationPathResolver {
 
+    private final InstallationPathConfigReader configReader;
+
     public InstallationPathResolver() {
-        log.debug("Initializing new {}", this.getClass().getSimpleName());
+        this(new InstallationPathConfigReader());
+    }
+
+    /// This constructor is only used for testing-purposes. Instead, use the [#InstallationPathResolver()] constructor.
+    InstallationPathResolver(InstallationPathConfigReader configReader) {
+        log.debug("Initializing new {}", InstallationPathResolver.class.getSimpleName());
+        this.configReader = configReader;
     }
 
     public Path determineInstallationDirectoryPath() {
-        val SYSTEM_PROPERTY_NAME = "eu.nyarie.core.installation.path";
-        val ENV_NAME = "NYARIE_CORE_INSTALLATION_PATH";
         val DEFAULT_PATH = getJarLocation();
 
-        val systemPropertyPath = Optional.ofNullable(System.getProperty(SYSTEM_PROPERTY_NAME));
-        val envPath = Optional.ofNullable(System.getenv(ENV_NAME));
+        val systemPropertyPath = configReader.getSystemPropertyValue();
+        val envPath = configReader.getEnvVarValue();
 
         val chosenPathStr = systemPropertyPath
                 .orElse(envPath
