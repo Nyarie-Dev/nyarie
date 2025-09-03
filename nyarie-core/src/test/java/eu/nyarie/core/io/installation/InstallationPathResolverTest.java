@@ -7,7 +7,10 @@ import org.junit.jupiter.api.*;
 import util.abstraction.AbstractIoTest;
 
 import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Slf4j
 class InstallationPathResolverTest extends AbstractIoTest {
@@ -18,7 +21,10 @@ class InstallationPathResolverTest extends AbstractIoTest {
     @DisplayName("when calling determineInstallationDirectoryPath()")
     class DetermineInstallationDirectoryPathTest {
 
-        final Path testClassPath = Path.of(InstallationPathResolver.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        final Path testClassPath = Path.of(InstallationPathResolver.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+
+        DetermineInstallationDirectoryPathTest() throws URISyntaxException {
+        }
 
         abstract static class SuccessfulInstallationPathResolverTest {
 

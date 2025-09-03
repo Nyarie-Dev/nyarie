@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,7 +30,7 @@ final class InstallationPathResolver {
     public Path determineInstallationDirectoryPath() {
         val SYSTEM_PROPERTY_NAME = "eu.nyarie.core.installation.path";
         val ENV_NAME = "NYARIE_CORE_INSTALLATION_PATH";
-        val DEFAULT_PATH = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+        val DEFAULT_PATH = getJarLocation();
 
         val systemPropertyPath = Optional.ofNullable(System.getProperty(SYSTEM_PROPERTY_NAME));
         val envPath = Optional.ofNullable(System.getenv(ENV_NAME));
@@ -61,5 +62,13 @@ final class InstallationPathResolver {
         }
 
         return path;
+    }
+
+    private String getJarLocation() {
+        try {
+            return Path.of(InstallationPathResolver.class.getProtectionDomain().getCodeSource().getLocation().toURI()).toString();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
