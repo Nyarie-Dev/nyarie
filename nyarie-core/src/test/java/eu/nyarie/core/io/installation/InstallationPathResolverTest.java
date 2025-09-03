@@ -4,18 +4,19 @@ import eu.nyarie.core.io.assets.exception.AssetNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.ThrowableAssertAlternative;
 import org.junit.jupiter.api.*;
+import org.mockito.Mockito;
 import util.abstraction.AbstractIoTest;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
-import java.net.URLDecoder;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.Optional;
 
 @Slf4j
 class InstallationPathResolverTest extends AbstractIoTest {
 
-    private static final InstallationPathResolver installationPathResolver = new InstallationPathResolver();
+    private static final InstallationPathConfigReader spyConfigReader = Mockito.spy(new InstallationPathConfigReader());
+    private static final InstallationPathResolver installationPathResolver = new InstallationPathResolver(spyConfigReader);
 
     @Nested
     @DisplayName("when calling determineInstallationDirectoryPath()")
@@ -115,6 +116,76 @@ class InstallationPathResolverTest extends AbstractIoTest {
                     void setSystemProperty() {
                         expected = Path.of("this", "hopefully", "does", "not", "exist");
                         System.setProperty("eu.nyarie.core.installation.path", expected.toString());
+                        exception = assertThatException().isThrownBy(installationPathResolver::determineInstallationDirectoryPath);
+                    }
+
+
+                    @Test
+                    @DisplayName("with type ConstDataNotFoundException")
+                    void withTypeConstDataNotFoundException() {
+                        exception.isExactlyInstanceOf(AssetNotFoundException.class);
+                    }
+
+                    @Test
+                    @DisplayName("with correct message")
+                    void withCorrectMessage() {
+                        exception.withMessage(AssetNotFoundException.assetDirectoryNotFound(expected.toString(), new FileNotFoundException()).getMessage());
+                    }
+
+                }
+            }
+
+        }
+
+        @Nested
+        @DisplayName("with env var set to")
+        class WithEnvVarSetTo {
+
+            Path expected;
+
+            @AfterEach
+            void unsetEnv() {
+                Mockito.when(spyConfigReader.getEnvVarValue()).thenCallRealMethod();
+            }
+
+            @Nested
+            @DisplayName("existing absolute path (root)")
+            class ExistingAbsolutePath extends SuccessfulInstallationPathResolverTest {
+
+                @BeforeEach
+                void setSystemProperty() {
+                    expected = testClassPath.getRoot();
+                    Mockito.when(spyConfigReader.getEnvVarValue()).thenReturn(Optional.of(expected.toString()));
+                    getResult();
+                }
+
+                @Test
+                @DisplayName("should return configured path (root)")
+                void shouldReturnConfiguredPath() {
+                    assertThat(result).isEqualTo(expected);
+                }
+            }
+
+            @Nested
+            @DisplayName("non-existing absolute path")
+            class NonExistingAbsolutePath {
+
+                @BeforeEach
+                void setSystemProperty() {
+                    expected = Path.of("this", "hopefully", "does", "not", "exist");
+                    Mockito.when(spyConfigReader.getEnvVarValue()).thenReturn(Optional.of(expected.toString()));
+                }
+
+                @Nested
+                @DisplayName("Should throw Exception")
+                class ShouldThrowException {
+
+                    private ThrowableAssertAlternative<Exception> exception;
+
+                    @BeforeEach
+                    void setSystemProperty() {
+                        expected = Path.of("this", "hopefully", "does", "not", "exist");
+                        Mockito.when(spyConfigReader.getEnvVarValue()).thenReturn(Optional.of(expected.toString()));
                         exception = assertThatException().isThrownBy(installationPathResolver::determineInstallationDirectoryPath);
                     }
 
