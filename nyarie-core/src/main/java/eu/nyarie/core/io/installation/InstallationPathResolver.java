@@ -10,7 +10,6 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
 
 /// Helper Class responsible for determining the path of the engines **installation directory**.
 ///
@@ -53,6 +52,12 @@ final class InstallationPathResolver {
                         _ -> log.info("Asset path was set using environment variable value: {}", path),
                         () -> log.info("No configured asset path found - using default: {}", DEFAULT_PATH)
                 ));
+
+        log.debug("Checking if path is absolute");
+        if(!path.isAbsolute()) {
+            log.error("Asset path must be absolute - was: {}", path);
+            throw AssetNotFoundException.configuredPathNotAbsolute(path.toString());
+        }
 
         log.debug("Checking if path exists: {}", path);
         if (Files.notExists(path)) {
