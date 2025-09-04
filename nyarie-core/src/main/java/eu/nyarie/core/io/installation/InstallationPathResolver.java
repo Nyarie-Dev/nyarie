@@ -47,15 +47,27 @@ final class InstallationPathResolver {
         val path = Paths.get(chosenPathStr);
 
         systemPropertyPath.ifPresentOrElse(
-                _ -> log.info("Asset path was set using system property value: {}", path),
+                _ -> log.info("Installation path was set using system property value: {}", path),
                 () -> envPath.ifPresentOrElse(
-                        _ -> log.info("Asset path was set using environment variable value: {}", path),
-                        () -> log.info("No configured asset path found - using default: {}", DEFAULT_PATH)
+                        _ -> log.info("Installation path was set using environment variable value: {}", path),
+                        () -> log.info("No custom installation path set - using default: {}", DEFAULT_PATH)
                 ));
 
         log.debug("Checking if path is absolute");
         if(!path.isAbsolute()) {
-            log.error("Asset path must be absolute - was: {}", path);
+            log.error("|=======================================================================================");
+            log.error("| ERROR SETTING UP INSTALLATION DIRECTORY:");
+            log.error("| Configured installation path must be absolute - was: {}", path);
+            log.error("|");
+            log.error("| Tip: The path must contain the root element");
+            log.error("| On Unix systems (Linux/MacOS), this is '/'");
+            log.error("| \t\tExample path: '/home/john/nyarie'");
+            log.error("|");
+            log.error("| On Windows, this is your target partition (most commonly 'C:')");
+            log.error("| Windows system also require backslashes ('\\') instead of forward slashes ('/')");
+            log.error("| \t\tExample path: 'C:\\Users\\john\\nyarie'");
+            log.error("|");
+            log.error("|=======================================================================================");
             throw AssetNotFoundException.configuredPathNotAbsolute(path.toString());
         }
 
