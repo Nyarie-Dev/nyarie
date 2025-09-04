@@ -135,6 +135,43 @@ class InstallationPathResolverTest extends AbstractIoTest {
                 }
             }
 
+            @Nested
+            @DisplayName("relative path")
+            class RelativePath {
+
+                @BeforeEach
+                void setSystemProperty() {
+                    expected = Path.of("..", "..");
+                    System.setProperty("eu.nyarie.core.installation.path", expected.toString());
+                }
+
+                @Nested
+                @DisplayName("Should throw Exception")
+                class ShouldThrowException {
+
+                    private ThrowableAssertAlternative<Exception> exception;
+
+                    @BeforeEach
+                    void setSystemProperty() {
+                        exception = assertThatException().isThrownBy(installationPathResolver::determineInstallationDirectoryPath);
+                    }
+
+
+                    @Test
+                    @DisplayName("with type AssetNotFoundException")
+                    void withTypeConstDataNotFoundException() {
+                        exception.isExactlyInstanceOf(AssetNotFoundException.class);
+                    }
+
+                    @Test
+                    @DisplayName("with correct message")
+                    void withCorrectMessage() {
+                        exception.withMessage(AssetNotFoundException.configuredPathNotAbsolute(expected.toString()).getMessage());
+                    }
+
+                }
+            }
+
         }
 
         @Nested
