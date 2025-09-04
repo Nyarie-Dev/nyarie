@@ -56,16 +56,16 @@ final class InstallationPathResolver {
         log.debug("Checking if path is absolute");
         if(!path.isAbsolute()) {
             log.error("|=======================================================================================");
-            log.error("| ERROR SETTING UP INSTALLATION DIRECTORY:");
-            log.error("| Configured installation path must be absolute - was: {}", path);
+            log.error("|\tERROR SETTING UP INSTALLATION DIRECTORY:");
+            log.error("|\tConfigured installation path must be absolute - was: {}", path);
             log.error("|");
-            log.error("| Tip: The path must contain the root element");
-            log.error("| On Unix systems (Linux/MacOS), this is '/'");
-            log.error("| \t\tExample path: '/home/john/nyarie'");
+            log.error("|\tTip: The path must contain the root element");
+            log.error("|\tOn Unix systems (Linux/MacOS), this is '/'");
+            log.error("|\t\t\tExample path: '/home/john/nyarie'");
             log.error("|");
-            log.error("| On Windows, this is your target partition (most commonly 'C:')");
-            log.error("| Windows system also require backslashes ('\\') instead of forward slashes ('/')");
-            log.error("| \t\tExample path: 'C:\\Users\\john\\nyarie'");
+            log.error("|\tOn Windows, this is your target partition (most commonly 'C:')");
+            log.error("|\tWindows system also require backslashes ('\\') instead of forward slashes ('/')");
+            log.error("|\t\t\tExample path: 'C:\\Users\\john\\nyarie'");
             log.error("|");
             log.error("|=======================================================================================");
             throw AssetNotFoundException.configuredPathNotAbsolute(path.toString());
