@@ -102,7 +102,7 @@ class InstallationPathResolverTest extends AbstractIoTest {
 
                 @BeforeEach
                 void setSystemProperty() {
-                    expected = Path.of("this", "hopefully", "does", "not", "exist");
+                    expected = Path.of("/", "this", "hopefully", "does", "not", "exist");
                     System.setProperty("eu.nyarie.core.installation.path", expected.toString());
                 }
 
@@ -114,15 +114,13 @@ class InstallationPathResolverTest extends AbstractIoTest {
 
                     @BeforeEach
                     void setSystemProperty() {
-                        expected = Path.of("this", "hopefully", "does", "not", "exist");
-                        System.setProperty("eu.nyarie.core.installation.path", expected.toString());
                         exception = assertThatException().isThrownBy(installationPathResolver::determineInstallationDirectoryPath);
                     }
 
 
                     @Test
-                    @DisplayName("with type ConstDataNotFoundException")
-                    void withTypeConstDataNotFoundException() {
+                    @DisplayName("with type AssetNotFoundException")
+                    void withTypeAssetNotFoundException() {
                         exception.isExactlyInstanceOf(AssetNotFoundException.class);
                     }
 
@@ -159,7 +157,7 @@ class InstallationPathResolverTest extends AbstractIoTest {
 
                     @Test
                     @DisplayName("with type AssetNotFoundException")
-                    void withTypeConstDataNotFoundException() {
+                    void withTypeAssetNotFoundException() {
                         exception.isExactlyInstanceOf(AssetNotFoundException.class);
                     }
 
@@ -209,7 +207,7 @@ class InstallationPathResolverTest extends AbstractIoTest {
 
                 @BeforeEach
                 void setSystemProperty() {
-                    expected = Path.of("this", "hopefully", "does", "not", "exist");
+                    expected = Path.of("/", "this", "hopefully", "does", "not", "exist");
                     Mockito.when(spyConfigReader.getEnvVarValue()).thenReturn(Optional.of(expected.toString()));
                 }
 
@@ -221,15 +219,13 @@ class InstallationPathResolverTest extends AbstractIoTest {
 
                     @BeforeEach
                     void setSystemProperty() {
-                        expected = Path.of("this", "hopefully", "does", "not", "exist");
-                        Mockito.when(spyConfigReader.getEnvVarValue()).thenReturn(Optional.of(expected.toString()));
                         exception = assertThatException().isThrownBy(installationPathResolver::determineInstallationDirectoryPath);
                     }
 
 
                     @Test
-                    @DisplayName("with type ConstDataNotFoundException")
-                    void withTypeConstDataNotFoundException() {
+                    @DisplayName("with type AssetNotFoundException")
+                    void withTypeAssetNotFoundException() {
                         exception.isExactlyInstanceOf(AssetNotFoundException.class);
                     }
 
