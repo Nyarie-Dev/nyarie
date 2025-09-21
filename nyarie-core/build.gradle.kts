@@ -17,6 +17,8 @@ repositories {
 }
 
 dependencies {
+    implementation("eu.luktronic:logblock:1.0.0-rc.1")
+
     implementation("org.tomlj:tomlj:1.1.1")
     implementation("org.slf4j:slf4j-api:2.0.17")
     implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
