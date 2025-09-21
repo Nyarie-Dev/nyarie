@@ -1,5 +1,6 @@
 package eu.nyarie.core.io.installation;
 
+import eu.luktronic.logblock.LogBlock;
 import eu.nyarie.core.io.assets.exception.AssetLoadingException;
 import eu.nyarie.core.io.assets.exception.AssetNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,8 @@ import java.nio.file.Paths;
 /// The values must contain the **absolute path** of the directory in which the asset JSON files are located in.
 @Slf4j
 final class InstallationPathResolver {
+
+    private static final LogBlock logBlock = LogBlock.withLogger(log);
 
     private final InstallationPathConfigReader configReader;
 
@@ -55,19 +58,19 @@ final class InstallationPathResolver {
 
         log.debug("Checking if path is absolute");
         if(!path.isAbsolute()) {
-            log.error("|=======================================================================================");
-            log.error("|\tERROR SETTING UP INSTALLATION DIRECTORY:");
-            log.error("|\tConfigured installation path must be absolute - was: {}", path);
-            log.error("|");
-            log.error("|\tTip: The path must contain the root element");
-            log.error("|\tOn Unix systems (Linux/MacOS), this is '/'");
-            log.error("|\t\t\tExample path: '/home/john/nyarie'");
-            log.error("|");
-            log.error("|\tOn Windows, this is your target partition (most commonly 'C:')");
-            log.error("|\tWindows system also require backslashes ('\\') instead of forward slashes ('/')");
-            log.error("|\t\t\tExample path: 'C:\\Users\\john\\nyarie'");
-            log.error("|");
-            log.error("|=======================================================================================");
+            logBlock.withBorderLength(100)
+                    .error("""
+                    ERROR SETTING UP INSTALLATION DIRECTORY:
+                    Configured installation path must be absolute - was: {}
+                    
+                    Tip: The path must contain the root element
+                    On Unix systems (Linux/MacOS), this is '/'
+                            Example path: '/home/john/nyarie'
+                    
+                    On Windows, this is your target partition (most commonly 'C:')
+                    Windows system also require backslashes ('\\') instead of forward slashes ('/')
+                            Example path: 'C:\\Users\\john\\nyarie'
+                    """, path);
             throw AssetNotFoundException.configuredPathNotAbsolute(path.toString());
         }
 
