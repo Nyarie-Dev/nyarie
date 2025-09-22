@@ -1,6 +1,6 @@
 package eu.nyarie.core.io.installation;
 
-import eu.nyarie.core.io.assets.exception.AssetNotFoundException;
+import eu.nyarie.core.io.installation.exception.InstallationDirectoryException;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.ThrowableAssertAlternative;
 import org.junit.jupiter.api.*;
@@ -119,15 +119,15 @@ class InstallationPathResolverTest extends AbstractIoTest {
 
 
                     @Test
-                    @DisplayName("with type AssetNotFoundException")
-                    void withTypeAssetNotFoundException() {
-                        exception.isExactlyInstanceOf(AssetNotFoundException.class);
+                    @DisplayName("with type InstallationDirectoryException")
+                    void withTypeInstallationDirectoryException() {
+                        exception.isExactlyInstanceOf(InstallationDirectoryException.class);
                     }
 
                     @Test
                     @DisplayName("with correct message")
                     void withCorrectMessage() {
-                        exception.withMessage(AssetNotFoundException.assetDirectoryNotFound(expected.toString(), new FileNotFoundException()).getMessage());
+                        exception.withMessage(InstallationDirectoryException.assetDirectoryNotFound(expected.toString(), new FileNotFoundException()).getMessage());
                     }
 
                 }
@@ -156,15 +156,15 @@ class InstallationPathResolverTest extends AbstractIoTest {
 
 
                     @Test
-                    @DisplayName("with type AssetNotFoundException")
-                    void withTypeAssetNotFoundException() {
-                        exception.isExactlyInstanceOf(AssetNotFoundException.class);
+                    @DisplayName("with type InstallationDirectoryException")
+                    void withTypeInstallationDirectoryException() {
+                        exception.isExactlyInstanceOf(InstallationDirectoryException.class);
                     }
 
                     @Test
                     @DisplayName("with correct message")
                     void withCorrectMessage() {
-                        exception.withMessage(AssetNotFoundException.configuredPathNotAbsolute(expected.toString()).getMessage());
+                        exception.withMessage(InstallationDirectoryException.configuredPathNotAbsolute(expected.toString()).getMessage());
                     }
 
                 }
@@ -224,15 +224,15 @@ class InstallationPathResolverTest extends AbstractIoTest {
 
 
                     @Test
-                    @DisplayName("with type AssetNotFoundException")
-                    void withTypeAssetNotFoundException() {
-                        exception.isExactlyInstanceOf(AssetNotFoundException.class);
+                    @DisplayName("with type InstallationDirectoryException")
+                    void withTypeInstallationDirectoryException() {
+                        exception.isExactlyInstanceOf(InstallationDirectoryException.class);
                     }
 
                     @Test
                     @DisplayName("with correct message")
                     void withCorrectMessage() {
-                        exception.withMessage(AssetNotFoundException.assetDirectoryNotFound(expected.toString(), new FileNotFoundException()).getMessage());
+                        exception.withMessage(InstallationDirectoryException.assetDirectoryNotFound(expected.toString(), new FileNotFoundException()).getMessage());
                     }
 
                 }

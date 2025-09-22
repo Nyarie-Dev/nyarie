@@ -2,7 +2,7 @@ package eu.nyarie.core.io.installation;
 
 import eu.luktronic.logblock.LogBlock;
 import eu.nyarie.core.io.assets.exception.AssetLoadingException;
-import eu.nyarie.core.io.assets.exception.AssetNotFoundException;
+import eu.nyarie.core.io.installation.exception.InstallationDirectoryException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -71,14 +71,14 @@ final class InstallationPathResolver {
                     Windows system also require backslashes ('\\') instead of forward slashes ('/')
                             Example path: 'C:\\Users\\john\\nyarie'
                     """, path);
-            throw AssetNotFoundException.configuredPathNotAbsolute(path.toString());
+            throw InstallationDirectoryException.configuredPathNotAbsolute(path.toString());
         }
 
         log.debug("Checking if path exists: {}", path);
         if (Files.notExists(path)) {
             log.error("Directory could not be found: {}", path);
             val fileNotFoundException = new FileNotFoundException("Directory could not be found: %s".formatted(path));
-            throw AssetNotFoundException.assetDirectoryNotFound(path.toString(), fileNotFoundException);
+            throw InstallationDirectoryException.assetDirectoryNotFound(path.toString(), fileNotFoundException);
         }
 
         log.debug("Checking if path is directory: {}", path);
