@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 public class InstallationDirectoryException extends NyarieException {
 
     private static final String CONFIGURED_PATH_NOT_ABSOLUTE = "The configured asset directory must be absolute - was: %s";
-    private static final String CONFIGURED_DIRECTORY_NOT_FOUND = "The configured asset directory could not be found: %s";
+    private static final String CONFIGURED_DIRECTORY_NOT_FOUND = "The configured installation directory could not be found: %s";
 
     protected InstallationDirectoryException(String message, Throwable cause) {
         super(message, cause);
@@ -21,7 +21,7 @@ public class InstallationDirectoryException extends NyarieException {
         return new InstallationDirectoryException(CONFIGURED_PATH_NOT_ABSOLUTE.formatted(path));
     }
 
-    public static InstallationDirectoryException assetDirectoryNotFound(String directory, FileNotFoundException cause) {
+    public static InstallationDirectoryException installationDirectoryNotFound(String directory, FileNotFoundException cause) {
         return new InstallationDirectoryException(CONFIGURED_DIRECTORY_NOT_FOUND.formatted(directory), cause);
     }
 }

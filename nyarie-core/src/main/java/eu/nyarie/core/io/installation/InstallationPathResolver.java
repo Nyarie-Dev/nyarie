@@ -78,7 +78,7 @@ final class InstallationPathResolver {
         if (Files.notExists(path)) {
             log.error("Directory could not be found: {}", path);
             val fileNotFoundException = new FileNotFoundException("Directory could not be found: %s".formatted(path));
-            throw InstallationDirectoryException.assetDirectoryNotFound(path.toString(), fileNotFoundException);
+            throw InstallationDirectoryException.installationDirectoryNotFound(path.toString(), fileNotFoundException);
         }
 
         log.debug("Checking if path is directory: {}", path);

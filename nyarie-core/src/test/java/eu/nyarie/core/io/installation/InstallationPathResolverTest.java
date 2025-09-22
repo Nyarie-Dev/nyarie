@@ -127,7 +127,7 @@ class InstallationPathResolverTest extends AbstractIoTest {
                     @Test
                     @DisplayName("with correct message")
                     void withCorrectMessage() {
-                        exception.withMessage(InstallationDirectoryException.assetDirectoryNotFound(expected.toString(), new FileNotFoundException()).getMessage());
+                        exception.withMessage(InstallationDirectoryException.installationDirectoryNotFound(expected.toString(), new FileNotFoundException()).getMessage());
                     }
 
                 }
@@ -232,7 +232,7 @@ class InstallationPathResolverTest extends AbstractIoTest {
                     @Test
                     @DisplayName("with correct message")
                     void withCorrectMessage() {
-                        exception.withMessage(InstallationDirectoryException.assetDirectoryNotFound(expected.toString(), new FileNotFoundException()).getMessage());
+                        exception.withMessage(InstallationDirectoryException.installationDirectoryNotFound(expected.toString(), new FileNotFoundException()).getMessage());
                     }
 
                 }
