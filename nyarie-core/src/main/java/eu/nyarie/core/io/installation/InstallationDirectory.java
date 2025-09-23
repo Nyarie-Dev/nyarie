@@ -44,7 +44,7 @@ public class InstallationDirectory {
         log.info("Required directories are:");
         log.info("|");
         subDirectories.forEach(subpath -> {
-            log.info("|-- /{}", subpath);
+            log.info("|-- {}", subpath);
         });
 
 
