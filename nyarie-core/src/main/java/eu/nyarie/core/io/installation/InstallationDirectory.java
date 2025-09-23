@@ -6,7 +6,6 @@ import lombok.val;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 
 /// Class that allows interaction with the engine's **installation directory**
 ///
@@ -34,15 +33,13 @@ public class InstallationDirectory {
         log.debug("Initializing engine's installation path");
 
         log.trace("Locating jar location");
-        val rootPath = InstallationPath.ROOT.getPath();
+        val rootPath = InstallationPath.ROOT;
         log.debug("Located jar file location: {}", rootPath);
 
         log.info("Initializing installation directory: {}", rootPath);
         log.info("Checking if all subdirectories exist...");
 
-        val subDirectories = Arrays.stream(InstallationPath.values())
-                .map(InstallationPath::getPath)
-                .toList();
+        val subDirectories = InstallationPath.getSubdirectories();
 
         log.info("Required directories are:");
         log.info("|");
@@ -52,7 +49,7 @@ public class InstallationDirectory {
 
 
         subDirectories.forEach(subpath -> {
-            val combinedPath = rootPath.resolve(InstallationPath.ASSETS.getPath());
+            val combinedPath = rootPath.resolve(InstallationPath.ASSETS);
             log.debug("Checking if '{}' subpath exists: {}", subpath, combinedPath);
             if(Files.notExists(combinedPath)) {
                 log.debug("Subpath '/{}' does not exist - creating it", subpath);
@@ -74,7 +71,7 @@ public class InstallationDirectory {
     /// Gets the [Path] of the engine's installation directory. This is equivalent to the location where the `.jar` file containing the engine was executed.
     /// @return The [Path] of the installation directory.
     public Path getRootPath() {
-        return InstallationPath.ROOT.getPath();
+        return InstallationPath.ROOT;
     }
 
     /// Gets the [Path] of the `/assets` directory inside the installation directory.
@@ -82,6 +79,6 @@ public class InstallationDirectory {
     /// This is equal to the [assets path][InstallationPath#ASSETS] appended to the [installation directory path][#getRootPath()]
     /// @return The [Path] of the `/assets` directory inside the installation directory.
     public Path getAssetsPath() {
-        return InstallationPath.ASSETS.getPath();
+        return InstallationPath.ASSETS;
     }
 }
