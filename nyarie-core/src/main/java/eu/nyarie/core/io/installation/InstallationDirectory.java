@@ -14,7 +14,7 @@ import java.nio.file.Path;
 ///
 /// ### Installation Directory Paths
 ///
-/// The paths of the installation directory and its subdirectories are defined in the [InstallationPath] class.
+/// The paths of the installation directory and its subdirectories are defined in the [InstallationPaths] class.
 ///
 /// ### Creation of required subdirectories
 ///
@@ -25,7 +25,7 @@ import java.nio.file.Path;
 /// - `/assets`
 ///
 /// This class then provides methods for interacting with the data in the installation directory.
-/// @see InstallationPath
+/// @see InstallationPaths
 @Slf4j
 public class InstallationDirectory {
 
@@ -33,13 +33,13 @@ public class InstallationDirectory {
         log.debug("Initializing engine's installation path");
 
         log.trace("Locating jar location");
-        val rootPath = InstallationPath.ROOT;
+        val rootPath = InstallationPaths.ROOT;
         log.debug("Located jar file location: {}", rootPath);
 
         log.info("Initializing installation directory: {}", rootPath);
         log.info("Checking if all subdirectories exist...");
 
-        val subDirectories = InstallationPath.getSubdirectories();
+        val subDirectories = InstallationPaths.getSubdirectories();
 
         log.info("Required directories are:");
         log.info("|");
@@ -49,7 +49,7 @@ public class InstallationDirectory {
 
 
         subDirectories.forEach(subpath -> {
-            val combinedPath = rootPath.resolve(InstallationPath.ASSETS);
+            val combinedPath = rootPath.resolve(InstallationPaths.ASSETS);
             log.debug("Checking if '{}' subpath exists: {}", subpath, combinedPath);
             if(Files.notExists(combinedPath)) {
                 log.debug("Subpath '/{}' does not exist - creating it", subpath);
@@ -71,14 +71,14 @@ public class InstallationDirectory {
     /// Gets the [Path] of the engine's installation directory. This is equivalent to the location where the `.jar` file containing the engine was executed.
     /// @return The [Path] of the installation directory.
     public Path getRootPath() {
-        return InstallationPath.ROOT;
+        return InstallationPaths.ROOT;
     }
 
     /// Gets the [Path] of the `/assets` directory inside the installation directory.
     ///
-    /// This is equal to the [assets path][InstallationPath#ASSETS] appended to the [installation directory path][#getRootPath()]
+    /// This is equal to the [assets path][InstallationPaths#ASSETS] appended to the [installation directory path][#getRootPath()]
     /// @return The [Path] of the `/assets` directory inside the installation directory.
     public Path getAssetsPath() {
-        return InstallationPath.ASSETS;
+        return InstallationPaths.ASSETS;
     }
 }

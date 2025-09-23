@@ -12,13 +12,13 @@ import java.util.Set;
 ///
 /// @see InstallationPathResolver
 @Slf4j
-class InstallationPath {
+class InstallationPaths {
     static final Path ROOT = new InstallationPathResolver().determineInstallationDirectoryPath();
     static final Path ASSETS = ROOT.resolve("assets");
     
     /// Gets all the subdirectories of the installation path as an [unmodifiable Set][java.util.Collections#unmodifiableSet(Set)].
     /// 
-    /// The subdirectories are all the statically defined Paths of the [InstallationPath] class with the exception of [ROOT][#ROOT].
+    /// The subdirectories are all the statically defined Paths of the [InstallationPaths] class with the exception of [ROOT][#ROOT].
     /// @return An unmodifiable [Set] containing all the subdirectories of the installation path
     public static Set<Path> getSubdirectories() {
         return Set.of(

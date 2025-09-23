@@ -4,9 +4,9 @@ import lombok.val;
 
 import java.util.Optional;
 
-/// Class responsible for reading the configurable values for the [InstallationPath].
+/// Class responsible for reading the configurable values for the [InstallationPaths].
 ///
-/// For more information on which configs exist and how to configure the [InstallationPath],
+/// For more information on which configs exist and how to configure the [InstallationPaths],
 /// see [InstallationPathResolver].
 final class InstallationPathConfigReader {
 
