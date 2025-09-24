@@ -39,7 +39,7 @@ public class InstallationDirectory {
         log.info("Initializing installation directory: {}", rootPath);
         log.info("Checking if all subdirectories exist...");
 
-        val subDirectories = InstallationPaths.getSubdirectories();
+        val subDirectories = InstallationPaths.getSubpaths();
 
         log.info("Required directories are:");
         log.info("|");
