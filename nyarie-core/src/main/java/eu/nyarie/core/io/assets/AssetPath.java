@@ -3,16 +3,21 @@ package eu.nyarie.core.io.assets;
 import lombok.Getter;
 
 import java.nio.file.Path;
+import java.util.Set;
 
 @Getter
-enum AssetPath {
-    ROOT(Path.of("assets")),
-    REGIONS(ROOT.path.resolve("map", "regions.json"));
+class AssetPath {
+    static final Path ROOT = Path.of("assets");
+    static final Path REGIONS = ROOT.resolve("map", "regions.json");
 
-    private final Path path;
-
-    AssetPath(Path path) {
-        this.path = path;
+    /// Gets all the subpaths of the asset path as an [unmodifiable Set][java.util.Collections#unmodifiableSet(Set)].
+    ///
+    /// The subpaths are all the statically defined Paths of the [AssetPath] class except for [ROOT][#ROOT].
+    /// @return An unmodifiable [Set] containing all the subpaths of the asset path
+    public static Set<Path> getSubpaths() {
+        return Set.of(
+                REGIONS
+        );
     }
 
 }
