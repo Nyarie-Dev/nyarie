@@ -13,14 +13,14 @@ import java.nio.file.Files;
 ///
 /// **This means that asset files inside the [InstallationDirectory] have a higher priority over the ones on the classpath.**
 ///
-/// The exact paths and filenames of the asset files are defined in [AssetPath].
+/// The exact paths and filenames of the asset files are defined in [AssetPaths].
 @Slf4j
 public class AssetsLoader {
 
     public static void loadDataFromJson() {
         val installationDirectory = new InstallationDirectory();
         val assetDirectoryPath = installationDirectory.getAssetsPath();
-        val assetPaths = AssetPath.getSubpaths();
+        val assetPaths = AssetPaths.getSubpaths();
 
         log.debug("Checking if all required files are present");
         assetPaths
