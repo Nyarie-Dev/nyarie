@@ -8,7 +8,7 @@ plugins {
 
 group = "eu.nyarie"
 version = "1.0-SNAPSHOT"
-val javaVersion by extra(24)
+val javaVersion by extra(25)
 val lombokVersion by extra("1.18.38")
 val jacksonVersion by extra("2.19.0")
 
