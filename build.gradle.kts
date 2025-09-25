@@ -1,3 +1,17 @@
+val javaVersion by extra(25)
+
+subprojects {
+    apply(plugin = "java")
+
+    plugins.withType<JavaPlugin>() {
+        configure<JavaPluginExtension>() {
+            toolchain {
+                languageVersion = JavaLanguageVersion.of(javaVersion)
+            }
+        }
+    }
+}
+
 tasks.register("publishToMavenLocal") {
     group = "publishing"
     description = "Executes the 'publishToMavenLocal' task in all subprojects."
