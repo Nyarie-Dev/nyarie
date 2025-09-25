@@ -1,14 +1,12 @@
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-    id("java")
     id("maven-publish")
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "eu.nyarie"
 version = "1.0-SNAPSHOT"
-val javaVersion by extra(25)
 val lombokVersion by extra("1.18.38")
 val jacksonVersion by extra("2.19.0")
 
@@ -41,12 +39,6 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
     testCompileOnly("org.projectlombok:lombok:${lombokVersion}")
     testAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(javaVersion)
-    }
 }
 
 tasks.jar {
