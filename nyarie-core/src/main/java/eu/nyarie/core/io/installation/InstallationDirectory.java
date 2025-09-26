@@ -70,13 +70,13 @@ public class InstallationDirectory {
 
     /// Gets the [Path] of the engine's installation directory. This is equivalent to the location where the `.jar` file containing the engine was executed.
     /// @return The [Path] of the installation directory.
-    public Path getRootPath() {
+    public Path getRootDirectory() {
         return InstallationPaths.ROOT;
     }
 
     /// Gets the [Path] of the `/assets` directory inside the installation directory.
     ///
-    /// This is equal to the [assets path][InstallationPaths#ASSETS] appended to the [installation directory path][#getRootPath()]
+    /// This is equal to the [assets path][InstallationPaths#ASSETS] appended to the [installation directory path][#getRootDirectory()]
     /// @return The [Path] of the `/assets` directory inside the installation directory.
     public Path getAssetsDirectory() {
         return InstallationPaths.ASSETS;
