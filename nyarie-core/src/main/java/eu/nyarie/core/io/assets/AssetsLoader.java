@@ -23,15 +23,14 @@ public class AssetsLoader {
         val assetPaths = AssetPaths.getSubpaths();
 
         log.debug("Checking if all required files are present");
-        assetPaths
-                .forEach(path -> {
-                    log.trace("Creating assetDirectoryPath for file: {}", path);
-                    val filePath = assetDirectoryPath.resolve(path);
-                    log.debug("Checking if {} is present", filePath);
-                    if(Files.notExists(filePath)) {
-                        log.error("Could not find asset file: {}", filePath);
-                    }
-                });
+        assetPaths.forEach(path -> {
+            log.trace("Creating assetDirectoryPath for file: {}", path);
+            val filePath = assetDirectoryPath.resolve(path);
+            log.debug("Checking if asset file {} exists", filePath);
+            if(Files.notExists(filePath)) {
+                log.error("Could not find asset file: {}", filePath);
+            }
+        });
         //TODO check if all files exist
     }
 }
