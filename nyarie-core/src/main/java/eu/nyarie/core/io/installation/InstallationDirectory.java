@@ -78,7 +78,7 @@ public class InstallationDirectory {
     ///
     /// This is equal to the [assets path][InstallationPaths#ASSETS] appended to the [installation directory path][#getRootPath()]
     /// @return The [Path] of the `/assets` directory inside the installation directory.
-    public Path getAssetsPath() {
+    public Path getAssetsDirectory() {
         return InstallationPaths.ASSETS;
     }
 }
