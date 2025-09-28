@@ -8,16 +8,19 @@ import lombok.val;
 import java.io.IOException;
 import java.nio.file.Files;
 
-/// Class for loading the data from the asset JSON files (for example `regions.json`)
+/// Class responsible for loading and holding the data read from the asset JSON files
+/// (for example `regions.json`) that were shipped with the engine's installation.<br>
+/// This explicitly refers to assets that were shipped with the classpath resources of the engine's `jar` file,
+/// or assets that are located in the [assets directory][InstallationDirectory#getAssetsDirectory()] of the [InstallationDirectory].
 ///
 /// First, the [assets directory][InstallationDirectory#getAssetsDirectory()] of the [InstallationDirectory] is searched for the asset files. <br>
 /// If no file for the asset could be found, then the classpath is searched in the `assets` directory.
 ///
-/// **This means that asset files inside the [InstallationDirectory] have a higher priority over the ones on the classpath.**
+/// <b>This means that asset files inside the [InstallationDirectory] have a higher priority over the ones on the classpath.</b>
 ///
 /// The exact paths and filenames of the asset files are defined in [AssetPaths].
 @Slf4j
-public class AssetsLoader {
+public class InstallationAssets {
 
     public static void loadDataFromJson() {
         val installationDirectory = new InstallationDirectory();
@@ -43,7 +46,7 @@ public class AssetsLoader {
 
     private static void readResource(String resource) {
         log.info("Searching classpath for asset: {}", resource);
-        try(val resourceStream = AssetsLoader.class.getClassLoader().getResourceAsStream(resource)) {
+        try(val resourceStream = InstallationAssets.class.getClassLoader().getResourceAsStream(resource)) {
             if(resourceStream == null) {
                 log.error("Could not find asset file in classpath: {}", resource);
                 return;

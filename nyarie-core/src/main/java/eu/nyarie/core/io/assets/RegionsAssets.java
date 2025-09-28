@@ -10,8 +10,8 @@ import java.util.Optional;
 /// Class which holds all the {@link Region Regions} of the playable map.<br>
 /// The regions are loaded from the `regions.json` data file.
 ///
-/// For more information on how to set up assets, see {@link AssetsLoader}.
-/// @see AssetsLoader
+/// For more information on how to set up assets, see {@link InstallationAssets}.
+/// @see InstallationAssets
 public class RegionsAssets {
 
     private static final List<Region> regions = new ArrayList<>(200);
