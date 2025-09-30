@@ -16,6 +16,10 @@ public final class RegionsAssets extends Assets<Region> {
 
     private final List<Region> regions = new ArrayList<>(200);
 
+    public RegionsAssets(List<Region> assets) {
+        super(assets);
+    }
+
     /// Returns an unmodifiable {@link List} containing all the loaded regions.
     /// @return An unmodifiable {@link List} containing all the loaded regions.
     public List<Region> getAll() {
