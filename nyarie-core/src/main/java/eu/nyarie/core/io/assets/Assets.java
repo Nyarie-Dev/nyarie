@@ -8,7 +8,7 @@ import java.util.List;
 
 public sealed abstract class Assets<T extends Asset> permits RegionsAssets {
 
-    private final List<T> assets;
+    protected final List<T> assets;
 
     /// Creates an instance of this class with the passed `assets`.
     public Assets(List<T> assets) {
