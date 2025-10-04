@@ -7,8 +7,8 @@ import java.util.Set;
 
 @Getter
 class AssetPaths {
-    static final AssetPath ROOT = new AssetPath(Path.of("assets"));
-    static final AssetPath REGIONS = new AssetPath(ROOT.resolve("map", "regions.json"));
+    static final Path ROOT = Path.of("assets");
+    static final AssetFilePath REGIONS = new AssetFilePath(ROOT.resolve("map", "regions.json"));
 
     /// Gets all the subpaths of the asset path as an [unmodifiable Set][java.util.Collections#unmodifiableSet(Set)].
     ///

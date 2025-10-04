@@ -8,9 +8,9 @@ import java.util.List;
 /// and returning its result mapped to the respective class.
 public interface AssetLoader {
 
-    /// Loads the assets from the passed [asset file path][AssetPath] and returns a list
+    /// Loads the assets from the passed [asset file path][AssetFilePath] and returns a list
     /// of the assets cast to their respective [Asset] class.
     /// @param assetFilePath The path to the asset file. Must be an existing file.
-    List<? extends Asset> loadFile(AssetPath assetFilePath);
+    List<? extends Asset> loadFile(AssetFilePath assetFilePath);
 
 }
