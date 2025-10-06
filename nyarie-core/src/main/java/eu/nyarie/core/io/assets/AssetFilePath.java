@@ -10,7 +10,14 @@ import java.nio.file.Path;
 /// All possible file paths are defined in [AssetPaths].
 public class AssetFilePath<T extends Asset> extends PathDecorator {
 
-    AssetFilePath(Path path) {
+    private final Class<T> assetClass;
+
+    AssetFilePath(Path path, Class<T> assetClass) {
         super(path);
+        this.assetClass = assetClass;
+    }
+
+    public Class<T> getAssetClass() {
+        return assetClass;
     }
 }

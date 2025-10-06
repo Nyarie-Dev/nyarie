@@ -9,7 +9,7 @@ import java.util.Set;
 @Getter
 class AssetPaths {
     static final Path ROOT = Path.of("assets");
-    static final AssetFilePath<Region> REGIONS = new AssetFilePath<>(ROOT.resolve("map", "regions.json"));
+    static final AssetFilePath<Region> REGIONS = new AssetFilePath<>(ROOT.resolve("map", "regions.json"), Region.class);
 
     /// Gets all the subpaths of the asset path as an [unmodifiable Set][java.util.Collections#unmodifiableSet(Set)].
     ///
