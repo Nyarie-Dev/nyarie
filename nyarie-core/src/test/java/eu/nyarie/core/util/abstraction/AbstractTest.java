@@ -1,4 +1,4 @@
-package util.abstraction;
+package eu.nyarie.core.util.abstraction;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;

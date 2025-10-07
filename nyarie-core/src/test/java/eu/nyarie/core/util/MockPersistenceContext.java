@@ -1,4 +1,4 @@
-package util;
+package eu.nyarie.core.util;
 
 import eu.nyarie.core.api.engine.EnginePersistenceContext;
 import eu.nyarie.core.api.persistence.CharacterRepository;

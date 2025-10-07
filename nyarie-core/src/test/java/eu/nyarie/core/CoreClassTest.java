@@ -3,7 +3,7 @@ package eu.nyarie.core;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.junit.jupiter.api.Test;
-import util.MockPersistenceContext;
+import eu.nyarie.core.util.MockPersistenceContext;
 
 import java.io.File;
 

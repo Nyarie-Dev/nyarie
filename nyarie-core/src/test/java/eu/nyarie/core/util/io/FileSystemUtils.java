@@ -1,4 +1,4 @@
-package util.io;
+package eu.nyarie.core.util.io;
 
 import java.net.URI;
 import java.net.URISyntaxException;
