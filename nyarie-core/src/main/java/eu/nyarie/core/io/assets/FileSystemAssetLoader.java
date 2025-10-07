@@ -42,9 +42,12 @@ public class FileSystemAssetLoader implements AssetLoader {
             return Optional.empty();
         }
 
+        log.debug("Found asset file '{}'", path);
         val om = new ObjectMapper();
         try {
+            log.debug("Deserializing asset file '{}'", path);
             val response = om.readValue(path.toFile(), new TypeReference<List<T>>() { });
+            log.debug("Loaded {} instances of class {}", response.size(), assetFilePath.getAssetClass().getSimpleName());
             return Optional.of(response);
         } catch (IOException e) {
             throw new RuntimeException(e);
