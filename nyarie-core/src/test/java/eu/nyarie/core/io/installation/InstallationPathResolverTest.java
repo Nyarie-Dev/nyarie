@@ -5,7 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.ThrowableAssertAlternative;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
-import util.abstraction.AbstractIoTest;
+import eu.nyarie.core.util.abstraction.AbstractIoTest;
+import eu.nyarie.core.util.io.FileSystemUtils;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
@@ -22,7 +23,7 @@ class InstallationPathResolverTest extends AbstractIoTest {
     @DisplayName("when calling determineInstallationDirectoryPath()")
     class DetermineInstallationDirectoryPathTest {
 
-        final Path testClassPath = Path.of(InstallationPathResolver.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+        final Path testClassPath = FileSystemUtils.jarPath(InstallationPathResolver.class);
 
         DetermineInstallationDirectoryPathTest() throws URISyntaxException {
         }
