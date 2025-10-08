@@ -109,4 +109,10 @@ public class PathDecorator implements Path {
     public String toString() {
         return delegate.toString();
     }
+
+    /// Gets the actual underlying [Path] that was passed
+    /// on construction of the object.
+    public Path getDelegate() {
+        return delegate;
+    }
 }
