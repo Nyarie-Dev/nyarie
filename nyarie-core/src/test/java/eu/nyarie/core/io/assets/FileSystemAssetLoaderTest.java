@@ -2,10 +2,15 @@ package eu.nyarie.core.io.assets;
 
 
 import eu.nyarie.core.domain.constant.map.Region;
+import eu.nyarie.core.domain.constant.map.TerrainType;
 import eu.nyarie.core.util.abstraction.AbstractIoTest;
 import eu.nyarie.core.util.io.FileSystemUtils;
+import lombok.val;
 import org.jspecify.annotations.NonNull;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,6 +18,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("ALL")
 class FileSystemAssetLoaderTest extends AbstractIoTest {
 
     private static final Path jarPath = FileSystemUtils.jarPath(FileSystemAssetLoader.class);
@@ -31,7 +37,7 @@ class FileSystemAssetLoaderTest extends AbstractIoTest {
 
             @BeforeEach
             void setup() throws IOException {
-                var finalPath = jarPath.resolve(regionAssetFilePath.getDelegate());
+                val finalPath = jarPath.resolve(regionAssetFilePath.getDelegate());
                 Files.createDirectories(finalPath.getParent());
                 Files.writeString(finalPath, "[\n\n]");
                 result = assetLoader.loadAssetFile(regionAssetFilePath);
@@ -47,6 +53,27 @@ class FileSystemAssetLoaderTest extends AbstractIoTest {
             @DisplayName("should have correct entries in list")
             void shouldHaveCorrectEntriesInList() {
                 assertThat(result.orElseThrow()).isEmpty();
+            }
+        }
+
+        @Nested
+        @DisplayName("with non-existing asset file")
+        class WithNonExistingAssetFile {
+
+            static final AssetFilePath<@NonNull TerrainType> terrainTypeAssetFilePath = AssetPaths.TERRAIN_TYPES;
+            Optional<List<TerrainType>> result;
+
+            @BeforeEach
+            void setup() throws IOException {
+                val finalPath = jarPath.resolve(terrainTypeAssetFilePath.getDelegate());
+                Files.deleteIfExists(finalPath);
+                result = assetLoader.loadAssetFile(terrainTypeAssetFilePath);
+            }
+
+            @Test
+            @DisplayName("should return empty optional")
+            void shouldReturnOptionalOfList() {
+                assertThat(result).isEmpty();
             }
         }
     }
