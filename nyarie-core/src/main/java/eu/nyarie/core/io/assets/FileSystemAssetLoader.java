@@ -34,7 +34,7 @@ public class FileSystemAssetLoader implements AssetLoader {
     /// @throws AssetNotFoundException {@inheritDoc}
     @Override
     public <T extends Asset> Optional<List<T>> loadAssetFile(AssetFilePath<T> assetFilePath) {
-        val path = basePath.resolve(assetFilePath.getDelegate());
+        val path = basePath.resolve(assetFilePath.getPath());
         log.debug("Loading asset file for class '{}': {}", assetFilePath.getAssetClass().getSimpleName(), path);
 
         if(Files.notExists(path)) {

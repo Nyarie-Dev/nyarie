@@ -9,11 +9,11 @@ import java.nio.file.Path;
 /// All possible file paths are defined in [AssetPaths].
 public class AssetFilePath<T extends Asset> {
 
-    private final Path delegate;
+    private final Path path;
     private final Class<T> assetClass;
 
     AssetFilePath(Path path, Class<T> assetClass) {
-        this.delegate = path;
+        this.path = path;
         this.assetClass = assetClass;
     }
 
@@ -23,7 +23,7 @@ public class AssetFilePath<T extends Asset> {
 
     /// Gets the actual underlying [Path] that was passed
     /// on construction of the object.
-    public Path getDelegate() {
-        return delegate;
+    public Path getPath() {
+        return path;
     }
 }

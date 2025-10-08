@@ -30,7 +30,7 @@ public class InstallationAssets {
         log.debug("Checking if all required files are present");
         assetPaths.forEach(assetPath -> {
             log.trace("Creating assetDirectoryPath for file: {}", assetPath);
-            val filePath = assetDirectoryPath.resolve(assetPath.getDelegate());
+            val filePath = assetDirectoryPath.resolve(assetPath.getPath());
             log.debug("Checking if asset file {} exists", filePath);
             if(Files.notExists(filePath)) {
                 log.error("Could not find asset file in installation directory: {}", filePath);

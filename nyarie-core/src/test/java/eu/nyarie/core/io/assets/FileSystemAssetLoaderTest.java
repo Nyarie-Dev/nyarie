@@ -37,7 +37,7 @@ class FileSystemAssetLoaderTest extends AbstractIoTest {
 
             @BeforeEach
             void setup() throws IOException {
-                val finalPath = jarPath.resolve(regionAssetFilePath.getDelegate());
+                val finalPath = jarPath.resolve(regionAssetFilePath.getPath());
                 Files.createDirectories(finalPath.getParent());
                 Files.writeString(finalPath, "[\n\n]");
                 result = assetLoader.loadAssetFile(regionAssetFilePath);
@@ -65,7 +65,7 @@ class FileSystemAssetLoaderTest extends AbstractIoTest {
 
             @BeforeEach
             void setup() throws IOException {
-                val finalPath = jarPath.resolve(terrainTypeAssetFilePath.getDelegate());
+                val finalPath = jarPath.resolve(terrainTypeAssetFilePath.getPath());
                 Files.deleteIfExists(finalPath);
                 result = assetLoader.loadAssetFile(terrainTypeAssetFilePath);
             }
