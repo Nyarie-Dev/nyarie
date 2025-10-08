@@ -28,14 +28,14 @@ public class InstallationAssets {
         val assetPaths = AssetPaths.getSubpaths();
 
         log.debug("Checking if all required files are present");
-        assetPaths.forEach(path -> {
-            log.trace("Creating assetDirectoryPath for file: {}", path);
-            val filePath = assetDirectoryPath.resolve(path);
+        assetPaths.forEach(assetPath -> {
+            log.trace("Creating assetDirectoryPath for file: {}", assetPath);
+            val filePath = assetDirectoryPath.resolve(assetPath.getDelegate());
             log.debug("Checking if asset file {} exists", filePath);
             if(Files.notExists(filePath)) {
                 log.error("Could not find asset file in installation directory: {}", filePath);
                 log.error("Searching in classpath");
-                readResource(path.toString());
+                readResource(assetPath.toString());
             }
             else {
                 log.info("Found asset file {}", filePath);

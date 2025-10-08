@@ -17,7 +17,7 @@ class AssetPaths {
     ///
     /// The subpaths are all the statically defined Paths of the [AssetPaths] class except for [ROOT][#ROOT].
     /// @return An unmodifiable [Set] containing all the subpaths of the asset path
-    public static Set<Path> getSubpaths() {
+    public static Set<AssetFilePath<?>> getSubpaths() {
         return Set.of(
                 REGIONS,
                 TERRAIN_TYPES
