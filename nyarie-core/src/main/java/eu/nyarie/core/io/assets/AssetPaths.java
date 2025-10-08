@@ -1,6 +1,7 @@
 package eu.nyarie.core.io.assets;
 
 import eu.nyarie.core.domain.constant.map.Region;
+import eu.nyarie.core.domain.constant.map.TerrainType;
 import lombok.Getter;
 
 import java.nio.file.Path;
@@ -10,6 +11,7 @@ import java.util.Set;
 class AssetPaths {
     static final Path ROOT = Path.of("assets");
     static final AssetFilePath<Region> REGIONS = new AssetFilePath<>(ROOT.resolve("map", "regions.json"), Region.class);
+    static final AssetFilePath<TerrainType> TERRAIN_TYPES = new AssetFilePath<>(ROOT.resolve("map", "terrain-types.json"), TerrainType.class);
 
     /// Gets all the subpaths of the asset path as an [unmodifiable Set][java.util.Collections#unmodifiableSet(Set)].
     ///
@@ -17,7 +19,8 @@ class AssetPaths {
     /// @return An unmodifiable [Set] containing all the subpaths of the asset path
     public static Set<Path> getSubpaths() {
         return Set.of(
-                REGIONS
+                REGIONS,
+                TERRAIN_TYPES
         );
     }
 
