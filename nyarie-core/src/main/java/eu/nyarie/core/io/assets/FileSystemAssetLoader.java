@@ -2,7 +2,9 @@ package eu.nyarie.core.io.assets;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.luktronic.logblock.LogBlock;
 import eu.nyarie.core.domain.constant.Asset;
+import eu.nyarie.core.io.assets.exception.AssetLoadingException;
 import eu.nyarie.core.io.assets.exception.AssetNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -49,8 +51,16 @@ public class FileSystemAssetLoader implements AssetLoader {
             val response = om.readValue(path.toFile(), new TypeReference<List<T>>() { });
             log.debug("Loaded {} instances of class {}", response.size(), assetFilePath.getAssetClass().getSimpleName());
             return Optional.of(response);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            val logBlock = LogBlock.withLogger(log);
+            logBlock.error("""
+                    ERROR WHILE LOADING ASSET FILE:
+                    {}
+                    
+                    An unexpected {} occurred while trying to read the asset file:
+                    '{}'
+                    """, path, e.getClass().getSimpleName(), e.getMessage());
+            throw AssetLoadingException.unexpectedErrorReadingFile(path, e);
         }
     }
 }
