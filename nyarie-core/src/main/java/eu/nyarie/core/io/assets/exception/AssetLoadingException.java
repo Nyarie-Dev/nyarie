@@ -4,7 +4,6 @@ import java.nio.file.Path;
 
 public class AssetLoadingException extends AssetException {
 
-    private static final String PATH_IS_NO_DIRECTORY = "The configured path is no directory: %s";
     private static final String UNEXPECTED_ERROR_READING_FILE = "An unexpected error occurred during reading of asset file '%s': %s";
 
     protected AssetLoadingException(String message) {
@@ -12,10 +11,6 @@ public class AssetLoadingException extends AssetException {
     }
     protected AssetLoadingException(String message, Throwable cause) {
         super(message, cause);
-    }
-
-    public static AssetLoadingException pathIsNoDirectory(String path) {
-        return new AssetLoadingException(PATH_IS_NO_DIRECTORY.formatted(path));
     }
 
     public static AssetLoadingException unexpectedErrorReadingFile(Path path, Throwable cause) {
