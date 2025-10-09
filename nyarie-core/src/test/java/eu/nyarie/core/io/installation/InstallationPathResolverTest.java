@@ -104,7 +104,7 @@ class InstallationPathResolverTest extends AbstractIoTest {
 
                 @BeforeEach
                 void setSystemProperty() {
-                    expected = Path.of(File.listRoots()[0].getPath(), "this", "hopefully", "does", "not", "exist");
+                    expected = Path.of(FileSystemUtils.getRoot(), "this", "hopefully", "does", "not", "exist");
                     System.setProperty("eu.nyarie.core.installation.path", expected.toString());
                 }
 
@@ -209,7 +209,7 @@ class InstallationPathResolverTest extends AbstractIoTest {
 
                 @BeforeEach
                 void setSystemProperty() {
-                    expected = Path.of(File.listRoots()[0].getPath(), "this", "hopefully", "does", "not", "exist");
+                    expected = Path.of(FileSystemUtils.getRoot(), "this", "hopefully", "does", "not", "exist");
                     Mockito.when(spyConfigReader.getEnvVarValue()).thenReturn(Optional.of(expected.toString()));
                 }
 

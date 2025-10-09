@@ -1,11 +1,22 @@
 package eu.nyarie.core.util.io;
 
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 
 /// A class containing utils for file system interactions.
 public class FileSystemUtils {
+
+    /// Gets the first root path for the current system's
+    /// file system.
+    ///
+    /// Usually this is equal to:
+    /// - Unix: `/`
+    /// - Windows: `C:\\`
+    public static String getRoot() {
+        return File.listRoots()[0].getPath();
+    }
 
     public static Path jarPath() {
         return Path.of(jarLocation());
