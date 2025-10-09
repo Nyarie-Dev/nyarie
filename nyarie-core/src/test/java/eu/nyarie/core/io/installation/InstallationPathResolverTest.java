@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 import eu.nyarie.core.util.abstraction.AbstractIoTest;
 import eu.nyarie.core.util.io.FileSystemUtils;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -103,7 +104,7 @@ class InstallationPathResolverTest extends AbstractIoTest {
 
                 @BeforeEach
                 void setSystemProperty() {
-                    expected = Path.of("/", "this", "hopefully", "does", "not", "exist");
+                    expected = Path.of(File.listRoots()[0].getPath(), "this", "hopefully", "does", "not", "exist");
                     System.setProperty("eu.nyarie.core.installation.path", expected.toString());
                 }
 
@@ -208,7 +209,7 @@ class InstallationPathResolverTest extends AbstractIoTest {
 
                 @BeforeEach
                 void setSystemProperty() {
-                    expected = Path.of("/", "this", "hopefully", "does", "not", "exist");
+                    expected = Path.of(File.listRoots()[0].getPath(), "this", "hopefully", "does", "not", "exist");
                     Mockito.when(spyConfigReader.getEnvVarValue()).thenReturn(Optional.of(expected.toString()));
                 }
 
