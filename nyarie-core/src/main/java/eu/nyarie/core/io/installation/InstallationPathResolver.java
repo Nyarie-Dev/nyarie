@@ -83,7 +83,10 @@ final class InstallationPathResolver {
 
         log.debug("Checking if path is directory: {}", path);
         if (!Files.isDirectory(path)) {
-            log.error("Configured path is no directory: {}", path);
+            logBlock.error("""
+                    ERROR SETTING UP INSTALLATION DIRECTORY:
+                    Configured installation path is not a directory: {}
+                    """, path);
             throw InstallationDirectoryException.pathIsNoDirectory(path.toString());
         }
 
