@@ -6,10 +6,10 @@ This repository is a wrapper repository for handling dependencies between all Ny
 
 HTTPS:
 ```shell
-git clone --recurse-submodules https://github.com/Nyarie-Dev/nyarie.git
+git clone https://github.com/Nyarie-Dev/nyarie.git
 ```
 
 SSH:
 ```shell
-git clone --recurse-submodules git@github.com:Nyarie-Dev/nyarie.git
+git clone git@github.com:Nyarie-Dev/nyarie.git
 ```
