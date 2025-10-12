@@ -24,7 +24,7 @@ public class ClasspathAssetLoader implements AssetLoader {
         val path = assetFilePath.getPath();
         log.debug("Loading asset file for class '{}' from classpath resource: {}", assetFilePath.getAssetClass().getSimpleName(), path);
 
-        try (val inputStream = this.getClass().getClassLoader().getResourceAsStream("")) {
+        try (val inputStream = this.getClass().getClassLoader().getResourceAsStream(assetFilePath.getPath().toString())) {
             if(inputStream == null) {
                 log.debug("Asset file '{}' was not found, returning empty optional", path);
                 return Optional.empty();
