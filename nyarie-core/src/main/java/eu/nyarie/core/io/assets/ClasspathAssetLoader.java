@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,24 +25,19 @@ public class ClasspathAssetLoader implements AssetLoader {
         log.debug("Loading asset file for class '{}' from classpath resource: {}", assetFilePath.getAssetClass().getSimpleName(), path);
 
         try (val inputStream = this.getClass().getClassLoader().getResourceAsStream("")) {
+            if(inputStream == null) {
+                log.debug("Asset file '{}' was not found, returning empty optional", path);
+                return Optional.empty();
+            }
+            log.debug("Found asset file '{}'", path);
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        if(Files.notExists(path)) {
-            log.debug("Asset file '{}' was not found, returning empty optional", path);
-            return Optional.empty();
-        }
-
-        log.debug("Found asset file '{}'", path);
-        val om = new ObjectMapper();
-        try {
+            val om = new ObjectMapper();
             log.debug("Deserializing asset file '{}'", path);
-            val response = om.readValue(path.toFile(), new TypeReference<List<T>>() { });
+            val response = om.readValue(inputStream, new TypeReference<List<T>>() { });
             log.debug("Loaded {} instances of class {}", response.size(), assetFilePath.getAssetClass().getSimpleName());
             return Optional.of(response);
-        } catch (Exception e) {
+
+        } catch (IOException e) {
             val logBlock = LogBlock.withLogger(log);
             logBlock.error("""
                     ERROR WHILE LOADING ASSET FILE:
@@ -54,5 +48,6 @@ public class ClasspathAssetLoader implements AssetLoader {
                     """, path, e.getClass().getSimpleName(), e.getMessage());
             throw AssetLoadingException.unexpectedErrorReadingFile(path, e);
         }
+
     }
 }
