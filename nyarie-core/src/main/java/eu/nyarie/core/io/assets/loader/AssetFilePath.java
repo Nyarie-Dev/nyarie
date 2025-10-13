@@ -1,4 +1,4 @@
-package eu.nyarie.core.io.assets;
+package eu.nyarie.core.io.assets.loader;
 
 import eu.nyarie.core.domain.constant.Asset;
 

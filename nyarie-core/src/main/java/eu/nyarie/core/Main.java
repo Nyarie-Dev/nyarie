@@ -1,6 +1,6 @@
 package eu.nyarie.core;
 
-import eu.nyarie.core.io.assets.InstallationAssets;
+import eu.nyarie.core.io.assets.loader.InstallationAssets;
 
 public class Main {
 

@@ -1,4 +1,4 @@
-package eu.nyarie.core.io.assets;
+package eu.nyarie.core.io.assets.loader;
 
 import org.junit.jupiter.api.Test;
 

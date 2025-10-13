@@ -1,4 +1,4 @@
-package eu.nyarie.core.io.assets;
+package eu.nyarie.core.io.assets.loader;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.nyarie.core.io.installation.InstallationDirectory;
