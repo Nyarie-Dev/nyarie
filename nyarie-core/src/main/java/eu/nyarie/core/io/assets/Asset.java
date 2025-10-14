@@ -7,5 +7,5 @@ package eu.nyarie.core.io.assets;
 ///
 /// However, the assets **can** be updated and reloaded, but doing so might corrupt the game state if
 /// not done with caution.
-abstract class Asset {
+public abstract class Asset {
 }
