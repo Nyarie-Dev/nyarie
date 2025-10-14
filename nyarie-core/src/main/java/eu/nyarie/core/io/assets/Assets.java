@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public sealed abstract class Assets<T extends Asset> permits RegionsAssets {
+public abstract class Assets<T extends Asset> {
 
     protected final List<T> assets;
 

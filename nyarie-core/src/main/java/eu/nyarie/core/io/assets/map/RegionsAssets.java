@@ -1,6 +1,7 @@
-package eu.nyarie.core.io.assets;
+package eu.nyarie.core.io.assets.map;
 
 import eu.nyarie.core.domain.constant.map.Region;
+import eu.nyarie.core.io.assets.Assets;
 import eu.nyarie.core.io.assets.loader.InstallationAssets;
 
 import java.util.List;
