@@ -12,9 +12,9 @@ import java.util.Optional;
 ///
 /// For more information on how to set up assets, see {@link InstallationAssets}.
 /// @see InstallationAssets
-public final class RegionsAssets extends Assets<Region> {
+public final class RegionsAssets extends Assets<Region, RegionAsset> {
 
-    public RegionsAssets(List<Region> assets) {
+    public RegionsAssets(List<RegionAsset> assets) {
         super(assets);
     }
 
@@ -26,5 +26,10 @@ public final class RegionsAssets extends Assets<Region> {
                 .filter(region -> region.getId().equals(id))
                 .findAny();
 
+    }
+
+    @Override
+    protected List<Region> convertFromDtos(List<RegionAsset> dtos) {
+        return List.of();
     }
 }
