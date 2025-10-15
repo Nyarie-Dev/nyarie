@@ -43,7 +43,7 @@ class ClasspathAssetLoaderTest extends AbstractIoTest {
             @Test
             @DisplayName("should have correct entries in list")
             void shouldHaveCorrectEntriesInList() {
-                assertThat(result.orElseThrow()).isEmpty();
+                assertThat(result.orElseThrow()).hasSize(1);
             }
         }
 

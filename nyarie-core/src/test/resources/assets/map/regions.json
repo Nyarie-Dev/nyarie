@@ -1,2 +1,7 @@
 [
+  {
+    "id": "1",
+    "name": "Gondor",
+    "terrainType": "1"
+  }
 ]
