@@ -1,6 +1,5 @@
 package eu.nyarie.core.io.assets.loader;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.luktronic.logblock.LogBlock;
 import eu.nyarie.core.io.assets.AssetDto;
@@ -33,7 +32,9 @@ public class ClasspathAssetLoader implements AssetLoader {
 
             val om = new ObjectMapper();
             log.debug("Deserializing asset file '{}'", path);
-            val response = om.readValue(inputStream, new TypeReference<List<T>>() { });
+            val type = om.getTypeFactory().constructCollectionType(List.class, assetFilePath.getAssetClass());
+            //noinspection unchecked
+            val response = (List<T>) om.readValue(inputStream, type);
             log.debug("Loaded {} instances of class {}", response.size(), assetFilePath.getAssetClass().getSimpleName());
             return Optional.of(response);
 
