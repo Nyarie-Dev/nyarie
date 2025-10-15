@@ -1,13 +1,13 @@
 package eu.nyarie.core.io.assets.loader;
 
-import eu.nyarie.core.domain.constant.Asset;
+import eu.nyarie.core.io.assets.AssetDto;
 
 import java.nio.file.Path;
 
 /// Class defining a [Path] of an asset file inside an asset directory.
 ///
 /// All possible file paths are defined in [AssetPaths].
-public class AssetFilePath<T extends Asset> {
+public class AssetFilePath<T extends AssetDto<?>> {
 
     private final Path path;
     private final Class<T> assetClass;

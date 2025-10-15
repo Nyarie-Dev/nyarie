@@ -1,8 +1,8 @@
 package eu.nyarie.core.io.assets.loader;
 
 
-import eu.nyarie.core.domain.constant.map.Region;
-import eu.nyarie.core.domain.constant.map.TerrainType;
+import eu.nyarie.core.io.assets.map.RegionAsset;
+import eu.nyarie.core.io.assets.map.TerrainTypeAsset;
 import eu.nyarie.core.util.abstraction.AbstractIoTest;
 import eu.nyarie.core.util.io.FileSystemUtils;
 import lombok.val;
@@ -32,8 +32,8 @@ class FileSystemAssetLoaderTest extends AbstractIoTest {
         @DisplayName("with existing asset file")
         class WithExistingAssetFile {
 
-            static final AssetFilePath<@NonNull Region> regionAssetFilePath = AssetPaths.REGIONS;
-            Optional<List<Region>> result;
+            static final AssetFilePath<@NonNull RegionAsset> regionAssetFilePath = AssetPaths.REGIONS;
+            Optional<List<RegionAsset>> result;
 
             @BeforeEach
             void setup() throws IOException {
@@ -60,8 +60,8 @@ class FileSystemAssetLoaderTest extends AbstractIoTest {
         @DisplayName("with non-existing asset file")
         class WithNonExistingAssetFile {
 
-            static final AssetFilePath<@NonNull TerrainType> terrainTypeAssetFilePath = AssetPaths.TERRAIN_TYPES;
-            Optional<List<TerrainType>> result;
+            static final AssetFilePath<@NonNull TerrainTypeAsset> terrainTypeAssetFilePath = AssetPaths.TERRAIN_TYPES;
+            Optional<List<TerrainTypeAsset>> result;
 
             @BeforeEach
             void setup() throws IOException {

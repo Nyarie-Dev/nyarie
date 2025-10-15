@@ -3,7 +3,7 @@ package eu.nyarie.core.io.assets.loader;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.luktronic.logblock.LogBlock;
-import eu.nyarie.core.domain.constant.Asset;
+import eu.nyarie.core.io.assets.AssetDto;
 import eu.nyarie.core.io.assets.exception.AssetLoadingException;
 import eu.nyarie.core.io.assets.exception.AssetNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class FileSystemAssetLoader implements AssetLoader {
 
     /// @throws AssetNotFoundException {@inheritDoc}
     @Override
-    public <T extends Asset> Optional<List<T>> loadAssetFile(AssetFilePath<T> assetFilePath) {
+    public <T extends AssetDto<?>> Optional<List<T>> loadAssetFile(AssetFilePath<T> assetFilePath) {
         val path = basePath.resolve(assetFilePath.getPath());
         log.debug("Loading asset file for class '{}': {}", assetFilePath.getAssetClass().getSimpleName(), path);
 
