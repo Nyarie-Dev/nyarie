@@ -1,11 +1,11 @@
 package eu.nyarie.core.io.assets.loader;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.luktronic.logblock.LogBlock;
 import eu.nyarie.core.io.assets.AssetDto;
 import eu.nyarie.core.io.assets.exception.AssetLoadingException;
 import eu.nyarie.core.io.assets.exception.AssetNotFoundException;
+import eu.nyarie.core.util.serialization.NyarieObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -44,7 +44,7 @@ public class FileSystemAssetLoader implements AssetLoader {
         }
 
         log.debug("Found asset file '{}'", path);
-        val om = new ObjectMapper();
+        val om = new NyarieObjectMapper().getInstance();
         try {
             log.debug("Deserializing asset file '{}'", path);
             val response = om.readValue(path.toFile(), new TypeReference<List<T>>() { });

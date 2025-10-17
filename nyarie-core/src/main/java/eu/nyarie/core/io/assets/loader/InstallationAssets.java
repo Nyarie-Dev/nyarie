@@ -1,7 +1,7 @@
 package eu.nyarie.core.io.assets.loader;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.nyarie.core.io.installation.InstallationDirectory;
+import eu.nyarie.core.util.serialization.NyarieObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -51,7 +51,7 @@ public class InstallationAssets {
                 log.error("Could not find asset file in classpath: {}", resource);
                 return;
             }
-            val objectMapper = new ObjectMapper();
+            val objectMapper = new NyarieObjectMapper().getInstance();
             val region = objectMapper.readValue(resourceStream, Region.class);
             val jsonString = objectMapper.writeValueAsString(region);
             log.info("Read value from classpath assets {}: {}", resource, jsonString);
