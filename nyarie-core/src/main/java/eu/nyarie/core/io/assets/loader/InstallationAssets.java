@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.io.IOException;
-import java.nio.file.Files;
 
 /// Class responsible for loading and holding the data read from the asset JSON files
 /// (for example `regions.json`) that were shipped with the engine's installation.<br>
@@ -24,21 +23,24 @@ public class InstallationAssets {
 
     public static void loadDataFromJson() {
         val installationDirectory = new InstallationDirectory();
-        val assetDirectoryPath = installationDirectory.getRootDirectory();
         val assetPaths = AssetPaths.getSubpaths();
 
-        log.debug("Checking if all required files are present");
+        val classpathLoader = new ClasspathAssetLoader();
+        val filesystemLoader = new FileSystemAssetLoader(installationDirectory.getRootDirectory());
+
         assetPaths.forEach(assetPath -> {
-            log.trace("Creating assetDirectoryPath for file: {}", assetPath);
-            val filePath = assetDirectoryPath.resolve(assetPath.getPath());
-            log.debug("Checking if asset file {} exists", filePath);
-            if(Files.notExists(filePath)) {
-                log.error("Could not find asset file in installation directory: {}", filePath);
-                log.error("Searching in classpath");
-                readResource(assetPath.toString());
-            }
-            else {
-                log.info("Found asset file {}", filePath);
+            log.trace("Calling FileSystemAssetLoader.loadAssetFile");
+
+            val asset = filesystemLoader.loadAssetFile(assetPath);
+            if(asset.isEmpty()) {
+                log.debug("Asset not found in file system: {}", assetPath);
+                log.debug("Searching in classpath");
+                val classpathAsset = classpathLoader.loadAssetFile(assetPath);
+
+                classpathAsset.ifPresentOrElse(
+                        assetList -> log.info("Loaded {} asset from classpath: {}", assetList.size(), assetPath.getPath()),
+                        () -> log.warn("Could not find an asset file for asset: {}", assetPath.getPath())
+                );
             }
         });
         //TODO check if all files exist
