@@ -32,14 +32,18 @@ public class InstallationAssets {
             log.trace("Calling FileSystemAssetLoader.loadAssetFile");
 
             val asset = filesystemLoader.loadAssetFile(assetPath);
+            asset.ifPresent(assetList -> log.info("Loaded {} asset from installation directory file: {}", assetList.size(), assetPath.getPath()));
             if(asset.isEmpty()) {
                 log.debug("Asset not found in file system: {}", assetPath);
                 log.debug("Searching in classpath");
                 val classpathAsset = classpathLoader.loadAssetFile(assetPath);
 
                 classpathAsset.ifPresentOrElse(
-                        assetList -> log.info("Loaded {} asset from classpath: {}", assetList.size(), assetPath.getPath()),
-                        () -> log.warn("Could not find an asset file for asset: {}", assetPath.getPath())
+                        assetList -> log.info("Loaded {} asset from classpath file: {}", assetList.size(), assetPath.getPath()),
+                        () -> {
+                            log.warn("Could not find an asset file for asset: {}", assetPath.getPath());
+                            log.warn("If this is intentional, ignore this warning");
+                        }
                 );
             }
         });
