@@ -1,11 +1,8 @@
 package eu.nyarie.core.io.assets.loader;
 
 import eu.nyarie.core.io.installation.InstallationDirectory;
-import eu.nyarie.core.util.serialization.NyarieObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-
-import java.io.IOException;
 
 /// Class responsible for loading and holding the data read from the asset JSON files
 /// (for example `regions.json`) that were shipped with the engine's installation.<br>
@@ -49,26 +46,5 @@ public class InstallationAssets {
                 );
             }
         });
-        //TODO check if all files exist
     }
-
-    private static void readResource(String resource) {
-        log.info("Searching classpath for asset: {}", resource);
-        try(val resourceStream = InstallationAssets.class.getClassLoader().getResourceAsStream(resource)) {
-            if(resourceStream == null) {
-                log.error("Could not find asset file in classpath: {}", resource);
-                return;
-            }
-            val objectMapper = new NyarieObjectMapper().getInstance();
-            val region = objectMapper.readValue(resourceStream, Region.class);
-            val jsonString = objectMapper.writeValueAsString(region);
-            log.info("Read value from classpath assets {}: {}", resource, jsonString);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    private static record Region(String hello) {}
 }
