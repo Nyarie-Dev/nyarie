@@ -6,7 +6,7 @@ public class InstallationAssetsTest {
 
     @Test
     void runLoadDataFromJson() {
-        InstallationAssets.loadDataFromJson();
+        new InstallationAssets().loadDataFromJson();
     }
 
 }

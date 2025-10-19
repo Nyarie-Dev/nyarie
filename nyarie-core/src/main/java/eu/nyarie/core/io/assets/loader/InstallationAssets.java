@@ -18,7 +18,7 @@ import lombok.val;
 @Slf4j
 public class InstallationAssets {
 
-    public static void loadDataFromJson() {
+    public void loadDataFromJson() {
         log.info("Loading installation assets...");
         val installationDirectory = new InstallationDirectory();
         val assetPaths = AssetPaths.getSubpaths();
@@ -31,8 +31,11 @@ public class InstallationAssets {
             log.trace("Calling FileSystemAssetLoader.loadAssetFile");
 
             val asset = filesystemLoader.loadAssetFile(assetPath);
-            asset.ifPresent(assetList -> log.info("Loaded {} asset from installation directory file: {}", assetList.size(), assetPath.getPath()));
-            if(asset.isEmpty()) {
+            if(asset.isPresent()) {
+                val assetList = asset.get();
+                log.info("Loaded {} asset from installation directory file: {}", assetList.size(), assetPath.getPath());
+            }
+            else {
                 log.debug("Asset not found in file system: {}", assetPath);
                 log.debug("Searching in classpath");
                 val classpathAsset = classpathLoader.loadAssetFile(assetPath);
