@@ -22,9 +22,11 @@ import java.io.IOException;
 public class InstallationAssets {
 
     public static void loadDataFromJson() {
+        log.info("Loading installation assets...");
         val installationDirectory = new InstallationDirectory();
         val assetPaths = AssetPaths.getSubpaths();
 
+        log.trace("Initializing asset loaders");
         val classpathLoader = new ClasspathAssetLoader();
         val filesystemLoader = new FileSystemAssetLoader(installationDirectory.getRootDirectory());
 
