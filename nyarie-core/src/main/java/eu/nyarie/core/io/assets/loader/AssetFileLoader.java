@@ -18,7 +18,7 @@ import java.util.Optional;
 /// Class that loads a single asset file and converts it into the respective
 /// class.
 @Slf4j
-public class FileSystemAssetLoader implements AssetLoader {
+public class AssetFileLoader {
 
     private final Path basePath;
 
@@ -29,12 +29,11 @@ public class FileSystemAssetLoader implements AssetLoader {
     /// For example, if the `basePath` is set to `/nyarie`, the assets will be searched
     /// in `/nyarie/assets`
     /// @param basePath The [Path] in which the assets will be searched in.
-    public FileSystemAssetLoader(Path basePath) {
+    public AssetFileLoader(Path basePath) {
         this.basePath = basePath;
     }
 
     /// @throws AssetNotFoundException {@inheritDoc}
-    @Override
     public <T extends AssetDto<?>> Optional<List<T>> loadAssetFile(AssetFilePath<T> assetFilePath) {
         val path = basePath.resolve(assetFilePath.getPath());
         log.debug("Loading asset file for class '{}': {}", assetFilePath.getAssetClass().getSimpleName(), path);

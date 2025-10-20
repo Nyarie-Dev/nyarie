@@ -24,7 +24,7 @@ public class InstallationAssets {
         val assetPaths = AssetPaths.getSubpaths();
 
         log.trace("Initializing asset loaders");
-        val filesystemLoader = new FileSystemAssetLoader(installationDirectory.getRootDirectory());
+        val filesystemLoader = new AssetFileLoader(installationDirectory.getRootDirectory());
 
         assetPaths.forEach(assetPath -> {
             log.trace("Calling FileSystemAssetLoader.loadAssetFile");

@@ -19,10 +19,10 @@ import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("ALL")
-class FileSystemAssetLoaderTest extends AbstractIoTest {
+class AssetFileLoaderTest extends AbstractIoTest {
 
-    private static final Path jarPath = FileSystemUtils.jarPath(FileSystemAssetLoader.class);
-    private static final FileSystemAssetLoader assetLoader = new FileSystemAssetLoader(jarPath);
+    private static final Path jarPath = FileSystemUtils.jarPath(AssetFileLoader.class);
+    private static final AssetFileLoader assetLoader = new AssetFileLoader(jarPath);
 
     @Nested
     @DisplayName("loadAssetFile")
