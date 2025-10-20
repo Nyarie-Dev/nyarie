@@ -77,4 +77,53 @@ class FileSystemAssetLoaderTest extends AbstractIoTest {
             }
         }
     }
+
+    @Nested
+    @DisplayName("fromFileSystenWithClassPathFallback")
+    class FromFileSystenWithClassPathFallback {
+
+        @Nested
+        @DisplayName("with existing asset file")
+        class WithExistingAssetFile {
+
+            static final AssetFilePath<@NonNull RegionAsset> regionAssetFilePath = AssetPaths.REGIONS;
+            Optional<List<RegionAsset>> result;
+
+            @BeforeEach
+            void setup() throws IOException {
+                result = assetLoader.fromFileSystemWithClasspathFallback(regionAssetFilePath);
+            }
+
+            @Test
+            @DisplayName("should return optional of list")
+            void shouldReturnOptionalOfList() {
+                assertThat(result).isPresent();
+            }
+
+            @Test
+            @DisplayName("should have correct entries in list")
+            void shouldHaveCorrectEntriesInList() {
+                assertThat(result.orElseThrow()).hasSize(1);
+            }
+        }
+
+        @Nested
+        @DisplayName("with non-existing asset file")
+        class WithNonExistingAssetFile {
+
+            static final AssetFilePath<@NonNull TerrainTypeAsset> terrainTypeAssetFilePath = AssetPaths.TERRAIN_TYPES;
+            Optional<List<TerrainTypeAsset>> result;
+
+            @BeforeEach
+            void setup() throws IOException {
+                result = assetLoader.fromFileSystemWithClasspathFallback(terrainTypeAssetFilePath);
+            }
+
+            @Test
+            @DisplayName("should return empty optional")
+            void shouldReturnOptionalOfList() {
+                assertThat(result).isEmpty();
+            }
+        }
+    }
 }

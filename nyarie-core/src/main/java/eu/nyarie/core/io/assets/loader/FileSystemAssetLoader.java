@@ -9,6 +9,7 @@ import eu.nyarie.core.util.serialization.NyarieObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -51,6 +52,38 @@ public class FileSystemAssetLoader implements AssetLoader {
             log.debug("Loaded {} instances of class {}", response.size(), assetFilePath.getAssetClass().getSimpleName());
             return Optional.of(response);
         } catch (Exception e) {
+            val logBlock = LogBlock.withLogger(log);
+            logBlock.error("""
+                    ERROR WHILE LOADING ASSET FILE:
+                    {}
+                    
+                    An unexpected {} occurred while trying to read the asset file:
+                    '{}'
+                    """, path, e.getClass().getSimpleName(), e.getMessage());
+            throw AssetLoadingException.unexpectedErrorReadingFile(path, e);
+        }
+    }
+
+    public <T extends AssetDto<?>> Optional<List<T>> fromFileSystemWithClasspathFallback(AssetFilePath<T> assetFilePath) {
+        val path = assetFilePath.getPath();
+        log.debug("Loading asset file for class '{}' from classpath resource: {}", assetFilePath.getAssetClass().getSimpleName(), path);
+
+        try (val inputStream = this.getClass().getClassLoader().getResourceAsStream(assetFilePath.getPath().toString())) {
+            if(inputStream == null) {
+                log.debug("Asset file '{}' was not found, returning empty optional", path);
+                return Optional.empty();
+            }
+            log.debug("Found asset file '{}'", path);
+
+            val om = new NyarieObjectMapper().getInstance();
+            log.debug("Deserializing asset file '{}'", path);
+            val type = om.getTypeFactory().constructCollectionType(List.class, assetFilePath.getAssetClass());
+            //noinspection unchecked
+            val response = (List<T>) om.readValue(inputStream, type);
+            log.debug("Loaded {} instances of class {}", response.size(), assetFilePath.getAssetClass().getSimpleName());
+            return Optional.of(response);
+
+        } catch (IOException e) {
             val logBlock = LogBlock.withLogger(log);
             logBlock.error("""
                     ERROR WHILE LOADING ASSET FILE:
