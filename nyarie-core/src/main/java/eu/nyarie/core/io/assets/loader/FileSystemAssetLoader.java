@@ -15,8 +15,8 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
-/// Implementation for [AssetLoader] that loads asset files from the
-/// file system.
+/// Class that loads a single asset file and converts it into the respective
+/// class.
 @Slf4j
 public class FileSystemAssetLoader implements AssetLoader {
 
