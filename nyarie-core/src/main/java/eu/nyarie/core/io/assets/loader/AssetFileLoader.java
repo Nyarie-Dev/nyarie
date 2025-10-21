@@ -1,6 +1,5 @@
 package eu.nyarie.core.io.assets.loader;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import eu.luktronic.logblock.LogBlock;
 import eu.nyarie.core.io.assets.AssetDto;
 import eu.nyarie.core.io.assets.exception.AssetLoadingException;
@@ -12,7 +11,6 @@ import lombok.val;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Optional;
 
 /// Class that loads a single asset file and converts it into the respective
@@ -34,7 +32,7 @@ public class AssetFileLoader {
     }
 
     /// @throws AssetNotFoundException {@inheritDoc}
-    public <T extends AssetDto<?>> Optional<List<T>> loadAssetFile(AssetFilePath<T> assetFilePath) {
+    public <T extends AssetDto<?>> Optional<T> loadAssetFile(AssetFilePath<T> assetFilePath) {
         val path = basePath.resolve(assetFilePath.getPath());
         log.debug("Loading asset file for class '{}': {}", assetFilePath.getAssetClass().getSimpleName(), path);
 
@@ -47,8 +45,8 @@ public class AssetFileLoader {
         val om = new NyarieObjectMapper().getInstance();
         try {
             log.debug("Deserializing asset file '{}'", path);
-            val response = om.readValue(path.toFile(), new TypeReference<List<T>>() { });
-            log.debug("Loaded {} instances of class {}", response.size(), assetFilePath.getAssetClass().getSimpleName());
+            val response = om.readValue(path.toFile(), assetFilePath.getAssetClass());
+            log.debug("Loaded asset file {}", assetFilePath.getPath());
             return Optional.of(response);
         } catch (Exception e) {
             val logBlock = LogBlock.withLogger(log);
@@ -63,7 +61,7 @@ public class AssetFileLoader {
         }
     }
 
-    public <T extends AssetDto<?>> Optional<List<T>> fromFileSystemWithClasspathFallback(AssetFilePath<T> assetFilePath) {
+    public <T extends AssetDto<?>> Optional<T> fromFileSystemWithClasspathFallback(AssetFilePath<T> assetFilePath) {
         val path = assetFilePath.getPath();
         log.debug("Loading asset file for class '{}' from classpath resource: {}", assetFilePath.getAssetClass().getSimpleName(), path);
 
@@ -76,10 +74,10 @@ public class AssetFileLoader {
 
             val om = new NyarieObjectMapper().getInstance();
             log.debug("Deserializing asset file '{}'", path);
-            val type = om.getTypeFactory().constructCollectionType(List.class, assetFilePath.getAssetClass());
+            val type = om.getTypeFactory().constructType(assetFilePath.getAssetClass());
             //noinspection unchecked
-            val response = (List<T>) om.readValue(inputStream, type);
-            log.debug("Loaded {} instances of class {}", response.size(), assetFilePath.getAssetClass().getSimpleName());
+            val response = (T) om.readValue(inputStream, type);
+            log.debug("Loaded asset file {}", assetFilePath.getPath());
             return Optional.of(response);
 
         } catch (IOException e) {

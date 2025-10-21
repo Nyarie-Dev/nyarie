@@ -5,6 +5,7 @@ import eu.nyarie.core.io.assets.map.RegionAsset;
 import eu.nyarie.core.io.assets.map.TerrainTypeAsset;
 import eu.nyarie.core.util.abstraction.AbstractIoTest;
 import eu.nyarie.core.util.io.FileSystemUtils;
+import eu.nyarie.core.util.serialization.NyarieObjectMapper;
 import lombok.val;
 import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("ALL")
@@ -33,26 +33,27 @@ class AssetFileLoaderTest extends AbstractIoTest {
         class WithExistingAssetFile {
 
             static final AssetFilePath<@NonNull RegionAsset> regionAssetFilePath = AssetPaths.REGIONS;
-            Optional<List<RegionAsset>> result;
+            Optional<RegionAsset> result;
 
             @BeforeEach
             void setup() throws IOException {
                 val finalPath = jarPath.resolve(regionAssetFilePath.getPath());
                 Files.createDirectories(finalPath.getParent());
-                Files.writeString(finalPath, "[\n\n]");
+                val jsonString = new NyarieObjectMapper().getInstance().writeValueAsString(new RegionAsset("1", "Gondor", "1"));
+                Files.writeString(finalPath, jsonString);
                 result = assetLoader.loadAssetFile(regionAssetFilePath);
             }
 
             @Test
-            @DisplayName("should return optional of list")
+            @DisplayName("should return optional")
             void shouldReturnOptionalOfList() {
                 assertThat(result).isPresent();
             }
 
             @Test
-            @DisplayName("should have correct entries in list")
+            @DisplayName("should have correct id")
             void shouldHaveCorrectEntriesInList() {
-                assertThat(result.orElseThrow()).isEmpty();
+                assertThat(result.orElseThrow().getId()).isEqualTo("1");
             }
         }
 
@@ -61,7 +62,7 @@ class AssetFileLoaderTest extends AbstractIoTest {
         class WithNonExistingAssetFile {
 
             static final AssetFilePath<@NonNull TerrainTypeAsset> terrainTypeAssetFilePath = AssetPaths.TERRAIN_TYPES;
-            Optional<List<TerrainTypeAsset>> result;
+            Optional<TerrainTypeAsset> result;
 
             @BeforeEach
             void setup() throws IOException {
@@ -87,7 +88,7 @@ class AssetFileLoaderTest extends AbstractIoTest {
         class WithExistingAssetFile {
 
             static final AssetFilePath<@NonNull RegionAsset> regionAssetFilePath = AssetPaths.REGIONS;
-            Optional<List<RegionAsset>> result;
+            Optional<RegionAsset> result;
 
             @BeforeEach
             void setup() throws IOException {
@@ -95,15 +96,15 @@ class AssetFileLoaderTest extends AbstractIoTest {
             }
 
             @Test
-            @DisplayName("should return optional of list")
+            @DisplayName("should return optional")
             void shouldReturnOptionalOfList() {
                 assertThat(result).isPresent();
             }
 
             @Test
-            @DisplayName("should have correct entries in list")
+            @DisplayName("should have correct id")
             void shouldHaveCorrectEntriesInList() {
-                assertThat(result.orElseThrow()).hasSize(1);
+                assertThat(result.orElseThrow().getId()).isEqualTo("1");
             }
         }
 
@@ -112,7 +113,7 @@ class AssetFileLoaderTest extends AbstractIoTest {
         class WithNonExistingAssetFile {
 
             static final AssetFilePath<@NonNull TerrainTypeAsset> terrainTypeAssetFilePath = AssetPaths.TERRAIN_TYPES;
-            Optional<List<TerrainTypeAsset>> result;
+            Optional<TerrainTypeAsset> result;
 
             @BeforeEach
             void setup() throws IOException {

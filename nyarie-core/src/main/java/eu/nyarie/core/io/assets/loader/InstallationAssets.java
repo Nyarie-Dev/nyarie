@@ -32,7 +32,7 @@ public class InstallationAssets {
             val asset = filesystemLoader.loadAssetFile(assetPath);
             if(asset.isPresent()) {
                 val assetList = asset.get();
-                log.info("Loaded {} asset from installation directory file: {}", assetList.size(), assetPath.getPath());
+                log.info("Loaded asset from installation directory file: {}", assetPath.getPath());
             }
             else {
                 log.debug("Asset not found in file system: {}", assetPath);
@@ -40,7 +40,7 @@ public class InstallationAssets {
                 val classpathAsset = filesystemLoader.fromFileSystemWithClasspathFallback(assetPath);
 
                 classpathAsset.ifPresentOrElse(
-                        assetList -> log.info("Loaded {} asset from classpath file: {}", assetList.size(), assetPath.getPath()),
+                        assetList -> log.info("Loaded asset from classpath file: {}", assetPath.getPath()),
                         () -> {
                             log.warn("Could not find an asset file for asset: {}", assetPath.getPath());
                             log.warn("If this is intentional, ignore this warning");
