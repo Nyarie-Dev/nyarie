@@ -29,7 +29,7 @@ public class InstallationAssets {
         assetPaths.forEach(assetPath -> {
             log.trace("Calling FileSystemAssetLoader.loadAssetFile");
 
-            val asset = filesystemLoader.loadAssetFile(assetPath);
+            val asset = filesystemLoader.fromFileSystem(assetPath);
             if(asset.isPresent()) {
                 val assetList = asset.get();
                 log.info("Loaded asset from installation directory file: {}", assetPath.getPath());

@@ -32,7 +32,7 @@ public class AssetFileLoader {
     }
 
     /// @throws AssetNotFoundException {@inheritDoc}
-    public <T extends AssetDto<?>> Optional<T> loadAssetFile(AssetFilePath<T> assetFilePath) {
+    public <T extends AssetDto<?>> Optional<T> fromFileSystem(AssetFilePath<T> assetFilePath) {
         val path = basePath.resolve(assetFilePath.getPath());
         log.debug("Loading asset file for class '{}': {}", assetFilePath.getAssetClass().getSimpleName(), path);
 

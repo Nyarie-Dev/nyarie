@@ -7,7 +7,6 @@ import lombok.val;
 
 import java.nio.file.Path;
 import java.util.Optional;
-import java.util.function.Function;
 
 /// Class responsible for loading an entire `/asset` directory,
 /// either from the file system or the JVM's classpath.
@@ -18,7 +17,7 @@ public class AssetDirectoryLoader {
     private final AssetFileLoader assetFileLoader;
 
     LoadedAssetDirectory fromFileSystem() {
-        return loadAssetsUsingMethod(assetFileLoader::loadAssetFile);
+        return loadAssetsUsingMethod(assetFileLoader::fromFileSystem);
     }
 
     LoadedAssetDirectory fromFileSystemWithClasspathFallback() {
