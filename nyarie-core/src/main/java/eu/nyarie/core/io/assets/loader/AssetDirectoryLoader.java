@@ -19,7 +19,6 @@ public class AssetDirectoryLoader {
 
     LoadedAssetDirectory fromFileSystem() {
         loadAssetsUsingMethod(assetFileLoader::loadAssetFile);
-        val uwu = assetFileLoader.loadAssetFile(AssetPaths.REGIONS);
         return null;
     }
 
@@ -28,6 +27,12 @@ public class AssetDirectoryLoader {
     }
 
     private <T extends AssetDto<?>> void loadAssetsUsingMethod(Function<AssetFilePath<?>, Optional<T>> loaderFunction) {
-        var regions = loaderFunction.apply(AssetPaths.REGIONS);
+        val regions = loaderFunction.apply(AssetPaths.REGIONS);
+        val terrainTypes = loaderFunction.apply(AssetPaths.TERRAIN_TYPES);
+    }
+
+    @FunctionalInterface
+    interface AssetLoaderFunction {
+        <T extends AssetDto<?>> Optional<T> load(AssetFilePath<T> assetFilePath);
     }
 }
