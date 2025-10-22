@@ -18,17 +18,18 @@ public class AssetDirectoryLoader {
     private final AssetFileLoader assetFileLoader;
 
     LoadedAssetDirectory fromFileSystem() {
-        loadAssetsUsingMethod(assetFileLoader::loadAssetFile);
-        return null;
+        return loadAssetsUsingMethod(assetFileLoader::loadAssetFile);
     }
 
     LoadedAssetDirectory fromFileSystemWithClasspathFallback() {
-        return null;
+        return loadAssetsUsingMethod(assetFileLoader::fromFileSystemWithClasspathFallback);
     }
 
-    private <T extends AssetDto<?>> void loadAssetsUsingMethod(Function<AssetFilePath<?>, Optional<T>> loaderFunction) {
-        val regions = loaderFunction.apply(AssetPaths.REGIONS);
-        val terrainTypes = loaderFunction.apply(AssetPaths.TERRAIN_TYPES);
+    private <T extends AssetDto<?>> LoadedAssetDirectory loadAssetsUsingMethod(AssetLoaderFunction loaderFunction) {
+        val regions = loaderFunction.load(AssetPaths.REGIONS).orElseThrow();
+        val terrainTypes = loaderFunction.load(AssetPaths.TERRAIN_TYPES).orElseThrow();
+
+        return new LoadedAssetDirectory(regions, terrainTypes);
     }
 
     @FunctionalInterface
