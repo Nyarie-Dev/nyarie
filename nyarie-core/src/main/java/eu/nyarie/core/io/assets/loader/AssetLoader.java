@@ -33,7 +33,7 @@ class AssetLoader {
 
         log.trace("Instantiating AssetContext from loaded directories");
         val assetContext = new AssetContext(installationAssets, modAssets);
-        log.info("Finished loading assets across installation directory and {} mods", modDirectories.size());
+        log.info("Finished loading {} assets across installation directory and {} mods", assetContext.totalAssetCount(), modDirectories.size());
         return assetContext;
     }
 
@@ -45,7 +45,15 @@ class AssetLoader {
     }
 
     //TODO create actual classes for these
-    record AssetContext(LoadedAssetDirectory installationAssets, List<LoadedAssetDirectory> modAssets) { }
+    record AssetContext(LoadedAssetDirectory installationAssets, List<LoadedAssetDirectory> modAssets) {
+
+        int totalAssetCount() {
+            val installationCount = installationAssets.count();
+            val modCount = modAssets.stream().mapToInt(LoadedAssetDirectory::count).sum();
+            return installationCount + modCount;
+        }
+
+    }
     private class ModDirectory {
         public String getName() {return "Mod";}
         public Path getRootDirectory() {return null;}
