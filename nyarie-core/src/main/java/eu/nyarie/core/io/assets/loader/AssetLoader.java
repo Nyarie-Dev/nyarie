@@ -54,7 +54,7 @@ class AssetLoader {
         }
 
     }
-    private class ModDirectory {
+    class ModDirectory {
         public String getName() {return "Mod";}
         public Path getRootDirectory() {return null;}
 
