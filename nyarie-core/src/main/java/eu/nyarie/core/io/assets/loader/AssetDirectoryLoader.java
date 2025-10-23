@@ -15,15 +15,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AssetDirectoryLoader {
 
-    private final Path assetDirectory;
     private final AssetFileLoader assetFileLoader;
 
-    LoadedAssetDirectory fromFileSystem() {
+    LoadedAssetDirectory fromFileSystem(Path assetDirectory) {
         log.debug("Loading assets from directory: {}", assetDirectory);
         return loadAssetsUsingMethod(assetFileLoader::fromFileSystem);
     }
 
-    LoadedAssetDirectory fromFileSystemWithClasspathFallback() {
+    LoadedAssetDirectory fromFileSystemWithClasspathFallback(Path assetDirectory) {
         log.debug("Loading assets with classpath fallback from directory: {}", assetDirectory);
         return loadAssetsUsingMethod(assetFileLoader::fromFileSystemWithClasspathFallback);
     }
