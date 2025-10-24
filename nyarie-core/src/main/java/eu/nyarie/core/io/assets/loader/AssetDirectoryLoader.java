@@ -31,9 +31,9 @@ public class AssetDirectoryLoader {
 
     private LoadedAssetDirectory loadAssetsUsingMethod(AssetLoaderFunction loaderFunction) {
         log.trace("Calling AssetFileLoader for regions");
-        val regions = loaderFunction.load(AssetPaths.REGIONS).orElse(new RegionAsset("WIP", "WIP", "WIP"));
+        val regions = loaderFunction.load(AssetPaths.REGIONS);
         log.trace("Calling AssetFileLoader for terrain types");
-        val terrainTypes = loaderFunction.load(AssetPaths.TERRAIN_TYPES).orElse(new TerrainTypeAsset("WIP", "WIP", Duration.ofDays(1)));
+        val terrainTypes = loaderFunction.load(AssetPaths.TERRAIN_TYPES);
 
         val loadedDirectory = new LoadedAssetDirectory(regions, terrainTypes);
         log.debug("Finished loading asset directory");

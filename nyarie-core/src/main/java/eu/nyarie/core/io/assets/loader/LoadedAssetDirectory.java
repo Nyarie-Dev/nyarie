@@ -3,13 +3,17 @@ package eu.nyarie.core.io.assets.loader;
 import eu.nyarie.core.io.assets.AssetDto;
 import eu.nyarie.core.io.assets.map.RegionAsset;
 import eu.nyarie.core.io.assets.map.TerrainTypeAsset;
+import lombok.val;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /// Record that holds the loaded data of all the asset files.
 record LoadedAssetDirectory(
-        RegionAsset regions,
-        TerrainTypeAsset terrainTypes
+        Optional<RegionAsset> regions,
+        Optional<TerrainTypeAsset> terrainTypes
 ) {
 
     /// Counts how many loaded assets there are in this directory.
@@ -18,13 +22,13 @@ record LoadedAssetDirectory(
         return allAssets().size();
     }
 
-    /// Returns an unmodifiable list containing all the assets of this directory,
-    /// including ones that were not loaded.
-    /// @return An [unmodifiable List][List#of()] containing all assets, including ones that were not loaded.
+    /// Returns an unmodifiable list containing all the
+    /// loaded asset files of this directory.
+    /// @return An [unmodifiable List][Collections#unmodifiableList(List)] containing all loaded asset files.
     public List<AssetDto<?>> allAssets() {
-        return List.of(
-                regions,
-                terrainTypes
-        );
+        val list = new ArrayList<AssetDto<?>>(2);
+        regions.ifPresent(list::add);
+        terrainTypes.ifPresent(list::add);
+        return Collections.unmodifiableList(list);
     }
 }
