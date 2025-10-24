@@ -22,6 +22,7 @@ class AssetLoader {
 
     AssetContext loadAssets() {
         log.info("Loading all assets of installation directory and {} selected mods", modDirectories.size());
+        logDirectories();
 
         log.debug("Loading installation assets from installation directory: {}", installationDirectory.getRootDirectory());
         val installationAssets = assetDirectoryLoader.fromFileSystemWithClasspathFallback(installationDirectory.getRootDirectory());
