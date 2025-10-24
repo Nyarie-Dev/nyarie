@@ -1,12 +1,13 @@
-package eu.nyarie.core.io.assets;
+package eu.nyarie.core.io.assets.loader;
 
+import eu.nyarie.core.io.assets.AssetDto;
 import eu.nyarie.core.io.assets.map.RegionAsset;
 import eu.nyarie.core.io.assets.map.TerrainTypeAsset;
 
 import java.util.List;
 
 /// Record that holds the loaded data of all the asset files.
-public record LoadedAssetDirectory(
+record LoadedAssetDirectory(
         RegionAsset regions,
         TerrainTypeAsset terrainTypes
 ) {

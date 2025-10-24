@@ -1,13 +1,11 @@
 package eu.nyarie.core.io.assets.loader;
 
-import eu.nyarie.core.io.assets.LoadedAssetDirectory;
 import eu.nyarie.core.io.installation.InstallationDirectory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Set;
 
 /// Class responsible for loading all assets (installation and mods) and returning

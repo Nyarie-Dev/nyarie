@@ -1,6 +1,5 @@
 package eu.nyarie.core.io.assets.loader;
 
-import eu.nyarie.core.io.assets.LoadedAssetDirectory;
 import eu.nyarie.core.io.installation.InstallationDirectory;
 import eu.nyarie.core.util.abstraction.AbstractIoTest;
 import lombok.val;

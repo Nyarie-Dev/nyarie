@@ -1,6 +1,5 @@
 package eu.nyarie.core.io.assets.loader;
 
-import eu.nyarie.core.io.assets.LoadedAssetDirectory;
 import eu.nyarie.core.io.installation.InstallationDirectory;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
