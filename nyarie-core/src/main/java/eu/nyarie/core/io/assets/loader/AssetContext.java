@@ -26,7 +26,7 @@ record AssetContext(LoadedAssetDirectory installationAssets, List<LoadedAssetDir
     /// Merges all the loaded assets together into a single [MergedAssetContext].
     ///
     /// Currently, only the assets of the installation directory are used. Asset merging will
-    /// be implemented at a later point
+    /// be implemented at a later point in: [Merging of loaded assets #5](https://github.com/Nyarie-Dev/nyarie/issues/5)
     MergedAssetContext applyMerge() {
         log.debug("Applying merge on AssetContext with {} loaded assets", totalAssetCount());
         return new MergedAssetContext(
