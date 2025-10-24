@@ -1,11 +1,14 @@
 package eu.nyarie.core.io.assets.loader;
 
 import eu.nyarie.core.io.assets.AssetDto;
+import eu.nyarie.core.io.assets.map.RegionAsset;
+import eu.nyarie.core.io.assets.map.TerrainTypeAsset;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.Optional;
 
 /// Class responsible for loading an entire `/asset` directory,
@@ -28,9 +31,9 @@ public class AssetDirectoryLoader {
 
     private LoadedAssetDirectory loadAssetsUsingMethod(AssetLoaderFunction loaderFunction) {
         log.trace("Calling AssetFileLoader for regions");
-        val regions = loaderFunction.load(AssetPaths.REGIONS).orElseThrow();
+        val regions = loaderFunction.load(AssetPaths.REGIONS).orElse(new RegionAsset("WIP", "WIP", "WIP"));
         log.trace("Calling AssetFileLoader for terrain types");
-        val terrainTypes = loaderFunction.load(AssetPaths.TERRAIN_TYPES).orElseThrow();
+        val terrainTypes = loaderFunction.load(AssetPaths.TERRAIN_TYPES).orElse(new TerrainTypeAsset("WIP", "WIP", Duration.ofDays(1)));
 
         val loadedDirectory = new LoadedAssetDirectory(regions, terrainTypes);
         log.debug("Finished loading asset directory");
