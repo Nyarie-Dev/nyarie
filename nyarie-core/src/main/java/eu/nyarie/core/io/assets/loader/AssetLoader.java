@@ -46,15 +46,7 @@ class AssetLoader {
     }
 
     //TODO create actual classes for these
-    record AssetContext(LoadedAssetDirectory installationAssets, List<LoadedAssetDirectory> modAssets) {
-
-        int totalAssetCount() {
-            val installationCount = installationAssets.count();
-            val modCount = modAssets.stream().mapToInt(LoadedAssetDirectory::count).sum();
-            return installationCount + modCount;
-        }
-
-    }
+    
     class ModDirectory {
         public String getName() {return "Mod";}
         public Path getRootDirectory() {return null;}

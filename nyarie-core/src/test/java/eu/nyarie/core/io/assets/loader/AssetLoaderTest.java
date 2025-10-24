@@ -31,7 +31,7 @@ class AssetLoaderTest extends AbstractIoTest {
 
         private LoadedAssetDirectory mockLoadedInstallationDirectory;
         private List<LoadedAssetDirectory> mockLoadedModDirectories = new ArrayList<>(mockModDirectories.size());
-        private AssetLoader.AssetContext result;
+        private AssetContext result;
 
         @BeforeEach
         void setupStubs() {
