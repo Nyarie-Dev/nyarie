@@ -29,7 +29,7 @@ public class InstallationAssets {
         assetPaths.forEach(assetPath -> {
             log.trace("Calling FileSystemAssetLoader.loadAssetFile");
 
-            val asset = filesystemLoader.fromFileSystem(assetPath);
+            val asset = filesystemLoader.fromFileSystem(installationDirectory.getRootDirectory(), assetPath);
             if(asset.isPresent()) {
                 val assetList = asset.get();
                 log.info("Loaded asset from installation directory file: {}", assetPath.getPath());
@@ -37,7 +37,7 @@ public class InstallationAssets {
             else {
                 log.debug("Asset not found in file system: {}", assetPath);
                 log.debug("Searching in classpath");
-                val classpathAsset = filesystemLoader.fromFileSystemWithClasspathFallback(assetPath);
+                val classpathAsset = filesystemLoader.fromFileSystemWithClasspathFallback(installationDirectory.getRootDirectory(), assetPath);
 
                 classpathAsset.ifPresentOrElse(
                         assetList -> log.info("Loaded asset from classpath file: {}", assetPath.getPath()),

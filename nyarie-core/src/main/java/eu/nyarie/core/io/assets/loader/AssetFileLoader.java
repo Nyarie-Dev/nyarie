@@ -18,8 +18,6 @@ import java.util.Optional;
 @Slf4j
 public class AssetFileLoader {
 
-    private final Path basePath;
-
     /// Creates an instance with a given `basePath`. The
     /// assets will be searched in the `/asset` subdirectory of the
     /// `basePath`.
@@ -28,11 +26,10 @@ public class AssetFileLoader {
     /// in `/nyarie/assets`
     /// @param basePath The [Path] in which the assets will be searched in.
     public AssetFileLoader(Path basePath) {
-        this.basePath = basePath;
     }
 
     /// @throws AssetNotFoundException {@inheritDoc}
-    public <T extends AssetDto<?>> Optional<T> fromFileSystem(AssetFilePath<T> assetFilePath) {
+    public <T extends AssetDto<?>> Optional<T> fromFileSystem(Path basePath, AssetFilePath<T> assetFilePath) {
         val path = basePath.resolve(assetFilePath.getPath());
         log.debug("Loading asset file for class '{}': {}", assetFilePath.getAssetClass().getSimpleName(), path);
 
@@ -61,7 +58,7 @@ public class AssetFileLoader {
         }
     }
 
-    public <T extends AssetDto<?>> Optional<T> fromFileSystemWithClasspathFallback(AssetFilePath<T> assetFilePath) {
+    public <T extends AssetDto<?>> Optional<T> fromFileSystemWithClasspathFallback(Path basePath, AssetFilePath<T> assetFilePath) {
         val path = assetFilePath.getPath();
         log.debug("Loading asset file for class '{}' from classpath resource: {}", assetFilePath.getAssetClass().getSimpleName(), path);
 

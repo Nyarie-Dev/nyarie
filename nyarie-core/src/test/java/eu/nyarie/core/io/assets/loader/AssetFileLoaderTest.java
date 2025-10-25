@@ -41,7 +41,7 @@ class AssetFileLoaderTest extends AbstractIoTest {
                 Files.createDirectories(finalPath.getParent());
                 val jsonString = new NyarieObjectMapper().getInstance().writeValueAsString(new RegionAsset("1", "Gondor", "1"));
                 Files.writeString(finalPath, jsonString);
-                result = assetLoader.fromFileSystem(regionAssetFilePath);
+                result = assetLoader.fromFileSystem(jarPath, regionAssetFilePath);
             }
 
             @Test
@@ -68,7 +68,7 @@ class AssetFileLoaderTest extends AbstractIoTest {
             void setup() throws IOException {
                 val finalPath = jarPath.resolve(terrainTypeAssetFilePath.getPath());
                 Files.deleteIfExists(finalPath);
-                result = assetLoader.fromFileSystem(terrainTypeAssetFilePath);
+                result = assetLoader.fromFileSystem(jarPath, terrainTypeAssetFilePath);
             }
 
             @Test
@@ -92,7 +92,7 @@ class AssetFileLoaderTest extends AbstractIoTest {
 
             @BeforeEach
             void setup() throws IOException {
-                result = assetLoader.fromFileSystemWithClasspathFallback(regionAssetFilePath);
+                result = assetLoader.fromFileSystemWithClasspathFallback(jarPath, regionAssetFilePath);
             }
 
             @Test
@@ -117,7 +117,7 @@ class AssetFileLoaderTest extends AbstractIoTest {
 
             @BeforeEach
             void setup() throws IOException {
-                result = assetLoader.fromFileSystemWithClasspathFallback(terrainTypeAssetFilePath);
+                result = assetLoader.fromFileSystemWithClasspathFallback(jarPath, terrainTypeAssetFilePath);
             }
 
             @Test
