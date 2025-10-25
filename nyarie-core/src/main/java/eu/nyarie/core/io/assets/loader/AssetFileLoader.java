@@ -28,6 +28,17 @@ public class AssetFileLoader {
     public AssetFileLoader(Path basePath) {
     }
 
+    /// Loads the assets from a combination of the passed `basePath`
+    /// as well as the [assetFilePath][AssetFilePath] and returns a list
+    /// of the assets cast to their respective [AssetDto] class.
+    ///
+    /// The final [Path] where the asset file will be searched for is made from `basePath` + `assetFilePath`.<br>
+    /// For example, if the `basePath` is set to `/nyarie` and the `assetFilePath` is [AssetPaths#REGIONS], then the
+    /// path of the asset file will be:
+    /// ```text
+    /// /nyarie/assets/map/region.json
+    /// ```
+    /// @param assetFilePath The path to the asset file. Must be an existing file.
     /// @throws AssetNotFoundException {@inheritDoc}
     public <T extends AssetDto<?>> Optional<T> fromFileSystem(Path basePath, AssetFilePath<T> assetFilePath) {
         val path = basePath.resolve(assetFilePath.getPath());
