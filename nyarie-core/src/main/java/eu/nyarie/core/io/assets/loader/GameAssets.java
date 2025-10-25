@@ -33,7 +33,7 @@ public class GameAssets {
         val now = System.nanoTime();
 
         //TODO: Change AssetFileLoader to not get a fixed basePath
-        val assetFileLoader = new AssetFileLoader(installationDirectory.getRootDirectory());
+        val assetFileLoader = new AssetFileLoader();
         val assetDirectoryLoader = new AssetDirectoryLoader(assetFileLoader);
         val assetLoader = new AssetLoader(assetDirectoryLoader, installationDirectory, modDirectories);
 

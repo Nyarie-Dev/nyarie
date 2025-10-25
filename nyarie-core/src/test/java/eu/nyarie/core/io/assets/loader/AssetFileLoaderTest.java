@@ -22,7 +22,7 @@ import java.util.Optional;
 class AssetFileLoaderTest extends AbstractIoTest {
 
     private static final Path jarPath = FileSystemUtils.jarPath(AssetFileLoader.class);
-    private static final AssetFileLoader assetLoader = new AssetFileLoader(jarPath);
+    private static final AssetFileLoader assetLoader = new AssetFileLoader();
 
     @Nested
     @DisplayName("loadAssetFile")

@@ -18,16 +18,6 @@ import java.util.Optional;
 @Slf4j
 public class AssetFileLoader {
 
-    /// Creates an instance with a given `basePath`. The
-    /// assets will be searched in the `/asset` subdirectory of the
-    /// `basePath`.
-    ///
-    /// For example, if the `basePath` is set to `/nyarie`, the assets will be searched
-    /// in `/nyarie/assets`
-    /// @param basePath The [Path] in which the assets will be searched in.
-    public AssetFileLoader(Path basePath) {
-    }
-
     /// Loads the assets from a combination of the passed `basePath`
     /// as well as the [assetFilePath][AssetFilePath] and returns a list
     /// of the assets cast to their respective [AssetDto] class.
