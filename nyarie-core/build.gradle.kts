@@ -7,7 +7,7 @@ plugins {
 
 group = "eu.nyarie"
 version = "1.0-SNAPSHOT"
-val lombokVersion by extra("1.18.38")
+val lombokVersion by extra("1.18.42")
 val jacksonVersion by extra("2.19.0")
 
 repositories {
