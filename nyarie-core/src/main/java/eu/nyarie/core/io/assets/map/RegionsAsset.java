@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegionAsset extends AssetDto<Region> {
+public class RegionsAsset extends AssetDto<Region> {
 
     private String id;
     private String name;

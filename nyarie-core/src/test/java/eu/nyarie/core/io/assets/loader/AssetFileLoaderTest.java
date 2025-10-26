@@ -1,7 +1,7 @@
 package eu.nyarie.core.io.assets.loader;
 
 
-import eu.nyarie.core.io.assets.map.RegionAsset;
+import eu.nyarie.core.io.assets.map.RegionsAsset;
 import eu.nyarie.core.io.assets.map.TerrainTypeAsset;
 import eu.nyarie.core.util.abstraction.AbstractIoTest;
 import eu.nyarie.core.util.io.FileSystemUtils;
@@ -32,14 +32,14 @@ class AssetFileLoaderTest extends AbstractIoTest {
         @DisplayName("with existing asset file")
         class WithExistingAssetFile {
 
-            static final AssetFilePath<@NonNull RegionAsset> regionAssetFilePath = AssetPaths.REGIONS;
-            Optional<RegionAsset> result;
+            static final AssetFilePath<@NonNull RegionsAsset> regionAssetFilePath = AssetPaths.REGIONS;
+            Optional<RegionsAsset> result;
 
             @BeforeEach
             void setup() throws IOException {
                 val finalPath = jarPath.resolve(regionAssetFilePath.getPath());
                 Files.createDirectories(finalPath.getParent());
-                val jsonString = new NyarieObjectMapper().getInstance().writeValueAsString(new RegionAsset("1", "Gondor", "1"));
+                val jsonString = new NyarieObjectMapper().getInstance().writeValueAsString(new RegionsAsset("1", "Gondor", "1"));
                 Files.writeString(finalPath, jsonString);
                 result = assetLoader.fromFileSystem(jarPath, regionAssetFilePath);
             }
@@ -87,8 +87,8 @@ class AssetFileLoaderTest extends AbstractIoTest {
         @DisplayName("with existing asset file")
         class WithExistingAssetFile {
 
-            static final AssetFilePath<@NonNull RegionAsset> regionAssetFilePath = AssetPaths.REGIONS;
-            Optional<RegionAsset> result;
+            static final AssetFilePath<@NonNull RegionsAsset> regionAssetFilePath = AssetPaths.REGIONS;
+            Optional<RegionsAsset> result;
 
             @BeforeEach
             void setup() throws IOException {

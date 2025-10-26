@@ -1,7 +1,7 @@
 package eu.nyarie.core.io.assets.loader;
 
 import eu.nyarie.core.io.assets.AssetDto;
-import eu.nyarie.core.io.assets.map.RegionAsset;
+import eu.nyarie.core.io.assets.map.RegionsAsset;
 import eu.nyarie.core.io.assets.map.TerrainTypeAsset;
 import lombok.val;
 
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 /// Record that holds the loaded data of all the asset files.
 record LoadedAssetDirectory(
-        Optional<RegionAsset> regions,
+        Optional<RegionsAsset> regions,
         Optional<TerrainTypeAsset> terrainTypes
 ) {
 

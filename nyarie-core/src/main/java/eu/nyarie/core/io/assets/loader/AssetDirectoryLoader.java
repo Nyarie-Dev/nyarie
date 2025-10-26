@@ -1,14 +1,11 @@
 package eu.nyarie.core.io.assets.loader;
 
 import eu.nyarie.core.io.assets.AssetDto;
-import eu.nyarie.core.io.assets.map.RegionAsset;
-import eu.nyarie.core.io.assets.map.TerrainTypeAsset;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.nio.file.Path;
-import java.time.Duration;
 import java.util.Optional;
 
 /// Class responsible for loading an entire `/asset` directory,
