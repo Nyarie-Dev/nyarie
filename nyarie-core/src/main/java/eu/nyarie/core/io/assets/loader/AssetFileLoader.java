@@ -2,6 +2,7 @@ package eu.nyarie.core.io.assets.loader;
 
 import eu.luktronic.logblock.LogBlock;
 import eu.nyarie.core.io.assets.AssetDto;
+import eu.nyarie.core.io.assets.AssetFileDto;
 import eu.nyarie.core.io.assets.exception.AssetLoadingException;
 import eu.nyarie.core.io.assets.exception.AssetNotFoundException;
 import eu.nyarie.core.util.serialization.NyarieObjectMapper;
@@ -30,7 +31,7 @@ public class AssetFileLoader {
     /// ```
     /// @param assetFilePath The path to the asset file. Must be an existing file.
     /// @throws AssetNotFoundException {@inheritDoc}
-    public <T extends AssetDto<?>> Optional<T> fromFileSystem(Path basePath, AssetFilePath<T> assetFilePath) {
+    public <T extends AssetFileDto<?>> Optional<T> fromFileSystem(Path basePath, AssetFilePath<T> assetFilePath) {
         val path = basePath.resolve(assetFilePath.getPath());
         log.debug("Loading asset file for class '{}': {}", assetFilePath.getAssetClass().getSimpleName(), path);
 
@@ -59,7 +60,7 @@ public class AssetFileLoader {
         }
     }
 
-    public <T extends AssetDto<?>> Optional<T> fromFileSystemWithClasspathFallback(Path basePath, AssetFilePath<T> assetFilePath) {
+    public <T extends AssetFileDto<?>> Optional<T> fromFileSystemWithClasspathFallback(Path basePath, AssetFilePath<T> assetFilePath) {
         val path = assetFilePath.getPath();
         log.debug("Loading asset file for class '{}' from classpath resource: {}", assetFilePath.getAssetClass().getSimpleName(), path);
 

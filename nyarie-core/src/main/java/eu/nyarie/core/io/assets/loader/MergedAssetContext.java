@@ -7,7 +7,6 @@ import eu.nyarie.core.io.assets.map.TerrainTypesAsset;
 import lombok.val;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 /// Record that represents the final, merged assets for the engine.
 ///
@@ -23,12 +22,12 @@ record MergedAssetContext(
         val mappedTerrainTypes = new ArrayList<TerrainType>(1);
         TerrainType mappedTerrainType = null;
         if(terrainTypes != null) {
-            mappedTerrainType = new TerrainType(terrainTypes.getId(), terrainTypes.getName(), terrainTypes.getGetMovementDuration());
+//            mappedTerrainType = new TerrainType(terrainTypes.getId(), terrainTypes.getName(), terrainTypes.getGetMovementDuration());
             mappedTerrainTypes.add(mappedTerrainType);
         }
         val mappedRegions = new ArrayList<Region>(1);
-        if(regions != null)
-            mappedRegions.add(new Region(regions.getId(), regions.getName(), mappedTerrainType, Set.of(), Set.of(), Set.of()));
+//        if(regions != null)
+//            mappedRegions.add(new Region(regions.getId(), regions.getName(), mappedTerrainType, Set.of(), Set.of(), Set.of()));
 
         return new GameAssets(mappedRegions, mappedTerrainTypes);
     }

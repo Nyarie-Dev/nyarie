@@ -1,5 +1,9 @@
 {
-  "id": "1",
-  "name": "Gondor",
-  "terrainType": "1"
+  "data": [
+    {
+      "id": "1",
+      "name": "Gondor",
+      "terrainType": "1"
+    }
+  ]
 }

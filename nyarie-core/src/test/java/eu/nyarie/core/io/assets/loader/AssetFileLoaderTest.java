@@ -39,7 +39,7 @@ class AssetFileLoaderTest extends AbstractIoTest {
             void setup() throws IOException {
                 val finalPath = jarPath.resolve(regionAssetFilePath.getPath());
                 Files.createDirectories(finalPath.getParent());
-                val jsonString = new NyarieObjectMapper().getInstance().writeValueAsString(new RegionsAsset("1", "Gondor", "1"));
+                val jsonString = new NyarieObjectMapper().getInstance().writeValueAsString(new RegionsAsset(new RegionsAsset.RegionAsset("1", "Gondor", "1")));
                 Files.writeString(finalPath, jsonString);
                 result = assetLoader.fromFileSystem(jarPath, regionAssetFilePath);
             }
@@ -53,7 +53,7 @@ class AssetFileLoaderTest extends AbstractIoTest {
             @Test
             @DisplayName("should have correct id")
             void shouldHaveCorrectEntriesInList() {
-                assertThat(result.orElseThrow().getId()).isEqualTo("1");
+                assertThat(result.orElseThrow().getData().getFirst().getId()).isEqualTo("1");
             }
         }
 
@@ -104,7 +104,7 @@ class AssetFileLoaderTest extends AbstractIoTest {
             @Test
             @DisplayName("should have correct id")
             void shouldHaveCorrectEntriesInList() {
-                assertThat(result.orElseThrow().getId()).isEqualTo("1");
+                assertThat(result.orElseThrow().getData().getFirst().getId()).isEqualTo("1");
             }
         }
 

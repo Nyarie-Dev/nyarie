@@ -1,6 +1,6 @@
 package eu.nyarie.core.io.assets.loader;
 
-import eu.nyarie.core.io.assets.AssetDto;
+import eu.nyarie.core.io.assets.AssetFileDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -39,6 +39,6 @@ public class AssetDirectoryLoader {
 
     @FunctionalInterface
     interface AssetLoaderFunction {
-        <T extends AssetDto<?>> Optional<T> load(Path basePath, AssetFilePath<T> assetFilePath);
+        <T extends AssetFileDto<?>> Optional<T> load(Path basePath, AssetFilePath<T> assetFilePath);
     }
 }
