@@ -3,7 +3,7 @@ package eu.nyarie.core.io.assets.loader;
 import eu.nyarie.core.domain.constant.map.Region;
 import eu.nyarie.core.domain.constant.map.TerrainType;
 import eu.nyarie.core.io.assets.map.RegionsAsset;
-import eu.nyarie.core.io.assets.map.TerrainTypeAsset;
+import eu.nyarie.core.io.assets.map.TerrainTypesAsset;
 import lombok.val;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Set;
 /// Result of merging all the assets of an [AssetContext].
 record MergedAssetContext(
         RegionsAsset regions,
-        TerrainTypeAsset terrainTypes
+        TerrainTypesAsset terrainTypes
 ) {
 
     /// ONLY A SKELETON IMPLEMENTATION FOR NOW.

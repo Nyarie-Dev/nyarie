@@ -2,7 +2,7 @@ package eu.nyarie.core.io.assets.loader;
 
 import eu.nyarie.core.io.assets.AssetDto;
 import eu.nyarie.core.io.assets.map.RegionsAsset;
-import eu.nyarie.core.io.assets.map.TerrainTypeAsset;
+import eu.nyarie.core.io.assets.map.TerrainTypesAsset;
 import lombok.val;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.Optional;
 /// Record that holds the loaded data of all the asset files.
 record LoadedAssetDirectory(
         Optional<RegionsAsset> regions,
-        Optional<TerrainTypeAsset> terrainTypes
+        Optional<TerrainTypesAsset> terrainTypes
 ) {
 
     /// Counts how many loaded assets there are in this directory.

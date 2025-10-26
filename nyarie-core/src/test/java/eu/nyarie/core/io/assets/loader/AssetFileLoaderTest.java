@@ -2,7 +2,7 @@ package eu.nyarie.core.io.assets.loader;
 
 
 import eu.nyarie.core.io.assets.map.RegionsAsset;
-import eu.nyarie.core.io.assets.map.TerrainTypeAsset;
+import eu.nyarie.core.io.assets.map.TerrainTypesAsset;
 import eu.nyarie.core.util.abstraction.AbstractIoTest;
 import eu.nyarie.core.util.io.FileSystemUtils;
 import eu.nyarie.core.util.serialization.NyarieObjectMapper;
@@ -61,8 +61,8 @@ class AssetFileLoaderTest extends AbstractIoTest {
         @DisplayName("with non-existing asset file")
         class WithNonExistingAssetFile {
 
-            static final AssetFilePath<@NonNull TerrainTypeAsset> terrainTypeAssetFilePath = AssetPaths.TERRAIN_TYPES;
-            Optional<TerrainTypeAsset> result;
+            static final AssetFilePath<@NonNull TerrainTypesAsset> terrainTypeAssetFilePath = AssetPaths.TERRAIN_TYPES;
+            Optional<TerrainTypesAsset> result;
 
             @BeforeEach
             void setup() throws IOException {
@@ -112,8 +112,8 @@ class AssetFileLoaderTest extends AbstractIoTest {
         @DisplayName("with non-existing asset file")
         class WithNonExistingAssetFile {
 
-            static final AssetFilePath<@NonNull TerrainTypeAsset> terrainTypeAssetFilePath = AssetPaths.TERRAIN_TYPES;
-            Optional<TerrainTypeAsset> result;
+            static final AssetFilePath<@NonNull TerrainTypesAsset> terrainTypeAssetFilePath = AssetPaths.TERRAIN_TYPES;
+            Optional<TerrainTypesAsset> result;
 
             @BeforeEach
             void setup() throws IOException {

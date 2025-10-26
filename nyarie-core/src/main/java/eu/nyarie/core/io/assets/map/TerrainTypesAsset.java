@@ -13,7 +13,7 @@ import java.time.Duration;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TerrainTypeAsset extends AssetDto<TerrainType> {
+public class TerrainTypesAsset extends AssetDto<TerrainType> {
 
     private String id;
     private String name;
