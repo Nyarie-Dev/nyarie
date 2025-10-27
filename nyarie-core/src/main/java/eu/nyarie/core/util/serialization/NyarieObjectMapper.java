@@ -1,6 +1,7 @@
 package eu.nyarie.core.util.serialization;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /// Class that holds a global singleton Jackson [ObjectMapper] so
 ///  that it can be reused across the codebase.
@@ -15,6 +16,7 @@ public class NyarieObjectMapper {
             return instance;
 
         instance = new ObjectMapper();
+        instance.registerModule(new JavaTimeModule());
         return instance;
     }
 }

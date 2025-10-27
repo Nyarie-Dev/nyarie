@@ -20,6 +20,7 @@ dependencies {
     implementation("org.tomlj:tomlj:1.1.1")
     implementation("org.slf4j:slf4j-api:2.0.17")
     implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}")
     implementation("org.jspecify:jspecify:1.0.0")
     //Just for testing purposes, can be removed tbh
     implementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.24.3")
