@@ -18,6 +18,6 @@ public class TerrainTypesAsset extends AssetFileDto<TerrainTypesAsset.TerrainTyp
     public static class TerrainTypeAsset extends AssetDto<TerrainType> {
         private String id;
         private String name;
-        private Duration getMovementDuration;
+        private Duration movementDuration;
     }
 }
