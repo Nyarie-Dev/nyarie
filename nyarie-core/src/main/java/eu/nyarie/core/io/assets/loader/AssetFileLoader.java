@@ -61,6 +61,14 @@ public class AssetFileLoader {
     }
 
     public <T extends AssetFileDto<?>> Optional<T> fromFileSystemWithClasspathFallback(Path basePath, AssetFilePath<T> assetFilePath) {
+        val fileSystemAsset = fromFileSystem(basePath, assetFilePath);
+        if(fileSystemAsset.isPresent()) {
+            log.debug("Asset was loaded using file system - skipping classpath loading");
+            return fileSystemAsset;
+        }
+        else
+            log.debug("Asset not present in file system - falling back to classpath loading");
+
         val path = assetFilePath.getPath();
         log.debug("Loading asset file for class '{}' from classpath resource: {}", assetFilePath.getAssetClass().getSimpleName(), path);
 
