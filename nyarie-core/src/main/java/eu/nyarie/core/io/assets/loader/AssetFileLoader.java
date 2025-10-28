@@ -1,5 +1,6 @@
 package eu.nyarie.core.io.assets.loader;
 
+import com.fasterxml.jackson.databind.DatabindException;
 import eu.luktronic.logblock.LogBlock;
 import eu.nyarie.core.io.assets.AssetDto;
 import eu.nyarie.core.io.assets.AssetFileDto;
@@ -47,7 +48,12 @@ public class AssetFileLoader {
             val response = om.readValue(path.toFile(), assetFilePath.getAssetClass());
             log.debug("Loaded asset file {}", assetFilePath.getPath());
             return Optional.of(response);
-        } catch (Exception e) {
+        }
+        catch (DatabindException e) {
+            log.error("Invalid JSON structure while reading asset file: {}", path);
+            throw AssetLoadingException.invalidStructure(path);
+        }
+        catch (Exception e) {
             val logBlock = LogBlock.withLogger(log);
             logBlock.error("""
                     ERROR WHILE LOADING ASSET FILE:
