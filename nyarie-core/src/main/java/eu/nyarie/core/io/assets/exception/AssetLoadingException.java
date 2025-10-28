@@ -18,7 +18,7 @@ public class AssetLoadingException extends AssetException {
         return new AssetLoadingException(UNEXPECTED_ERROR_READING_FILE.formatted(path, cause.getMessage()), cause);
     }
 
-    public static AssetLoadingException invalidStructure(Path path) {
-        return new AssetLoadingException(INVALID_STRUCTURE.formatted(path));
+    public static AssetLoadingException invalidStructure(Path path, Throwable cause) {
+        return new AssetLoadingException(INVALID_STRUCTURE.formatted(path), cause);
     }
 }

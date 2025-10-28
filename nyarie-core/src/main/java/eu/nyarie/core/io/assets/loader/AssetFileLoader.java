@@ -51,7 +51,7 @@ public class AssetFileLoader {
         }
         catch (DatabindException e) {
             log.error("Invalid JSON structure while reading asset file: {}", path);
-            throw AssetLoadingException.invalidStructure(path);
+            throw AssetLoadingException.invalidStructure(path, e);
         }
         catch (Exception e) {
             val logBlock = LogBlock.withLogger(log);
