@@ -1,6 +1,10 @@
 package eu.nyarie.core.io.assets.loader;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import eu.luktronic.logblock.LogBlock;
 import eu.nyarie.core.io.assets.AssetDto;
 import eu.nyarie.core.io.assets.AssetFileDto;
@@ -14,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /// Class that loads a single asset file and converts it into the respective
 /// class.
@@ -49,7 +54,8 @@ public class AssetFileLoader {
             log.debug("Loaded asset file {}", assetFilePath.getPath());
             return Optional.of(response);
         }
-        catch (DatabindException e) {
+        catch (JsonMappingException e) {
+            logJsonError(path, e);
             log.error("Invalid JSON structure while reading asset file: {}", path);
             throw AssetLoadingException.invalidStructure(path, e);
         }
@@ -66,7 +72,31 @@ public class AssetFileLoader {
         }
     }
 
-    public <T extends AssetFileDto<?>> Optional<T> fromFileSystemWithClasspathFallback(Path basePath, AssetFilePath<T> assetFilePath) {
+    private void logJsonError(Path path, JsonProcessingException e) {
+        try (Stream<String> lines = Files.lines(path)) {
+            val location = e.getLocation();
+            val sb = new StringBuilder();
+            // Find the problematic line
+            String errorLine = lines.skip(location.getLineNr() - 1)
+                    .findFirst()
+                    .orElse(null);
+
+            if (errorLine != null) {
+                // 4. Print the line
+                sb.append("> ").append(errorLine).append("\n");
+
+                // 5. Add the caret (^) pointer
+                // (location.getColumnNr() is 1-based, repeat is 0-based)
+                String pointer = " ".repeat(location.getColumnNr() - 1) + "^";
+                sb.append("> ").append(pointer).append("\n");
+                LogBlock.withLogger(log).error(sb.toString());
+            }
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+        public <T extends AssetFileDto<?>> Optional<T> fromFileSystemWithClasspathFallback(Path basePath, AssetFilePath<T> assetFilePath) {
         val fileSystemAsset = fromFileSystem(basePath, assetFilePath);
         if(fileSystemAsset.isPresent()) {
             log.debug("Asset was loaded using file system - skipping classpath loading");
