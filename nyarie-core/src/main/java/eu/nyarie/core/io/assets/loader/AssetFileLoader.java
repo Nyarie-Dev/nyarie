@@ -17,6 +17,7 @@ import lombok.val;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -73,24 +74,48 @@ public class AssetFileLoader {
     }
 
     private void logJsonError(Path path, JsonProcessingException e) {
-        try (Stream<String> lines = Files.lines(path)) {
-            val location = e.getLocation();
-            val sb = new StringBuilder();
+        val location = e.getLocation();
+        val sb = new StringBuilder();
+
+        sb.append(String.format("❌ Error parsing %s:\n", path.toString()));
+        sb.append(e.getOriginalMessage()).append("\n\n");
+
+        sb.append(String.format("...near Line %d, Column %d:\n",
+                location.getLineNr(),
+                location.getColumnNr()));
+        try {
+            val lines = Files.readAllLines(path);
             // Find the problematic line
-            String errorLine = lines.skip(location.getLineNr() - 1)
-                    .findFirst()
-                    .orElse(null);
 
-            if (errorLine != null) {
-                // 4. Print the line
-                sb.append("> ").append(errorLine).append("\n");
+            val errorLineNumber = location.getLineNr(); // 1-based
 
-                // 5. Add the caret (^) pointer
-                // (location.getColumnNr() is 1-based, repeat is 0-based)
-                String pointer = " ".repeat(location.getColumnNr() - 1) + "^";
-                sb.append("> ").append(pointer).append("\n");
-                LogBlock.withLogger(log).error(sb.toString());
+            // Define the context window (2 lines before, 2 lines after)
+            val startLineNum = Math.max(1, errorLineNumber - 2);
+            val endLineNum = Math.min(lines.size(), errorLineNumber + 2);
+
+            // Get the width for padding line numbers (e.g., "115" needs 3 chars)
+            int maxLineNumWidth = String.valueOf(endLineNum).length();
+            String lineFormat = " %" + maxLineNumWidth + "d | %s\n"; // e.g., " 115 | text"
+
+            for (int i = startLineNum - 1; i < endLineNum; i++) {
+                int currentLineNum = i + 1;
+                String line = lines.get(i);
+
+                // 4. Print the line with its number
+                sb.append(String.format(lineFormat, currentLineNum, line));
+
+                // 5. Add the caret (^) pointer if this is the error line
+                if (currentLineNum == errorLineNumber) {
+                    // Calculate padding for the caret
+                    // " " (leading space) + maxLineNumWidth + " | " (3 chars)
+                    int prefixWidth = 1 + maxLineNumWidth + 3;
+                    // (location.getColumnNr() is 1-based)
+                    String pointer = " ".repeat(prefixWidth + location.getColumnNr() - 1) + "^";
+                    sb.append(pointer).append("\n");
+                }
             }
+
+            LogBlock.withLogger(log).error(sb.toString());
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
