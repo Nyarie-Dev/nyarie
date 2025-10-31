@@ -57,7 +57,6 @@ public class AssetFileLoader {
         }
         catch (JsonMappingException e) {
             logJsonError(path, e);
-            log.error("Invalid JSON structure while reading asset file: {}", path);
             throw AssetLoadingException.invalidStructure(path, e);
         }
         catch (Exception e) {
