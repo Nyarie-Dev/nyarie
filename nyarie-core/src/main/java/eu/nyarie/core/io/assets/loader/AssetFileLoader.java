@@ -1,10 +1,7 @@
 package eu.nyarie.core.io.assets.loader;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import eu.luktronic.logblock.LogBlock;
 import eu.nyarie.core.io.assets.AssetDto;
 import eu.nyarie.core.io.assets.AssetFileDto;
@@ -17,9 +14,7 @@ import lombok.val;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 /// Class that loads a single asset file and converts it into the respective
 /// class.
@@ -37,7 +32,7 @@ public class AssetFileLoader {
     /// /nyarie/assets/map/region.json
     /// ```
     /// @param assetFilePath The path to the asset file. Must be an existing file.
-    /// @throws AssetNotFoundException {@inheritDoc}
+    /// @throws AssetNotFoundException {@inheritDoc}x
     public <T extends AssetFileDto<?>> Optional<T> fromFileSystem(Path basePath, AssetFilePath<T> assetFilePath) {
         val path = basePath.resolve(assetFilePath.getPath());
         log.debug("Loading asset file for class '{}': {}", assetFilePath.getAssetClass().getSimpleName(), path);
@@ -76,7 +71,7 @@ public class AssetFileLoader {
         val location = e.getLocation();
         val sb = new StringBuilder();
 
-        sb.append(String.format("❌ Error parsing %s:\n", path.toString()));
+        sb.append(String.format("ERROR PARSING ASSET FILE:\n%s:\n", path.toString()));
         sb.append(e.getOriginalMessage()).append("\n\n");
 
         sb.append(String.format("...near Line %d, Column %d:\n",
