@@ -67,6 +67,46 @@ public class AssetFileLoader {
         }
     }
 
+        public <T extends AssetFileDto<?>> Optional<T> fromFileSystemWithClasspathFallback(Path basePath, AssetFilePath<T> assetFilePath) {
+        val fileSystemAsset = fromFileSystem(basePath, assetFilePath);
+        if(fileSystemAsset.isPresent()) {
+            log.debug("Asset was loaded using file system - skipping classpath loading");
+            return fileSystemAsset;
+        }
+        else
+            log.debug("Asset not present in file system - falling back to classpath loading");
+
+        val path = assetFilePath.getPath();
+        log.debug("Loading asset file for class '{}' from classpath resource: {}", assetFilePath.getAssetClass().getSimpleName(), path);
+
+        try (val inputStream = this.getClass().getClassLoader().getResourceAsStream(assetFilePath.getPath().toString())) {
+            if(inputStream == null) {
+                log.debug("Asset file '{}' was not found, returning empty optional", path);
+                return Optional.empty();
+            }
+            log.debug("Found asset file '{}'", path);
+
+            val om = new NyarieObjectMapper().getInstance();
+            log.debug("Deserializing asset file '{}'", path);
+            val type = om.getTypeFactory().constructType(assetFilePath.getAssetClass());
+            //noinspection unchecked
+            val response = (T) om.readValue(inputStream, type);
+            log.debug("Loaded asset file {}", assetFilePath.getPath());
+            return Optional.of(response);
+
+        } catch (IOException e) {
+            val logBlock = LogBlock.withLogger(log);
+            logBlock.error("""
+                    ERROR WHILE LOADING ASSET FILE:
+                    {}
+                    
+                    An unexpected {} occurred while trying to read the asset file:
+                    '{}'
+                    """, path, e.getClass().getSimpleName(), e.getMessage());
+            throw AssetLoadingException.unexpectedErrorReadingFile(path, e);
+        }
+    }
+
     private void logJsonError(Path path, JsonProcessingException e) {
         val location = e.getLocation();
         val sb = new StringBuilder();
@@ -112,46 +152,6 @@ public class AssetFileLoader {
             LogBlock.withLogger(log).error(sb.toString());
         } catch (IOException ex) {
             throw new RuntimeException(ex);
-        }
-    }
-
-        public <T extends AssetFileDto<?>> Optional<T> fromFileSystemWithClasspathFallback(Path basePath, AssetFilePath<T> assetFilePath) {
-        val fileSystemAsset = fromFileSystem(basePath, assetFilePath);
-        if(fileSystemAsset.isPresent()) {
-            log.debug("Asset was loaded using file system - skipping classpath loading");
-            return fileSystemAsset;
-        }
-        else
-            log.debug("Asset not present in file system - falling back to classpath loading");
-
-        val path = assetFilePath.getPath();
-        log.debug("Loading asset file for class '{}' from classpath resource: {}", assetFilePath.getAssetClass().getSimpleName(), path);
-
-        try (val inputStream = this.getClass().getClassLoader().getResourceAsStream(assetFilePath.getPath().toString())) {
-            if(inputStream == null) {
-                log.debug("Asset file '{}' was not found, returning empty optional", path);
-                return Optional.empty();
-            }
-            log.debug("Found asset file '{}'", path);
-
-            val om = new NyarieObjectMapper().getInstance();
-            log.debug("Deserializing asset file '{}'", path);
-            val type = om.getTypeFactory().constructType(assetFilePath.getAssetClass());
-            //noinspection unchecked
-            val response = (T) om.readValue(inputStream, type);
-            log.debug("Loaded asset file {}", assetFilePath.getPath());
-            return Optional.of(response);
-
-        } catch (IOException e) {
-            val logBlock = LogBlock.withLogger(log);
-            logBlock.error("""
-                    ERROR WHILE LOADING ASSET FILE:
-                    {}
-                    
-                    An unexpected {} occurred while trying to read the asset file:
-                    '{}'
-                    """, path, e.getClass().getSimpleName(), e.getMessage());
-            throw AssetLoadingException.unexpectedErrorReadingFile(path, e);
         }
     }
 }
