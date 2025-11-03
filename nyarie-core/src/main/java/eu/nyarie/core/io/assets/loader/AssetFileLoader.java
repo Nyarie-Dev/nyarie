@@ -44,27 +44,12 @@ public class AssetFileLoader {
 
         log.debug("Found asset file '{}'", path);
         val om = new NyarieObjectMapper().getInstance();
-        try {
+        return performWithErrorHandling(path, () -> {
             log.debug("Deserializing asset file '{}'", path);
             val response = om.readValue(path.toFile(), assetFilePath.getAssetClass());
             log.debug("Loaded asset file {}", assetFilePath.getPath());
             return Optional.of(response);
-        }
-        catch (JsonMappingException e) {
-            logJsonError(path, e);
-            throw AssetLoadingException.invalidStructure(path, e);
-        }
-        catch (Exception e) {
-            val logBlock = LogBlock.withLogger(log);
-            logBlock.error("""
-                    ERROR WHILE LOADING ASSET FILE:
-                    {}
-                    
-                    An unexpected {} occurred while trying to read the asset file:
-                    '{}'
-                    """, path, e.getClass().getSimpleName(), e.getMessage());
-            throw AssetLoadingException.unexpectedErrorReadingFile(path, e);
-        }
+        });
     }
 
     public <T extends AssetFileDto<?>> Optional<T> fromFileSystemWithClasspathFallback(Path basePath, AssetFilePath<T> assetFilePath) {
@@ -93,6 +78,27 @@ public class AssetFileLoader {
             return Optional.of(response);
 
         } catch (IOException e) {
+            val logBlock = LogBlock.withLogger(log);
+            logBlock.error("""
+                    ERROR WHILE LOADING ASSET FILE:
+                    {}
+                    
+                    An unexpected {} occurred while trying to read the asset file:
+                    '{}'
+                    """, path, e.getClass().getSimpleName(), e.getMessage());
+            throw AssetLoadingException.unexpectedErrorReadingFile(path, e);
+        }
+    }
+
+    private <T extends AssetFileDto<?>> Optional<T> performWithErrorHandling(Path path, JsonReadFunction<T> readFileSupplier) {
+        try {
+            return readFileSupplier.readFile();
+        }
+        catch (JsonMappingException e) {
+            logJsonError(path, e);
+            throw AssetLoadingException.invalidStructure(path, e);
+        }
+        catch (Exception e) {
             val logBlock = LogBlock.withLogger(log);
             logBlock.error("""
                     ERROR WHILE LOADING ASSET FILE:
@@ -151,5 +157,10 @@ public class AssetFileLoader {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    @FunctionalInterface
+    private interface JsonReadFunction<T extends AssetFileDto<?>> {
+        Optional<T> readFile() throws IOException;
     }
 }
