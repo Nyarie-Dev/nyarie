@@ -88,9 +88,7 @@ public class AssetFileLoader {
 
             val om = new NyarieObjectMapper().getInstance();
             log.debug("Deserializing asset file '{}'", path);
-            val type = om.getTypeFactory().constructType(assetFilePath.getAssetClass());
-            //noinspection unchecked
-            val response = (T) om.readValue(inputStream, type);
+            val response = om.readValue(inputStream, assetFilePath.getAssetClass());
             log.debug("Loaded asset file {}", assetFilePath.getPath());
             return Optional.of(response);
 
