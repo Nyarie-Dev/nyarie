@@ -154,9 +154,4 @@ public class AssetFileLoader {
             throw new RuntimeException(ex);
         }
     }
-
-    @FunctionalInterface
-    private interface JsonReadFunction<T extends AssetFileDto<?>> {
-        Optional<T> readFile() throws IOException;
-    }
 }
