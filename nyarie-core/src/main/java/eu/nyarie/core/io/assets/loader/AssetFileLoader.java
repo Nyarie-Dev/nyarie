@@ -44,12 +44,14 @@ public class AssetFileLoader {
             return Optional.empty();
         }
 
-        log.debug("Found asset file '{}'", path);
         return readAsset(path, assetFilePath, () -> {
             try {
                 return Files.newInputStream(path);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                log.trace("No InputStream could be created for path '{}'", path);
+                log.trace("Caused by {}: {}", e.getClass().getSimpleName(), e.getMessage());
+                log.trace("Passing null to readAsset helper");
+                return null;
             }
         });
     }
@@ -75,6 +77,7 @@ public class AssetFileLoader {
                 log.debug("Asset file '{}' was not found, returning empty optional", path);
                 return Optional.empty();
             }
+            log.debug("Found asset file '{}'", path);
 
             log.debug("Deserializing asset file '{}'", path);
             val om = new NyarieObjectMapper().getInstance();
