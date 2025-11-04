@@ -66,24 +66,16 @@ public class AssetFileLoader {
         val path = assetFilePath.getPath();
         log.debug("Loading asset file for class '{}' from classpath resource: {}", assetFilePath.getAssetClass().getSimpleName(), path);
 
-        try (val inputStream = this.getClass().getClassLoader().getResourceAsStream(assetFilePath.getPath().toString())) {
-            if (inputStream == null) {
-                log.debug("Asset file '{}' was not found, returning empty optional", path);
-                return Optional.empty();
-            }
-            log.debug("Found asset file '{}'", path);
-
-            val om = new NyarieObjectMapper().getInstance();
-            log.debug("Deserializing asset file '{}'", path);
-            val response = om.readValue(inputStream, assetFilePath.getAssetClass());
-            log.debug("Loaded asset file {}", assetFilePath.getPath());
-            return Optional.of(response);
-
-        }
+        return performWithErrorHandling(path, assetFilePath, () -> this.getClass().getClassLoader().getResourceAsStream(assetFilePath.getPath().toString()));
     }
 
     private <T extends AssetFileDto<?>> Optional<T> performWithErrorHandling(Path path, AssetFilePath<T> assetFilePath, Supplier<InputStream> inputStreamSupplier) {
         try(val inputStream = inputStreamSupplier.get() ) {
+            if (inputStream == null) {
+                log.debug("Asset file '{}' was not found, returning empty optional", path);
+                return Optional.empty();
+            }
+
             log.debug("Deserializing asset file '{}'", path);
             val om = new NyarieObjectMapper().getInstance();
             val response = om.readValue(Files.newInputStream(path), assetFilePath.getAssetClass());
