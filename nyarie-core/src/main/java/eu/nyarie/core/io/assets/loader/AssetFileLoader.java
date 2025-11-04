@@ -12,9 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /// Class that loads a single asset file and converts it into the respective
 /// class.
@@ -43,12 +45,12 @@ public class AssetFileLoader {
         }
 
         log.debug("Found asset file '{}'", path);
-        val om = new NyarieObjectMapper().getInstance();
-        return performWithErrorHandling(path, () -> {
-            log.debug("Deserializing asset file '{}'", path);
-            val response = om.readValue(path.toFile(), assetFilePath.getAssetClass());
-            log.debug("Loaded asset file {}", assetFilePath.getPath());
-            return Optional.of(response);
+        return performWithErrorHandling(path, assetFilePath, () -> {
+            try {
+                return Files.newInputStream(path);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 
@@ -77,22 +79,16 @@ public class AssetFileLoader {
             log.debug("Loaded asset file {}", assetFilePath.getPath());
             return Optional.of(response);
 
-        } catch (IOException e) {
-            val logBlock = LogBlock.withLogger(log);
-            logBlock.error("""
-                    ERROR WHILE LOADING ASSET FILE:
-                    {}
-                    
-                    An unexpected {} occurred while trying to read the asset file:
-                    '{}'
-                    """, path, e.getClass().getSimpleName(), e.getMessage());
-            throw AssetLoadingException.unexpectedErrorReadingFile(path, e);
         }
     }
 
-    private <T extends AssetFileDto<?>> Optional<T> performWithErrorHandling(Path path, JsonReadFunction<T> readFileSupplier) {
-        try {
-            return readFileSupplier.readFile();
+    private <T extends AssetFileDto<?>> Optional<T> performWithErrorHandling(Path path, AssetFilePath<T> assetFilePath, Supplier<InputStream> inputStreamSupplier) {
+        try(val inputStream = inputStreamSupplier.get() ) {
+            log.debug("Deserializing asset file '{}'", path);
+            val om = new NyarieObjectMapper().getInstance();
+            val response = om.readValue(Files.newInputStream(path), assetFilePath.getAssetClass());
+            log.debug("Loaded asset file {}", assetFilePath.getPath());
+            return Optional.of(response);
         }
         catch (JsonMappingException e) {
             logJsonError(path, e);
