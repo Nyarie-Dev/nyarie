@@ -45,7 +45,7 @@ public class AssetFileLoader {
         }
 
         log.debug("Found asset file '{}'", path);
-        return performWithErrorHandling(path, assetFilePath, () -> {
+        return readAsset(path, assetFilePath, () -> {
             try {
                 return Files.newInputStream(path);
             } catch (IOException e) {
@@ -66,10 +66,10 @@ public class AssetFileLoader {
         val path = assetFilePath.getPath();
         log.debug("Loading asset file for class '{}' from classpath resource: {}", assetFilePath.getAssetClass().getSimpleName(), path);
 
-        return performWithErrorHandling(path, assetFilePath, () -> this.getClass().getClassLoader().getResourceAsStream(assetFilePath.getPath().toString()));
+        return readAsset(path, assetFilePath, () -> this.getClass().getClassLoader().getResourceAsStream(assetFilePath.getPath().toString()));
     }
 
-    private <T extends AssetFileDto<?>> Optional<T> performWithErrorHandling(Path path, AssetFilePath<T> assetFilePath, Supplier<InputStream> inputStreamSupplier) {
+    private <T extends AssetFileDto<?>> Optional<T> readAsset(Path path, AssetFilePath<T> assetFilePath, Supplier<InputStream> inputStreamSupplier) {
         try(val inputStream = inputStreamSupplier.get() ) {
             if (inputStream == null) {
                 log.debug("Asset file '{}' was not found, returning empty optional", path);
