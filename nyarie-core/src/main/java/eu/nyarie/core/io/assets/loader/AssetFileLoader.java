@@ -3,10 +3,8 @@ package eu.nyarie.core.io.assets.loader;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import eu.luktronic.logblock.LogBlock;
-import eu.nyarie.core.io.assets.AssetDto;
 import eu.nyarie.core.io.assets.AssetFileDto;
 import eu.nyarie.core.io.assets.exception.AssetLoadingException;
-import eu.nyarie.core.io.assets.exception.AssetNotFoundException;
 import eu.nyarie.core.util.serialization.NyarieObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -23,9 +21,7 @@ import java.util.function.Supplier;
 @Slf4j
 public class AssetFileLoader {
 
-    /// Loads the assets from a combination of the passed `basePath`
-    /// as well as the [assetFilePath][AssetFilePath] and returns a list
-    /// of the assets cast to their respective [AssetDto] class.
+    /// Loads an asset file from the file system.
     ///
     /// The final [Path] where the asset file will be searched for is made from `basePath` + `assetFilePath`.<br>
     /// For example, if the `basePath` is set to `/nyarie` and the `assetFilePath` is [AssetPaths#REGIONS], then the
@@ -33,8 +29,9 @@ public class AssetFileLoader {
     /// ```text
     /// /nyarie/assets/map/region.json
     /// ```
-    /// @param assetFilePath The path to the asset file. Must be an existing file.
-    /// @throws AssetNotFoundException {@inheritDoc}
+    /// @param basePath The path where the asset should be searched in the file system.
+    /// @param assetFilePath The [AssetFilePath] of the asset that should be loaded.
+    /// @return [Optional] containing the loaded [AssetFileDto], or [Optional#empty()] if the asset file does not exist.
     public <T extends AssetFileDto<?>> Optional<T> fromFileSystem(Path basePath, AssetFilePath<T> assetFilePath) {
         val path = basePath.resolve(assetFilePath.getPath());
         log.debug("Loading asset file for class '{}': {}", assetFilePath.getAssetClass().getSimpleName(), path);
@@ -61,10 +58,15 @@ public class AssetFileLoader {
     /// If the asset file does not exist on the file system, the classpath is searched under the
     /// specified `assetFilePath`.
     ///
-    /// For example, if the `basePath` is `/home/john/nyarie` and the `assetFilePath` is `assets/map/region.json`,
-    /// then the asset file will first be searched on the classpath under `/home/john/nyarie/assets/map/region.json`.<br>
-    /// If this file does not exist, then the classpath is searched under `assets/map/region.json`.
-    ///
+    /// For example, if the `basePath` is `/home/john/nyarie` and the `assetFilePath` is [AssetPaths#REGIONS],
+    /// then the asset file will first be searched on the file system under:
+    /// ```text
+    /// /home/john/nyarie/assets/map/region.json
+    /// ```
+    /// If this file does not exist, then the classpath is searched under:
+    /// ```text
+    /// assets/map/region.json
+    /// ```
     /// @param basePath The path where the asset should be searched in the file system.
     /// @param assetFilePath The [AssetFilePath] of the asset that should be loaded.
     /// @return [Optional] containing the loaded [AssetFileDto], or [Optional#empty()] if the asset file does not exist.
