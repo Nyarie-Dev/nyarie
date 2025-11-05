@@ -34,7 +34,7 @@ public class AssetFileLoader {
     /// /nyarie/assets/map/region.json
     /// ```
     /// @param assetFilePath The path to the asset file. Must be an existing file.
-    /// @throws AssetNotFoundException {@inheritDoc}x
+    /// @throws AssetNotFoundException {@inheritDoc}
     public <T extends AssetFileDto<?>> Optional<T> fromFileSystem(Path basePath, AssetFilePath<T> assetFilePath) {
         val path = basePath.resolve(assetFilePath.getPath());
         log.debug("Loading asset file for class '{}': {}", assetFilePath.getAssetClass().getSimpleName(), path);
@@ -56,6 +56,18 @@ public class AssetFileLoader {
         });
     }
 
+    /// Loads an asset file from the file system by calling [#fromFileSystem(Path, AssetFilePath)].
+    ///
+    /// If the asset file does not exist on the file system, the classpath is searched under the
+    /// specified `assetFilePath`.
+    ///
+    /// For example, if the `basePath` is `/home/john/nyarie` and the `assetFilePath` is `assets/map/region.json`,
+    /// then the asset file will first be searched on the classpath under `/home/john/nyarie/assets/map/region.json`.<br>
+    /// If this file does not exist, then the classpath is searched under `assets/map/region.json`.
+    ///
+    /// @param basePath The path where the asset should be searched in the file system.
+    /// @param assetFilePath The [AssetFilePath] of the asset that should be loaded.
+    /// @return [Optional] containing the loaded [AssetFileDto], or [Optional#empty()] if the asset file does not exist.
     public <T extends AssetFileDto<?>> Optional<T> fromFileSystemWithClasspathFallback(Path basePath, AssetFilePath<T> assetFilePath) {
         val fileSystemAsset = fromFileSystem(basePath, assetFilePath);
         if(fileSystemAsset.isPresent()) {
