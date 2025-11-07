@@ -9,12 +9,16 @@ import eu.nyarie.core.util.serialization.NyarieObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /// Class that loads a single asset file and converts it into the respective
 /// class.
@@ -101,7 +105,7 @@ public class AssetFileLoader {
         }
         catch (JsonMappingException e) {
             log.trace("Encountered {} while reading asset file - creating pretty log block", e.getClass().getSimpleName());
-            logJsonError(path, e);
+            logJsonError(path, e, inputStreamSupplier);
             throw AssetLoadingException.invalidStructure(path, e);
         }
         catch (Exception e) {
@@ -117,7 +121,7 @@ public class AssetFileLoader {
         }
     }
 
-    private void logJsonError(Path path, JsonProcessingException e) {
+    private void logJsonError(Path path, JsonProcessingException e, Supplier<InputStream> inputStreamSupplier) {
         val location = e.getLocation();
         val sb = new StringBuilder();
 
@@ -127,10 +131,14 @@ public class AssetFileLoader {
         sb.append(String.format("...near Line %d, Column %d:\n",
                 location.getLineNr(),
                 location.getColumnNr()));
-        try {
-            val lines = Files.readAllLines(path);
-            // Find the problematic line
 
+        try (var inputStream = inputStreamSupplier.get();
+             var reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+
+            // Read all lines from the stream into a list
+            val lines = reader.lines().toList();
+
+            // Find the problematic line
             val errorLineNumber = location.getLineNr(); // 1-based
 
             // Define the context window (2 lines before, 2 lines after)
