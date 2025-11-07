@@ -160,7 +160,7 @@ public class AssetFileLoader {
 
             LogBlock.withLogger(log).error(sb.toString());
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            throw AssetLoadingException.unexpectedErrorWhileGettingJsonErrorLocation(ex);
         }
     }
 }
