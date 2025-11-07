@@ -95,11 +95,12 @@ public class AssetFileLoader {
 
             log.debug("Deserializing asset file '{}'", path);
             val om = new NyarieObjectMapper().getInstance();
-            val response = om.readValue(Files.newInputStream(path), assetFilePath.getAssetClass());
+            val response = om.readValue(inputStream, assetFilePath.getAssetClass());
             log.debug("Loaded asset file {}", assetFilePath.getPath());
             return Optional.of(response);
         }
         catch (JsonMappingException e) {
+            log.trace("Encountered {} while reading asset file - creating pretty log block", e.getClass().getSimpleName());
             logJsonError(path, e);
             throw AssetLoadingException.invalidStructure(path, e);
         }
