@@ -30,8 +30,8 @@ record AssetContext(LoadedAssetDirectory installationAssets, List<LoadedAssetDir
     MergedAssetContext applyMerge() {
         log.debug("Applying merge on AssetContext with {} loaded assets", totalAssetCount());
         return new MergedAssetContext(
-                installationAssets.regions().orElse(null),
-                installationAssets.terrainTypes().orElse(null)
+                installationAssets.regions(),
+                installationAssets.terrainTypes()
         );
     }
 }

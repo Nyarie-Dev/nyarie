@@ -7,23 +7,31 @@ import eu.nyarie.core.io.assets.map.TerrainTypesAsset;
 import lombok.val;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /// Record that represents the final, merged assets for the engine.
 ///
 /// Result of merging all the assets of an [AssetContext].
 record MergedAssetContext(
-        RegionsAsset regions,
-        TerrainTypesAsset terrainTypes
+        Optional<RegionsAsset> regions,
+        Optional<TerrainTypesAsset> terrainTypes
 ) {
 
     /// ONLY A SKELETON IMPLEMENTATION FOR NOW.
     /// This will be properly implemented in: [Merging of loaded assets #5](https://github.com/Nyarie-Dev/nyarie/issues/5)
     GameAssets mapToDomain() {
-        val mappedTerrainTypes = terrainTypes.getData().stream()
+        val mappedTerrainTypes = terrainTypes
+                .map(TerrainTypesAsset::getData)
+                .orElse(List.of())
+                .stream()
                 .map(tt -> new TerrainType(tt.getId(), tt.getName(), tt.getMovementDuration()))
                 .toList();
-        val mappedRegions = regions.getData().stream()
+        val mappedRegions = regions
+                .map(RegionsAsset::getData)
+                .orElse(List.of())
+                .stream()
                 .map(region ->
                         new Region(region.getId(), region.getName(), mappedTerrainTypes.getFirst(), Set.of(), Set.of(), Set.of()))
                 .toList();
