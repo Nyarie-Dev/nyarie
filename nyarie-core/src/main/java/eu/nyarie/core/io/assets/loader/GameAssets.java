@@ -37,9 +37,9 @@ public class GameAssets {
         val assetDirectoryLoader = new AssetDirectoryLoader(assetFileLoader);
         val assetLoader = new AssetLoader(assetDirectoryLoader, installationDirectory, modDirectories);
 
-        val gameAssets = assetLoader.loadAssets()
-                .applyMerge()
-                .mapToDomain();
+        val assetContext = assetLoader.loadAssets();
+        val mergedAssetContext = assetContext.applyMerge();
+        val gameAssets = mergedAssetContext.mapToDomain();
 
         val finished = Instant.now();
         val diff = nowInstant.until(finished);

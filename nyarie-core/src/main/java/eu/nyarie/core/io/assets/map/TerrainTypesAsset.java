@@ -20,6 +20,7 @@ public class TerrainTypesAsset extends AssetFileDto<TerrainTypesAsset.TerrainTyp
         private final String id;
         private final String name;
         private final Duration movementDuration;
+        private String hello;
 
         @JsonCreator
         public TerrainTypeAsset(
