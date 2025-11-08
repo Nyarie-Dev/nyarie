@@ -32,7 +32,6 @@ public class GameAssets {
         val nowInstant = Instant.now();
         val now = System.nanoTime();
 
-        //TODO: Change AssetFileLoader to not get a fixed basePath
         val assetFileLoader = new AssetFileLoader();
         val assetDirectoryLoader = new AssetDirectoryLoader(assetFileLoader);
         val assetLoader = new AssetLoader(assetDirectoryLoader, installationDirectory, modDirectories);
