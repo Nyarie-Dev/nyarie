@@ -49,9 +49,9 @@ public class AssetFileLoader {
             try {
                 return Files.newInputStream(path);
             } catch (IOException e) {
-                log.trace("No InputStream could be created for path '{}'", path);
-                log.trace("Caused by {}: {}", e.getClass().getSimpleName(), e.getMessage());
-                log.trace("Passing null to readAsset helper");
+                log.warn("No InputStream could be created for path '{}'", path);
+                log.warn("Caused by {}: {}", e.getClass().getSimpleName(), e.getMessage());
+                log.warn("Passing null to readAsset helper");
                 return null;
             }
         });
