@@ -1,5 +1,7 @@
 package eu.nyarie.core.io.assets.map;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.nyarie.core.domain.constant.map.TerrainType;
 import eu.nyarie.core.io.assets.AssetDto;
 import eu.nyarie.core.io.assets.AssetFileDto;
@@ -14,10 +16,19 @@ public class TerrainTypesAsset extends AssetFileDto<TerrainTypesAsset.TerrainTyp
 
     @Setter
     @Getter
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class TerrainTypeAsset extends AssetDto<TerrainType> {
-        private String id;
-        private String name;
-        private Duration movementDuration;
+        private final String id;
+        private final String name;
+        private final Duration movementDuration;
+
+        @JsonCreator
+        public TerrainTypeAsset(
+                @JsonProperty(value = "id", required = true) String id,
+                @JsonProperty(value = "name", required = true) String name,
+                @JsonProperty(value = "movementDuration", required = true) Duration movementDuration) {
+            this.id = id;
+            this.name = name;
+            this.movementDuration = movementDuration;
+        }
     }
 }
