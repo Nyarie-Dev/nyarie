@@ -1,0 +1,9 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "name": "Gondor",
+      "movementDuration": "PT2H"
+    }
+  ]
+}
