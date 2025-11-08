@@ -6,7 +6,6 @@ import eu.nyarie.core.io.assets.map.RegionsAsset;
 import eu.nyarie.core.io.assets.map.TerrainTypesAsset;
 import lombok.val;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -33,9 +32,17 @@ record MergedAssetContext(
                 .orElse(List.of())
                 .stream()
                 .map(region ->
-                        new Region(region.getId(), region.getName(), mappedTerrainTypes.getFirst(), Set.of(), Set.of(), Set.of()))
+                        new Region(region.getId(), region.getName(), resolveTerrainType(region.getTerrainType(), mappedTerrainTypes), Set.of(), Set.of(), Set.of()))
                 .toList();
         return new GameAssets(mappedRegions, mappedTerrainTypes);
+    }
+
+    /// Temporary for now, will probably be changed in the future
+    private TerrainType resolveTerrainType(String id, List<TerrainType> terrainTypes) {
+        return terrainTypes.stream()
+                .filter(tt -> id.equals(tt.getId()))
+                .findAny()
+                .orElse(null);
     }
 
 }
