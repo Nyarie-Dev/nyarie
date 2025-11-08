@@ -14,6 +14,10 @@ import java.time.Duration;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TerrainTypesAsset extends AssetFileDto<TerrainTypesAsset.TerrainTypeAsset> {
 
+    public TerrainTypesAsset(TerrainTypeAsset... data) {
+        super(data);
+    }
+
     @Setter
     @Getter
     public static class TerrainTypeAsset extends AssetDto<TerrainType> {
