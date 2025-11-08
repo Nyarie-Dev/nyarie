@@ -67,6 +67,10 @@ tasks.withType<JavaCompile> {
 
 tasks.withType<Test> {
     jvmArgs("--enable-preview")
+
+    val useExampleAssets = System.getenv("USE_EXAMPLE_ASSETS").toBoolean()
+    if(useExampleAssets)
+        systemProperty("eu.nyarie.core.installation.path", project.projectDir.absolutePath + "/example")
 }
 
 tasks.withType<JavaExec> {
