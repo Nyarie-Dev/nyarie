@@ -1,6 +1,7 @@
 package eu.nyarie.core.domain.constant.map;
 
 import eu.nyarie.core.api.data.map.RegionData;
+import eu.nyarie.core.domain.constant.Asset;
 import lombok.Getter;
 
 import java.util.Collections;
@@ -9,7 +10,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Getter
-public class Region implements RegionData {
+public class Region implements RegionData, Asset {
 
     private final String id;
     private final String name;

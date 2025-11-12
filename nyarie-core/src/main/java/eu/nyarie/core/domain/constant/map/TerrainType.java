@@ -1,6 +1,7 @@
 package eu.nyarie.core.domain.constant.map;
 
 import eu.nyarie.core.api.data.map.TerrainTypeData;
+import eu.nyarie.core.domain.constant.Asset;
 
 import java.time.Duration;
 
@@ -13,6 +14,6 @@ public record TerrainType(
         String getId,
         String getName,
         Duration getMovementDuration
-) implements TerrainTypeData {
+) implements TerrainTypeData, Asset {
 
 }

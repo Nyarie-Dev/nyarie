@@ -1,15 +1,13 @@
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-    id("java")
     id("maven-publish")
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "eu.nyarie"
 version = "1.0-SNAPSHOT"
-val javaVersion by extra(24)
-val lombokVersion by extra("1.18.38")
+val lombokVersion by extra("1.18.42")
 val jacksonVersion by extra("2.19.0")
 
 repositories {
@@ -17,9 +15,12 @@ repositories {
 }
 
 dependencies {
+    implementation("eu.luktronic:logblock:1.0.0-rc.1")
+
     implementation("org.tomlj:tomlj:1.1.1")
     implementation("org.slf4j:slf4j-api:2.0.17")
     implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}")
     implementation("org.jspecify:jspecify:1.0.0")
     //Just for testing purposes, can be removed tbh
     implementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.24.3")
@@ -39,12 +40,6 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
     testCompileOnly("org.projectlombok:lombok:${lombokVersion}")
     testAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(javaVersion)
-    }
 }
 
 tasks.jar {
@@ -72,6 +67,10 @@ tasks.withType<JavaCompile> {
 
 tasks.withType<Test> {
     jvmArgs("--enable-preview")
+
+    val useExampleAssets = System.getenv("USE_EXAMPLE_ASSETS").toBoolean()
+    if(useExampleAssets)
+        systemProperty("eu.nyarie.core.installation.path", project.projectDir.absolutePath + "/example")
 }
 
 tasks.withType<JavaExec> {
