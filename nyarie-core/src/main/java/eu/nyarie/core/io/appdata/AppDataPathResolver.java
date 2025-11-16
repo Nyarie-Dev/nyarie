@@ -44,7 +44,7 @@ final class AppDataPathResolver {
     }
 
     public Path determineInstallationDirectoryPath() {
-        val DEFAULT_PATH = "TODO";
+        val DEFAULT_PATH = getDefaultPath();
 
         val systemPropertyPath = configReader.getSystemPropertyValue();
         val envPath = configReader.getEnvVarValue();
@@ -97,5 +97,15 @@ final class AppDataPathResolver {
         }
 
         return path;
+    }
+
+    private static String getDefaultPath() {
+        val userHome = System.getProperty("user.home");
+        val os = System.getProperty("os.name");
+
+        log.info("OS: {}", os);
+        log.info("User home: {}", userHome);
+
+        return userHome;
     }
 }
