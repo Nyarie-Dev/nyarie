@@ -103,9 +103,14 @@ final class AppDataPathResolver {
         val userHome = System.getProperty("user.home");
         val os = System.getProperty("os.name");
 
+        Path appDataDir = Path.of("");
+
+        if(os.toLowerCase().contains("windows"))
+            appDataDir = Path.of("AppData", "Roaming", "nyarie");
         log.info("OS: {}", os);
         log.info("User home: {}", userHome);
-
-        return userHome;
+        val finalDir = Path.of(userHome).resolve(appDataDir);
+        log.info("AppData dir: {}", finalDir);
+        return finalDir.toString();
     }
 }
