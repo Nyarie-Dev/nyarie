@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 ///
 /// ### Default path
 /// The default path of the app data directory will be in a subdirectory of the user home directory.
-/// The subdirectory however depends on the OS that the engine is running on.<br>
+/// The subdirectory, however, depends on the OS that the engine is running on.<br>
 /// Assuming defaults user homes with a user called `john`:
 /// - Windows: `C:\Users\john\AppData\Roaming`
 /// - Linux/UNIX: `/home/john/.local/share`
@@ -109,10 +109,9 @@ final class AppDataPathResolver {
             appDataDir = Path.of("AppData", "Roaming", "nyarie");
         if(os.toLowerCase().contains("linux"))
             appDataDir = Path.of(".local", "share");
-        log.info("OS: {}", os);
-        log.info("User home: {}", userHome);
+        if(os.toLowerCase().contains("mac"))
+            appDataDir = Path.of("Library", "Application Support");
         val finalDir = Path.of(userHome).resolve(appDataDir);
-        log.info("AppData dir: {}", finalDir);
         return finalDir.toString();
     }
 }
