@@ -9,6 +9,6 @@ class AppDataPathResolverTest extends AbstractIoTest {
     @Test
     void run() {
         val resolver = new AppDataPathResolver();
-        resolver.determineInstallationDirectoryPath();
+        resolver.determineAppDataDirectoryPath();
     }
 }

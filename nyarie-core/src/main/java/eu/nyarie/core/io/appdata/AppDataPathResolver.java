@@ -43,7 +43,7 @@ final class AppDataPathResolver {
         this.configReader = configReader;
     }
 
-    public Path determineInstallationDirectoryPath() {
+    public Path determineAppDataDirectoryPath() {
         val DEFAULT_PATH = getDefaultPath();
 
         val systemPropertyPath = configReader.getSystemPropertyValue();
@@ -90,8 +90,8 @@ final class AppDataPathResolver {
         log.debug("Checking if path is directory: {}", path);
         if (!Files.isDirectory(path)) {
             logBlock.error("""
-                    ERROR SETTING UP INSTALLATION DIRECTORY:
-                    Configured installation path is not a directory: {}
+                    ERROR SETTING UP APP DATA DIRECTORY:
+                    Configured app data path is not a directory: {}
                     """, path);
             throw AppDataDirectoryException.pathIsNoDirectory(path.toString());
         }
