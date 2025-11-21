@@ -3,6 +3,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 plugins {
     id("maven-publish")
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.adarshr.test-logger") version "4.0.0"
 }
 
 group = "eu.nyarie"
@@ -79,9 +80,4 @@ tasks.withType<JavaExec> {
 
 tasks.test {
     useJUnitPlatform()
-
-    testLogging {
-        events = setOf(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
-        showStandardStreams = true
-    }
 }
