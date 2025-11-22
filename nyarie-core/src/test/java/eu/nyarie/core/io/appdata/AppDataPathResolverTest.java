@@ -62,8 +62,8 @@ class AppDataPathResolverTest extends AbstractIoTest {
             private final Path expected = expectedPath();
 
             @Test
-            @DisplayName("should return path of jar")
-            void shouldReturnPathOfJar() {
+            @DisplayName("should return default path")
+            void shouldReturnDefaultPath() {
                 assertThat(result).isEqualTo(expected);
             }
 
@@ -72,11 +72,11 @@ class AppDataPathResolverTest extends AbstractIoTest {
                 val userHome = System.getProperty("user.home");
 
                 if(os.contains("windows"))
-                    return Path.of(userHome, "AppData", "Roaming");
+                    return Path.of(userHome, "AppData", "Roaming", "nyarie");
                 if(os.contains("mac"))
-                    return Path.of(userHome, "Library", "Application Support");
+                    return Path.of(userHome, "Library", "Application Support", "nyarie");
 
-                return Path.of(userHome, ".local", "share");
+                return Path.of(userHome, ".local", "share", "nyarie");
             }
         }
 
