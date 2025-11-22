@@ -108,9 +108,9 @@ final class AppDataPathResolver {
         if(os.toLowerCase().contains("windows"))
             appDataDir = Path.of("AppData", "Roaming", "nyarie");
         if(os.toLowerCase().contains("linux"))
-            appDataDir = Path.of(".local", "share");
+            appDataDir = Path.of(".local", "share", "nyarie");
         if(os.toLowerCase().contains("mac"))
-            appDataDir = Path.of("Library", "Application Support");
+            appDataDir = Path.of("Library", "Application Support", "nyarie");
         val finalDir = Path.of(userHome).resolve(appDataDir);
         return finalDir.toString();
     }
