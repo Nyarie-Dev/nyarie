@@ -8,7 +8,6 @@ import org.assertj.core.api.ThrowableAssertAlternative;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 
-import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.Optional;
@@ -35,18 +34,6 @@ class AppDataPathResolverTest extends AbstractIoTest {
             @BeforeEach
             void getResult() {
                 result = appDataPathResolver.determineAppDataDirectoryPath();
-            }
-
-            @Test
-            @DisplayName("should return a directory path")
-            void shouldReturnDirectory() {
-                assertThat(result).isDirectory();
-            }
-
-            @Test
-            @DisplayName("should return existing path")
-            void shouldReturnExistingPath() {
-                assertThat(result).isDirectory();
             }
 
             @Test
@@ -92,58 +79,26 @@ class AppDataPathResolverTest extends AbstractIoTest {
             }
 
             @Nested
-            @DisplayName("existing absolute path (root)")
-            class ExistingAbsolutePath extends AppDataPathResolverTest.DetermineAppDataDirectoryPathTest.SuccessfulAppDataPathResolverTest {
-
-                @BeforeEach
-                void setSystemProperty() {
-                    expected = testClassPath.getRoot();
-                    System.setProperty("eu.nyarie.core.appdata.path", expected.toString());
-                    getResult();
-                }
-
-                @Test
-                @DisplayName("should return configured path (root)")
-                void shouldReturnConfiguredPath() {
-                    assertThat(result).isEqualTo(expected);
-                }
-            }
-
-            @Nested
-            @DisplayName("non-existing absolute path")
-            class NonExistingAbsolutePath {
-
-                @BeforeEach
-                void setSystemProperty() {
-                    expected = Path.of(FileSystemUtils.getRoot(), "this", "hopefully", "does", "not", "exist");
-                    System.setProperty("eu.nyarie.core.appdata.path", expected.toString());
-                }
-
+            @DisplayName("absolute path")
+            class AbsolutePath {
                 @Nested
-                @DisplayName("Should throw Exception")
-                class ShouldThrowException {
-
-                    private ThrowableAssertAlternative<Exception> exception;
+                @DisplayName("pointing to directory (root)")
+                class PointingToDirectory extends AppDataPathResolverTest.DetermineAppDataDirectoryPathTest.SuccessfulAppDataPathResolverTest {
 
                     @BeforeEach
                     void setSystemProperty() {
-                        exception = assertThatException().isThrownBy(appDataPathResolver::determineAppDataDirectoryPath);
-                    }
-
-
-                    @Test
-                    @DisplayName("with type AppDataDirectoryException")
-                    void withTypeAppDataDirectoryException() {
-                        exception.isExactlyInstanceOf(AppDataDirectoryException.class);
+                        expected = testClassPath.getRoot();
+                        System.setProperty("eu.nyarie.core.appdata.path", expected.toString());
+                        getResult();
                     }
 
                     @Test
-                    @DisplayName("with correct message")
-                    void withCorrectMessage() {
-                        exception.withMessage(AppDataDirectoryException.directoryNotFound(expected.toString(), new FileNotFoundException()).getMessage());
+                    @DisplayName("should return configured path (root)")
+                    void shouldReturnConfiguredPath() {
+                        assertThat(result).isEqualTo(expected);
                     }
-
                 }
+
             }
 
             @Nested
@@ -197,60 +152,62 @@ class AppDataPathResolverTest extends AbstractIoTest {
             }
 
             @Nested
-            @DisplayName("existing absolute path (root)")
-            class ExistingAbsolutePath extends AppDataPathResolverTest.DetermineAppDataDirectoryPathTest.SuccessfulAppDataPathResolverTest {
-
-                @BeforeEach
-                void setSystemProperty() {
-                    expected = testClassPath.getRoot();
-                    Mockito.when(spyConfigReader.getEnvVarValue()).thenReturn(Optional.of(expected.toString()));
-                    getResult();
-                }
-
-                @Test
-                @DisplayName("should return configured path (root)")
-                void shouldReturnConfiguredPath() {
-                    assertThat(result).isEqualTo(expected);
-                }
-            }
-
-            @Nested
-            @DisplayName("non-existing absolute path")
-            class NonExistingAbsolutePath {
-
-                @BeforeEach
-                void setSystemProperty() {
-                    expected = Path.of(FileSystemUtils.getRoot(), "this", "hopefully", "does", "not", "exist");
-                    Mockito.when(spyConfigReader.getEnvVarValue()).thenReturn(Optional.of(expected.toString()));
-                }
-
+            @DisplayName("absolute path")
+            class AbsolutePath {
+                
                 @Nested
-                @DisplayName("Should throw Exception")
-                class ShouldThrowException {
-
-                    private ThrowableAssertAlternative<Exception> exception;
+                @DisplayName("pointing to directory (root)")
+                class PointingToDirectory extends AppDataPathResolverTest.DetermineAppDataDirectoryPathTest.SuccessfulAppDataPathResolverTest {
 
                     @BeforeEach
                     void setSystemProperty() {
-                        exception = assertThatException().isThrownBy(appDataPathResolver::determineAppDataDirectoryPath);
-                    }
-
-
-                    @Test
-                    @DisplayName("with type AppDataDirectoryException")
-                    void withTypeAppDataDirectoryException() {
-                        exception.isExactlyInstanceOf(AppDataDirectoryException.class);
+                        expected = testClassPath.getRoot();
+                        Mockito.when(spyConfigReader.getEnvVarValue()).thenReturn(Optional.of(expected.toString()));
+                        getResult();
                     }
 
                     @Test
-                    @DisplayName("with correct message")
-                    void withCorrectMessage() {
-                        exception.withMessage(AppDataDirectoryException.directoryNotFound(expected.toString(), new FileNotFoundException()).getMessage());
+                    @DisplayName("should return configured path (root)")
+                    void shouldReturnConfiguredPath() {
+                        assertThat(result).isEqualTo(expected);
                     }
+                }
 
+                @Nested
+                @DisplayName("pointing to file")
+                class PointingToFile {
+
+                    @Nested
+                    @DisplayName("Should throw Exception")
+                    class ShouldThrowException {
+
+                        private ThrowableAssertAlternative<Exception> exception;
+
+                        @BeforeEach
+                        void setSystemProperty() {
+                            val classFilePath = AppDataPathResolver.class.getName().split("\\.");
+                            val lastIndex = classFilePath.length - 1;
+                            classFilePath[lastIndex] = classFilePath[lastIndex] + ".class";
+                            expected = testClassPath.resolve("", classFilePath);
+                            Mockito.when(spyConfigReader.getEnvVarValue()).thenReturn(Optional.of(expected.toString()));
+                            exception = assertThatException().isThrownBy(appDataPathResolver::determineAppDataDirectoryPath);
+                        }
+
+
+                        @Test
+                        @DisplayName("with type AppDataDirectoryException")
+                        void withTypeAppDataDirectoryException() {
+                            exception.isExactlyInstanceOf(AppDataDirectoryException.class);
+                        }
+
+                        @Test
+                        @DisplayName("with correct message")
+                        void withCorrectMessage() {
+                            exception.withMessage(AppDataDirectoryException.pathIsNoDirectory(expected.toString()).getMessage());
+                        }
+                    }
                 }
             }
-
         }
     }
 }

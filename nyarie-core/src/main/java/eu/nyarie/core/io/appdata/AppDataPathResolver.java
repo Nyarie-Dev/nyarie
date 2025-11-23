@@ -5,7 +5,6 @@ import eu.nyarie.core.io.appdata.exception.AppDataDirectoryException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -80,20 +79,16 @@ final class AppDataPathResolver {
             throw AppDataDirectoryException.configuredPathNotAbsolute(path.toString());
         }
 
-        log.debug("Checking if path exists: {}", path);
-        if (Files.notExists(path)) {
-            log.error("Directory could not be found: {}", path);
-            val fileNotFoundException = new FileNotFoundException("Directory could not be found: %s".formatted(path));
-            throw AppDataDirectoryException.directoryNotFound(path.toString(), fileNotFoundException);
-        }
-
-        log.debug("Checking if path is directory: {}", path);
-        if (!Files.isDirectory(path)) {
-            logBlock.error("""
-                    ERROR SETTING UP APP DATA DIRECTORY:
-                    Configured app data path is not a directory: {}
-                    """, path);
-            throw AppDataDirectoryException.pathIsNoDirectory(path.toString());
+        if(Files.exists(path))  {
+            log.debug("Path exists: {}", path);
+            log.debug("Checking if path is directory: {}", path);
+            if (!Files.isDirectory(path)) {
+                logBlock.error("""
+                        ERROR SETTING UP APP DATA DIRECTORY:
+                        Configured app data path is not a directory: {}
+                        """, path);
+                throw AppDataDirectoryException.pathIsNoDirectory(path.toString());
+            }
         }
 
         return path;
