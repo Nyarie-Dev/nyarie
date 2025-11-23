@@ -99,6 +99,40 @@ class AppDataPathResolverTest extends AbstractIoTest {
                     }
                 }
 
+                @Nested
+                @DisplayName("pointing to file")
+                class PointingToFile {
+
+                    @Nested
+                    @DisplayName("Should throw Exception")
+                    class ShouldThrowException {
+
+                        private ThrowableAssertAlternative<Exception> exception;
+
+                        @BeforeEach
+                        void setSystemProperty() {
+                            val classFilePath = AppDataPathResolver.class.getName().split("\\.");
+                            val lastIndex = classFilePath.length - 1;
+                            classFilePath[lastIndex] = classFilePath[lastIndex] + ".class";
+                            expected = testClassPath.resolve("", classFilePath);
+                            System.setProperty("eu.nyarie.core.appdata.path", expected.toString());
+                            exception = assertThatException().isThrownBy(appDataPathResolver::determineAppDataDirectoryPath);
+                        }
+
+
+                        @Test
+                        @DisplayName("with type AppDataDirectoryException")
+                        void withTypeAppDataDirectoryException() {
+                            exception.isExactlyInstanceOf(AppDataDirectoryException.class);
+                        }
+
+                        @Test
+                        @DisplayName("with correct message")
+                        void withCorrectMessage() {
+                            exception.withMessage(AppDataDirectoryException.pathIsNoDirectory(expected.toString()).getMessage());
+                        }
+                    }
+                }
             }
 
             @Nested
