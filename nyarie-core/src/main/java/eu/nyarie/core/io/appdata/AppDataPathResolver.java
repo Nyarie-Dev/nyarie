@@ -85,7 +85,7 @@ final class AppDataPathResolver {
             if (!Files.isDirectory(path)) {
                 logBlock.error("""
                         ERROR SETTING UP APP DATA DIRECTORY:
-                        Configured app data path is not a directory: {}
+                        Configured app data path exists - but is not a directory: {}
                         """, path);
                 throw AppDataDirectoryException.pathIsNoDirectory(path.toString());
             }
