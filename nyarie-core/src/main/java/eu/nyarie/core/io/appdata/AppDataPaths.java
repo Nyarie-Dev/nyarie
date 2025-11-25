@@ -3,7 +3,7 @@ package eu.nyarie.core.io.appdata;
 import java.nio.file.Path;
 import java.util.Set;
 
-/// Defines the paths of the app data directory ([ROOT][#ROOT]) and its subpaths
+/// Defines the paths of the app data directory ([ROOT][#ROOT]) and its subpaths.
 ///
 /// For more information on how the [ROOT][#ROOT] app data path is determined and how it can be configured,
 /// see [AppDataPathResolver].
