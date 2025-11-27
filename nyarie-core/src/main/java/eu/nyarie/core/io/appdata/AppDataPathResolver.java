@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-/// Helper Class responsible for determining the path of the engine's **app data directory**.
+/// Helper Class responsible for determining the path of the engine's <b>app data directory</b>.
 ///
 /// ### Default path
 /// The default path of the app data directory will be in a subdirectory of the user home directory.
