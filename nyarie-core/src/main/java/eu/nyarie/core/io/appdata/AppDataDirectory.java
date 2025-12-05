@@ -17,9 +17,6 @@ import java.nio.file.Path;
 @Slf4j
 public final class AppDataDirectory {
 
-    public AppDataDirectory() {
-    }
-
     /// Gets the [Path] of the app data directory. See [AppDataDirectory] for the default values.
     /// @return The [Path] of the app data directory.
     public Path getRootDirectory() {
