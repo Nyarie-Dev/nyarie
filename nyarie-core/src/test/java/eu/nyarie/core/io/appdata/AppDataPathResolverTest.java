@@ -15,8 +15,8 @@ import java.util.Optional;
 class AppDataPathResolverTest extends AbstractIoTest {
 
 
-    private static final AppDataPathConfigReader spyConfigReader = Mockito.spy(new AppDataPathConfigReader());
-    private static final AppDataPathResolver appDataPathResolver = new AppDataPathResolver(spyConfigReader);
+    private static final AppDataPathConfigReader mockConfigReader = Mockito.mock(AppDataPathConfigReader.class);
+    private static final AppDataPathResolver appDataPathResolver = new AppDataPathResolver(mockConfigReader);
 
     @Nested
     @DisplayName("when calling determineAppDataDirectoryPath()")
@@ -72,6 +72,11 @@ class AppDataPathResolverTest extends AbstractIoTest {
         class WithSystemPropertySetTo {
 
             Path expected;
+
+            @BeforeEach
+            void setupStub() {
+                Mockito.when(mockConfigReader.getSystemPropertyValue()).thenCallRealMethod();
+            }
 
             @AfterEach
             void unsetProperty() {
@@ -182,7 +187,7 @@ class AppDataPathResolverTest extends AbstractIoTest {
 
             @AfterEach
             void unsetEnv() {
-                Mockito.when(spyConfigReader.getEnvVarValue()).thenCallRealMethod();
+                Mockito.when(mockConfigReader.getEnvVarValue()).thenCallRealMethod();
             }
 
             @Nested
@@ -196,7 +201,7 @@ class AppDataPathResolverTest extends AbstractIoTest {
                     @BeforeEach
                     void setSystemProperty() {
                         expected = testClassPath.getRoot();
-                        Mockito.when(spyConfigReader.getEnvVarValue()).thenReturn(Optional.of(expected.toString()));
+                        Mockito.when(mockConfigReader.getEnvVarValue()).thenReturn(Optional.of(expected.toString()));
                         getResult();
                     }
 
@@ -223,7 +228,7 @@ class AppDataPathResolverTest extends AbstractIoTest {
                             val lastIndex = classFilePath.length - 1;
                             classFilePath[lastIndex] = classFilePath[lastIndex] + ".class";
                             expected = testClassPath.resolve("", classFilePath);
-                            Mockito.when(spyConfigReader.getEnvVarValue()).thenReturn(Optional.of(expected.toString()));
+                            Mockito.when(mockConfigReader.getEnvVarValue()).thenReturn(Optional.of(expected.toString()));
                             exception = assertThatException().isThrownBy(appDataPathResolver::determineAppDataDirectoryPath);
                         }
 
