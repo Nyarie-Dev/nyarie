@@ -11,14 +11,14 @@ import java.util.Optional;
 final class AppDataPathConfigReader {
 
     /// Returns the value set for the `eu.nyarie.core.appdata.path` system property.
-    /// @return An [Optional] containing the value of the system property. [Optional#EMPTY] if property is not set.
+    /// @return An [Optional] containing the value of the system property. [Optional#empty] if property is not set.
     public Optional<String> getSystemPropertyValue() {
         val SYSTEM_PROPERTY_NAME = "eu.nyarie.core.appdata.path";
         return Optional.ofNullable(System.getProperty(SYSTEM_PROPERTY_NAME));
     }
 
     /// Returns the value of the `NYARIE_CORE_APPDATA_PATH` environment variable,
-    /// @return An [Optional] containing the value of the env var. [Optional#EMPTY] if env var is not set.
+    /// @return An [Optional] containing the value of the env var. [Optional#empty] if env var is not set.
     public Optional<String> getEnvVarValue() {
         val ENV_NAME = "NYARIE_CORE_APPDATA_PATH";
         return Optional.ofNullable(System.getenv(ENV_NAME));
