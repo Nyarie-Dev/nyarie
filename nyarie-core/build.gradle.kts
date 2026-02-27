@@ -9,7 +9,8 @@ plugins {
 group = "eu.nyarie"
 version = "1.0-SNAPSHOT"
 val lombokVersion by extra("1.18.42")
-val jacksonVersion by extra("2.19.0")
+val jacksonVersion by extra("2.21.1")
+val mockitoVersion by extra("5.21.0")
 
 repositories {
     mavenCentral()
@@ -23,18 +24,17 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}")
     implementation("org.jspecify:jspecify:1.0.0")
-    //Just for testing purposes, can be removed tbh
-    implementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.24.3")
     implementation(project(":nyarie-api"))
 
-    testImplementation(platform("org.junit:junit-bom:5.13.4"))
+    testImplementation(platform("org.junit:junit-bom:6.0.3"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.junit.platform:junit-platform-launcher")
-    testImplementation("org.assertj:assertj-core:3.27.2")
+    testImplementation("org.assertj:assertj-core:3.27.7")
+    testImplementation("org.junit-pioneer:junit-pioneer:2.3.0")
 
-    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.24.3")
-    testImplementation("org.mockito:mockito-core:2.1.0")
-    testImplementation("org.mockito:mockito-junit-jupiter:5.18.0")
+    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.25.3")
+    testImplementation("org.mockito:mockito-core:${mockitoVersion}")
+    testImplementation("org.mockito:mockito-junit-jupiter:${mockitoVersion}")
 
     //Lombok
     compileOnly("org.projectlombok:lombok:${lombokVersion}")
