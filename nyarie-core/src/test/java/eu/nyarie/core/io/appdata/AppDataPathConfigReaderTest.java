@@ -3,7 +3,6 @@ package eu.nyarie.core.io.appdata;
 import eu.nyarie.core.util.abstraction.AbstractIoTest;
 import lombok.val;
 import org.junit.jupiter.api.*;
-import org.junitpioneer.jupiter.SetEnvironmentVariable;
 
 class AppDataPathConfigReaderTest extends AbstractIoTest {
 
