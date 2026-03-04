@@ -1,5 +1,7 @@
 package eu.nyarie.core.io.appdata;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.nio.file.Path;
 import java.util.Set;
 
@@ -9,16 +11,23 @@ import java.util.Set;
 /// see [AppDataPathResolver].
 ///
 /// @see AppDataPathResolver
+@Slf4j
 final class AppDataPaths {
 
-    static final Path ROOT = new AppDataPathResolver().determineAppDataDirectoryPath();
-    static final Path MODS = ROOT.resolve("mods");
+    final Path ROOT;
+    final Path MODS;
+
+    public AppDataPaths() {
+        log.debug("Initializing app data directory paths");
+        this.ROOT = new AppDataPathResolver().determineAppDataDirectoryPath();
+        this.MODS = ROOT.resolve("mods");
+    }
 
     /// Gets all the subpaths of the app data path as an [unmodifiable Set][java.util.Collections#unmodifiableSet(Set)].
     ///
     /// The subpaths are all the statically defined Paths of the [AppDataPaths] class except for [ROOT][#ROOT].
     /// @return An unmodifiable [Set] containing all the subpaths of the app data path
-    public static Set<Path> getSubpaths() {
+    public Set<Path> getSubpaths() {
         return Set.of(
                 MODS
         );

@@ -11,25 +11,27 @@ import java.util.Set;
 
 class AppDataPathsTest extends AbstractIoTest {
 
+    private final AppDataPaths PATHS = new AppDataPaths();
+
     @Test
     @DisplayName("ROOT should be equal to AppDataPathResolver#determineAppDataDirectoryPath()")
     void rootShouldBeEqual() {
         val resolver = new AppDataPathResolver();
-        assertThat(AppDataPaths.ROOT).isEqualTo(resolver.determineAppDataDirectoryPath());
+        assertThat(PATHS.ROOT).isEqualTo(resolver.determineAppDataDirectoryPath());
     }
 
     @Test
     @DisplayName("MODS should be equal to ROOT + '/mods'")
     void modsShouldBeEqual() {
-        val root = AppDataPaths.ROOT;
-        assertThat(AppDataPaths.MODS).isEqualTo(root.resolve("mods"));
+        val root = PATHS.ROOT;
+        assertThat(PATHS.MODS).isEqualTo(root.resolve("mods"));
     }
 
     @Nested
     @DisplayName("getSubpaths() method")
     class GetSubpaths {
 
-        final Set<Path> result = AppDataPaths.getSubpaths();
+        final Set<Path> result = PATHS.getSubpaths();
 
         @Test
         @DisplayName("result should have size 1")
@@ -41,7 +43,7 @@ class AppDataPathsTest extends AbstractIoTest {
         @DisplayName("result should contain correct content")
         void shouldContainCorrectContent() {
             assertThat(result).containsExactly(
-                    AppDataPaths.MODS
+                    PATHS.MODS
             );
         }
     }

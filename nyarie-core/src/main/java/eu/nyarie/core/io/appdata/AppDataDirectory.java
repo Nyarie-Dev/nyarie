@@ -22,17 +22,22 @@ import java.nio.file.Path;
 @Slf4j
 public final class AppDataDirectory {
 
+    private final AppDataPaths PATHS;
+
     AppDataDirectory() {
         log.debug("Initializing engine's app data directory");
 
+        log.trace("Initializing AppDataPaths");
+        this.PATHS = new AppDataPaths();
+
         log.trace("Determining path for app data directory");
-        val rootPath = AppDataPaths.ROOT;
+        val rootPath = PATHS.ROOT;
         log.debug("Determined app data location: {}", rootPath);
 
         log.info("Initializing app data directory: {}", rootPath);
         log.info("Checking if all subdirectories exist...");
 
-        val subDirectories = AppDataPaths.getSubpaths();
+        val subDirectories = PATHS.getSubpaths();
 
         log.info("Required directories are:");
         log.info("|");
@@ -68,7 +73,7 @@ public final class AppDataDirectory {
     /// Gets the [Path] of the app data directory. See [AppDataDirectory] for the default values.
     /// @return The [Path] of the app data directory.
     public Path getRootDirectory() {
-        return AppDataPaths.ROOT;
+        return PATHS.ROOT;
     }
 
     /// Gets the [Path] of the `/mods` directory inside the app data directory.
@@ -76,6 +81,6 @@ public final class AppDataDirectory {
     /// This is equal to the [mods path][AppDataPaths#MODS] appended to the [app data directory path][#getRootDirectory()]
     /// @return The [Path] of the `/mods` directory inside the app data directory.
     public Path getModsDirectory() {
-        return AppDataPaths.MODS;
+        return PATHS.MODS;
     }
 }
