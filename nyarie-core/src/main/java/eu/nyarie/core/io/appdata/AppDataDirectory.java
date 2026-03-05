@@ -1,7 +1,12 @@
 package eu.nyarie.core.io.appdata;
 
+import eu.luktronic.logblock.LogBlock;
+import eu.nyarie.core.io.installation.exception.InstallationDirectoryException;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 /// Class representing the Engine's Application Data Directory.
@@ -16,6 +21,49 @@ import java.nio.file.Path;
 /// 2. Setting a `NYARIE_CORE_APPDATA_PATH` environment variable
 @Slf4j
 public final class AppDataDirectory {
+
+    AppDataDirectory() {
+        log.debug("Initializing engine's app data directory");
+
+        log.trace("Determining path for app data directory");
+        val rootPath = AppDataPaths.ROOT;
+        log.debug("Determined app data location: {}", rootPath);
+
+        log.info("Initializing app data directory: {}", rootPath);
+        log.info("Checking if all subdirectories exist...");
+
+        val subDirectories = AppDataPaths.getSubpaths();
+
+        log.info("Required directories are:");
+        log.info("|");
+        subDirectories.forEach(subpath -> {
+            log.info("|-- {}", subpath);
+        });
+
+
+        subDirectories.forEach(subpath -> {
+            log.debug("Checking if subpath exists: {}", subpath);
+            if(Files.notExists(subpath)) {
+                log.debug("Subpath '{}' does not exist - creating it", subpath);
+                try {
+                    Files.createDirectories(subpath);
+                } catch (IOException e) {
+                    LogBlock.withLogger(log)
+                            .error("""
+                                    ERROR CREATING APP DATA DIRECTORY:
+                                    Could not create subdirectory: {}
+                                    
+                                    Reason: {}
+                                    """, subpath, e.getMessage());
+                    throw InstallationDirectoryException.couldNotCreateSubdirectory(subpath.toString(), e);
+                }
+                log.info("Created missing directory: '{}'", subpath);
+            }
+        });
+
+        log.info("All subdirectories exist");
+        log.info("Finished initialization of app data directory");
+    }
 
     /// Gets the [Path] of the app data directory. See [AppDataDirectory] for the default values.
     /// @return The [Path] of the app data directory.
