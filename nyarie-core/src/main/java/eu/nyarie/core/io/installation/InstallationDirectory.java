@@ -1,5 +1,7 @@
 package eu.nyarie.core.io.installation;
 
+import eu.luktronic.logblock.LogBlock;
+import eu.nyarie.core.io.installation.exception.InstallationDirectoryException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -56,8 +58,14 @@ public class InstallationDirectory {
                 try {
                     Files.createDirectories(combinedPath);
                 } catch (IOException e) {
-                    //TODO: wrap in own exception
-                    throw new RuntimeException(e);
+                    LogBlock.withLogger(log)
+                            .error("""
+                                    ERROR CREATING INSTALLATION DIRECTORY:
+                                    Could not create subdirectory: {}
+                                    
+                                    Reason: {}
+                                    """, combinedPath, e.getMessage());
+                    throw InstallationDirectoryException.couldNotCreateSubdirectory(combinedPath.toString(), e);
                 }
                 log.info("Created missing '/{}' directory", subpath);
             }
