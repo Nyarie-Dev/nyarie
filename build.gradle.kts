@@ -1,4 +1,4 @@
-val javaVersion by extra(25)
+val javaVersion by extra(26)
 
 subprojects {
     apply(plugin = "java")
