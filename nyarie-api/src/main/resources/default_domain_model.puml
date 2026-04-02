@@ -7,7 +7,6 @@ class Character {
   + health: float
   + gear: String
   + factionId: UUID
-  + currentRegion: Region
   + commandedGroupId: UUID
   + culture: UUID
 }
@@ -54,7 +53,6 @@ class TerrainType {
   + movementDuration: Duration
 }
 
-Character "1" -- "1" Region : resides in >
 CharacterFaction "1" -- "1" Faction : member of
 FactionCharacter "1" o-- "*" Character : has members
 Region "1" -- "1" TerrainType : has >
@@ -68,6 +66,7 @@ Faction "1" -- "1" Region : has home >
 interface Moveable {
   + moveTo(Region region)
   + cancelMovement()
+  + getCurrentRegion()
   + getMovement()
   + getRemainingDuration()
 }
@@ -144,9 +143,7 @@ CombatUnit "1" -- "1" CombatUnitType : is of type >
 Specialist "1" -- "1" SpecialistType : is of type >
 ArmyConfig "1" -- "*" Army : configures >
 CompanyConfig "1" -- "*" Company : configures >
-Army "1" -- "1" Region : located in >
-Company "1" -- "1" Region : located in >
-Specialist "1" -- "1" Region : located in >
+Moveable "1" -- "1" Region : located in >
 ArmyCombatUnit "1" o-- "*" CombatUnit : commands >
 CompanyCombatUnit "1" o-- "*" CombatUnit : commands >
 
