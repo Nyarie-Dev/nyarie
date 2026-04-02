@@ -1,4 +1,4 @@
-package eu.nyarie.core.api.data.combat.army.unit;
+package eu.nyarie.core.api.data.combat.unit;
 
 /// Defines the type of a [combat unit][CombatUnitData]. The combat unit type is unique, meaning
 /// that each type only exists once. This is because the type acts like a "blueprint" while the
