@@ -82,6 +82,8 @@ Company ..|> Moveable
 Company ..|> Commandable
 Army ..|> Moveable
 Army ..|> Commandable
+CombatUnit ..|> Moveable
+CombatUnit ..|> Commandable
 
 class CombatUnitType {
   + name: String
@@ -93,7 +95,6 @@ class CombatUnit {
   + id: UUID
   + type: CombatUnitType
   + health: int
-  + commandedBy: Commandable
 }
 
 class SpecialistType {
