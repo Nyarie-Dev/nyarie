@@ -1,4 +1,4 @@
-package eu.nyarie.core.api.data.army;
+package eu.nyarie.core.api.data.combat.army;
 
 import java.util.Set;
 import java.util.UUID;

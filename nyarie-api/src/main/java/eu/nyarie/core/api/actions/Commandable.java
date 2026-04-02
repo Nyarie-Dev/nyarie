@@ -1,7 +1,7 @@
 package eu.nyarie.core.api.actions;
 
 import eu.nyarie.core.api.data.character.CharacterData;
-import eu.nyarie.core.api.data.army.ArmyData;
+import eu.nyarie.core.api.data.combat.army.ArmyData;
 
 import java.util.UUID;
 

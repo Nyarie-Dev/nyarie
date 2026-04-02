@@ -1,4 +1,4 @@
-package eu.nyarie.core.api.data.army.unit;
+package eu.nyarie.core.api.data.combat.army.unit;
 
 import eu.nyarie.core.api.actions.Commandable;
 import eu.nyarie.core.api.actions.Moveable;
