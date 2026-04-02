@@ -2,15 +2,15 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
     id("maven-publish")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.gradleup.shadow") version "9.4.1"
     id("com.adarshr.test-logger") version "4.0.0"
 }
 
 group = "eu.nyarie"
 version = "1.0-SNAPSHOT"
-val lombokVersion by extra("1.18.42")
-val jacksonVersion by extra("2.21.1")
-val mockitoVersion by extra("5.21.0")
+val lombokVersion by extra("1.18.44")
+val jacksonVersion by extra("2.21.2")
+val mockitoVersion by extra("5.23.0")
 
 repositories {
     mavenCentral()
@@ -31,7 +31,7 @@ dependencies {
     testImplementation("org.junit.platform:junit-platform-launcher")
     testImplementation("org.assertj:assertj-core:3.27.7")
 
-    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.25.3")
+    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.25.4")
     testImplementation("org.mockito:mockito-core:${mockitoVersion}")
     testImplementation("org.mockito:mockito-junit-jupiter:${mockitoVersion}")
 
