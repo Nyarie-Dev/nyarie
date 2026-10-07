@@ -17,9 +17,9 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-/// Loads a JSON file and maps it to the desired object
+/// Loads a CSV file and maps it to the desired object
 @Slf4j
-public class JsonFileLoader {
+public class CsvFileLoader {
 
     public <T> Optional<T> readAsset(Path path, Class<T> mapToClass, Supplier<InputStream> inputStreamSupplier) {
         try(val inputStream = inputStreamSupplier.get() ) {
