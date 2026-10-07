@@ -6,7 +6,7 @@ import eu.nyarie.core.io.assets.map.RegionsAsset;
 import eu.nyarie.core.io.assets.map.TerrainTypesAsset;
 import eu.nyarie.core.util.abstraction.AbstractIoTest;
 import eu.nyarie.core.util.io.FileSystemUtils;
-import eu.nyarie.core.util.serialization.NyarieObjectMapper;
+import eu.nyarie.core.util.serialization.NyarieObjectMappers;
 import lombok.val;
 import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,7 +41,7 @@ class AssetFileLoaderTest extends AbstractIoTest {
             void setup() throws IOException {
                 val finalPath = jarPath.resolve(regionAssetFilePath.getPath());
                 Files.createDirectories(finalPath.getParent());
-                val jsonString = new NyarieObjectMapper().getInstance().writeValueAsString(new RegionsAsset(new RegionsAsset.RegionAsset("1", "Gondor", "1")));
+                val jsonString = new NyarieObjectMappers().getJsonMapperInstance().writeValueAsString(new RegionsAsset(new RegionsAsset.RegionAsset("1", "Gondor", "1")));
                 Files.writeString(finalPath, jsonString);
                 result = assetLoader.fromFileSystem(jarPath, regionAssetFilePath);
             }

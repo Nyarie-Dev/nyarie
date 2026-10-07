@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import eu.luktronic.logblock.LogBlock;
 import eu.nyarie.core.io.assets.exception.AssetLoadingException;
-import eu.nyarie.core.util.serialization.NyarieObjectMapper;
+import eu.nyarie.core.util.serialization.NyarieObjectMappers;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -24,29 +24,29 @@ public class CsvFileLoader {
     public <T> Optional<T> readAsset(Path path, Class<T> mapToClass, Supplier<InputStream> inputStreamSupplier) {
         try(val inputStream = inputStreamSupplier.get() ) {
             if (inputStream == null) {
-                log.debug("Asset file '{}' was not found, returning empty optional", path);
+                log.debug("CSV file '{}' was not found, returning empty optional", path);
                 return Optional.empty();
             }
-            log.debug("Found asset file '{}'", path);
+            log.debug("Found CSV file '{}'", path);
 
-            log.debug("Deserializing asset file '{}'", path);
-            val om = new NyarieObjectMapper().getInstance();
+            log.debug("Deserializing CSV file '{}'", path);
+            val om = new NyarieObjectMappers().getCsvMapperInstance();
             val response = om.readValue(inputStream, mapToClass);
-            log.debug("Loaded asset file {}", path);
+            log.debug("Loaded CSV file {}", path);
             return Optional.of(response);
         }
         catch (JsonMappingException e) {
-            log.trace("Encountered {} while reading asset file - creating pretty log block", e.getClass().getSimpleName());
+            log.trace("Encountered {} while reading CSV file - creating pretty log block", e.getClass().getSimpleName());
             logJsonError(path, e, inputStreamSupplier);
             throw AssetLoadingException.invalidStructure(path, e);
         }
         catch (Exception e) {
             val logBlock = LogBlock.withLogger(log);
             logBlock.error("""
-                    ERROR WHILE LOADING ASSET FILE:
+                    ERROR WHILE LOADING CSV FILE:
                     {}
                     
-                    An unexpected {} occurred while trying to read the asset file:
+                    An unexpected {} occurred while trying to read the CSV file:
                     '{}'
                     """, path, e.getClass().getSimpleName(), e.getMessage());
             throw AssetLoadingException.unexpectedErrorReadingFile(path, e);
@@ -57,7 +57,7 @@ public class CsvFileLoader {
         val location = e.getLocation();
         val sb = new StringBuilder();
 
-        sb.append(String.format("ERROR PARSING ASSET FILE:\n%s:\n", path.toString()));
+        sb.append(String.format("ERROR PARSING CSV FILE:\n%s:\n", path.toString()));
         sb.append(e.getOriginalMessage()).append("\n\n");
 
         sb.append(String.format("...near Line %d, Column %d:\n",

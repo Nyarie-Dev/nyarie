@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import eu.luktronic.logblock.LogBlock;
 import eu.nyarie.core.io.assets.exception.AssetLoadingException;
-import eu.nyarie.core.util.serialization.NyarieObjectMapper;
+import eu.nyarie.core.util.serialization.NyarieObjectMappers;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -30,7 +30,7 @@ public class JsonFileLoader {
             log.debug("Found asset file '{}'", path);
 
             log.debug("Deserializing asset file '{}'", path);
-            val om = new NyarieObjectMapper().getInstance();
+            val om = new NyarieObjectMappers().getJsonMapperInstance();
             val response = om.readValue(inputStream, mapToClass);
             log.debug("Loaded asset file {}", path);
             return Optional.of(response);
