@@ -27,7 +27,7 @@ public class MapDataLoader {
         val path = terrainTypeInitPath.getPath();
         val dtoClass = terrainTypeInitPath.getDtoClass();
 
-        csvFileLoader.readAsset(path, dtoClass, TerrainTypeCsvContent.getSchema(), () -> {
+        csvFileLoader.readFile(path, dtoClass, TerrainTypeCsvContent.getSchema(), () -> {
             try {
                 return Files.newInputStream(path);
             } catch (IOException e) {

@@ -41,7 +41,7 @@ public class AssetFileLoader {
             return Optional.empty();
         }
 
-        return jsonFileLoader.readAsset(path, assetFilePath.getAssetClass(), () -> {
+        return jsonFileLoader.readFile(path, assetFilePath.getAssetClass(), () -> {
             try {
                 return Files.newInputStream(path);
             } catch (IOException e) {
@@ -82,6 +82,6 @@ public class AssetFileLoader {
         val path = assetFilePath.getPath();
         log.debug("Loading asset file for class '{}' from classpath resource: {}", assetFilePath.getAssetClass().getSimpleName(), path);
 
-        return jsonFileLoader.readAsset(path, assetFilePath.getAssetClass(), () -> this.getClass().getClassLoader().getResourceAsStream(assetFilePath.getPath().toString()));
+        return jsonFileLoader.readFile(path, assetFilePath.getAssetClass(), () -> this.getClass().getClassLoader().getResourceAsStream(assetFilePath.getPath().toString()));
     }
 }

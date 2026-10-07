@@ -32,8 +32,8 @@ class CsvFileLoaderTest extends AbstractIoTest {
             """;
 
     @Nested
-    @DisplayName("loadAssetFile")
-    class LoadAssetFile {
+    @DisplayName("readFile")
+    class ReadFile {
 
         @Nested
         @DisplayName("with existing file")
@@ -45,7 +45,7 @@ class CsvFileLoaderTest extends AbstractIoTest {
             void setup() throws IOException {
                 val finalPath = jarPath.resolve("CsvFileLoaderTest.csv");
                 Files.writeString(finalPath, sourceCsvString);
-                result = csvFileLoader.readAsset(finalPath, CsvDto.class, csvSchema, () -> {
+                result = csvFileLoader.readFile(finalPath, CsvDto.class, csvSchema, () -> {
                     try {
                         return Files.newInputStream(finalPath);
                     } catch (IOException e) {

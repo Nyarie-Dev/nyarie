@@ -22,7 +22,7 @@ import java.util.function.Supplier;
 @Slf4j
 public class CsvFileLoader {
 
-    public <T> List<T> readAsset(Path path, Class<T> mapToClass, CsvSchema schema, Supplier<InputStream> inputStreamSupplier) {
+    public <T> List<T> readFile(Path path, Class<T> mapToClass, CsvSchema schema, Supplier<InputStream> inputStreamSupplier) {
         try(val inputStream = inputStreamSupplier.get() ) {
             if (inputStream == null) {
                 log.debug("CSV file '{}' was not found, returning empty optional", path);

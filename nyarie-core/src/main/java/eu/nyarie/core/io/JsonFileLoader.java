@@ -21,7 +21,7 @@ import java.util.function.Supplier;
 @Slf4j
 public class JsonFileLoader {
 
-    public <T> Optional<T> readAsset(Path path, Class<T> mapToClass, Supplier<InputStream> inputStreamSupplier) {
+    public <T> Optional<T> readFile(Path path, Class<T> mapToClass, Supplier<InputStream> inputStreamSupplier) {
         try(val inputStream = inputStreamSupplier.get()) {
             if (inputStream == null) {
                 log.debug("Asset file '{}' was not found, returning empty optional", path);
