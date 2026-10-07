@@ -1,6 +1,7 @@
 package eu.nyarie.core.io.assets.loader;
 
 
+import eu.nyarie.core.io.JsonFileLoader;
 import eu.nyarie.core.io.assets.map.RegionsAsset;
 import eu.nyarie.core.io.assets.map.TerrainTypesAsset;
 import eu.nyarie.core.util.abstraction.AbstractIoTest;
@@ -22,7 +23,8 @@ import java.util.Optional;
 class AssetFileLoaderTest extends AbstractIoTest {
 
     private static final Path jarPath = FileSystemUtils.jarPath(AssetFileLoader.class);
-    private static final AssetFileLoader assetLoader = new AssetFileLoader();
+    private static final JsonFileLoader jsonFileLoader = new JsonFileLoader();
+    private static final AssetFileLoader assetLoader = new AssetFileLoader(jsonFileLoader);
 
     @Nested
     @DisplayName("loadAssetFile")
