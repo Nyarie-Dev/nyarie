@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class AssetFileDto<T extends AssetDto<?>> {
+public abstract class AssetFileDto<T extends AssetDto> {
 
     private List<T> data;
 
