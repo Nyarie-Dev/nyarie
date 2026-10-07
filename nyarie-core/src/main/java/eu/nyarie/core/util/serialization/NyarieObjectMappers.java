@@ -35,7 +35,6 @@ public class NyarieObjectMappers {
         csvMapper = CsvMapper.builder()
                 .enable(StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION)
                 .build();
-        csvMapper.registerModule(new JavaTimeModule());
         return csvMapper;
     }
 

@@ -2,6 +2,7 @@ package eu.nyarie.core.io;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import eu.luktronic.logblock.LogBlock;
 import eu.nyarie.core.io.assets.exception.AssetLoadingException;
 import eu.nyarie.core.util.serialization.NyarieObjectMappers;
@@ -14,26 +15,29 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.Optional;
+import java.util.List;
 import java.util.function.Supplier;
 
 /// Loads a CSV file and maps it to the desired object
 @Slf4j
 public class CsvFileLoader {
 
-    public <T> Optional<T> readAsset(Path path, Class<T> mapToClass, Supplier<InputStream> inputStreamSupplier) {
+    public <T> List<T> readAsset(Path path, Class<T> mapToClass, CsvSchema schema, Supplier<InputStream> inputStreamSupplier) {
         try(val inputStream = inputStreamSupplier.get() ) {
             if (inputStream == null) {
                 log.debug("CSV file '{}' was not found, returning empty optional", path);
-                return Optional.empty();
+                return List.of();
             }
             log.debug("Found CSV file '{}'", path);
 
             log.debug("Deserializing CSV file '{}'", path);
             val om = new NyarieObjectMappers().getCsvMapperInstance();
-            val response = om.readValue(inputStream, mapToClass);
+            val iterator = om.readerFor(mapToClass)
+                    .with(schema)
+                    .<T>readValues(inputStream);
+            val response = iterator.readAll();
             log.debug("Loaded CSV file {}", path);
-            return Optional.of(response);
+            return response;
         }
         catch (JsonMappingException e) {
             log.trace("Encountered {} while reading CSV file - creating pretty log block", e.getClass().getSimpleName());
