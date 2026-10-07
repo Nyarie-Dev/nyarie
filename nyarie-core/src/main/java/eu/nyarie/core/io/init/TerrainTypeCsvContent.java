@@ -5,11 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import lombok.Getter;
 
+import java.util.List;
+
 /// A serialization DTO representing the content of the `terrain-types.csv`. Gets its data written
 /// to the final `map.json` file after map initialization is done.
 public class TerrainTypeCsvContent extends InitFileContentDto<TerrainTypeCsvContent.TerrainTypeCsvEntry> {
 
     public TerrainTypeCsvContent(TerrainTypeCsvEntry... data) {
+        super(data);
+    }
+
+    public TerrainTypeCsvContent(List<TerrainTypeCsvEntry> data) {
         super(data);
     }
 
@@ -34,8 +40,8 @@ public class TerrainTypeCsvContent extends InitFileContentDto<TerrainTypeCsvCont
         @JsonCreator
         public TerrainTypeCsvEntry(
                 @JsonProperty(value = "id", required = true) Integer id,
-                @JsonProperty(value = "id", required = true) String name,
-                @JsonProperty(value = "id", required = true) Integer moveIntoDuration) {
+                @JsonProperty(value = "name", required = true) String name,
+                @JsonProperty(value = "moveIntoDuration", required = true) Integer moveIntoDuration) {
             this.id = id;
             this.name = name;
             this.moveIntoDuration = moveIntoDuration;

@@ -7,7 +7,7 @@ import lombok.val;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.List;
+import java.nio.file.Path;
 
 /// Uses file loaders to load all the data needed for map creation,
 @Slf4j
@@ -21,13 +21,13 @@ public class MapDataLoader {
         this.pngFileLoader = pngFileLoader;
     }
 
-    public List<TerrainTypeCsvContent> loadTerrainTypes() {
+    public TerrainTypeCsvContent loadTerrainTypes(Path basePath) {
 
         val terrainTypeInitPath = InitFilePaths.TERRAIN_TYPES;
-        val path = terrainTypeInitPath.getPath();
-        val dtoClass = terrainTypeInitPath.getDtoClass();
+        val path = basePath.resolve(terrainTypeInitPath.getPath());
+        log.info("Path is: {}", path);
 
-        csvFileLoader.readFile(path, dtoClass, TerrainTypeCsvContent.getSchema(), () -> {
+        val entries = csvFileLoader.readFile(path, TerrainTypeCsvContent.TerrainTypeCsvEntry.class, TerrainTypeCsvContent.getSchema(), () -> {
             try {
                 return Files.newInputStream(path);
             } catch (IOException e) {
@@ -37,6 +37,7 @@ public class MapDataLoader {
                 return null;
             }
         });
-        return List.of();
+
+        return new TerrainTypeCsvContent(entries);
     }
 }
