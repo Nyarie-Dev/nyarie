@@ -3,7 +3,6 @@ package eu.nyarie.core.io;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import eu.nyarie.core.io.assets.loader.AssetFileLoader;
 import eu.nyarie.core.util.abstraction.AbstractIoTest;
 import eu.nyarie.core.util.io.FileSystemUtils;
 import eu.nyarie.core.util.serialization.NyarieObjectMappers;
@@ -21,7 +20,7 @@ import java.util.Optional;
 @SuppressWarnings("ALL")
 class FileLoaderTest extends AbstractIoTest {
 
-    private static final Path jarPath = FileSystemUtils.jarPath(AssetFileLoader.class);
+    private static final Path jarPath = FileSystemUtils.jarPath(FileLoader.class);
     private static final JsonFileLoader jsonFileLoader = new JsonFileLoader();
     private static final CsvFileLoader csvFileLoader = new CsvFileLoader();
     private static final PngFileLoader pngFileLoader = new PngFileLoader();

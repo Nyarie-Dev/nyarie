@@ -17,9 +17,8 @@ import java.util.Optional;
 @SuppressWarnings("ALL")
 class AssetDirectoryLoaderTest extends AbstractIoTest {
 
-    private final AssetFileLoader mockAssetFileLoader = Mockito.mock(AssetFileLoader.class);
     private final FileLoader mockFileLoader = Mockito.mock(FileLoader.class);
-    private final AssetDirectoryLoader assetDirectoryLoader = new AssetDirectoryLoader(mockAssetFileLoader, mockFileLoader);
+    private final AssetDirectoryLoader assetDirectoryLoader = new AssetDirectoryLoader(mockFileLoader);
 
     private final Path path = Path.of("some-path");
     private final Optional<RegionsAsset> expectedRegions = Optional.of(new RegionsAsset());

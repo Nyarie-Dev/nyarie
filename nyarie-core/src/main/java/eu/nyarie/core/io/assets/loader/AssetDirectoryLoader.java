@@ -17,7 +17,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AssetDirectoryLoader {
 
-    private final AssetFileLoader assetFileLoader;
     private final FileLoader fileLoader;
 
     LoadedAssetDirectory fromFileSystem(Path assetDirectory) {

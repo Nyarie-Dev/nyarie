@@ -40,8 +40,7 @@ public class GameAssets {
         val csvFileLoader = new CsvFileLoader();
         val pngFileLoader = new PngFileLoader();
         val fileLoader = new FileLoader(jsonFileLoader, csvFileLoader, pngFileLoader);
-        val assetFileLoader = new AssetFileLoader(jsonFileLoader);
-        val assetDirectoryLoader = new AssetDirectoryLoader(assetFileLoader, fileLoader);
+        val assetDirectoryLoader = new AssetDirectoryLoader(fileLoader);
         val assetLoader = new AssetLoader(assetDirectoryLoader, installationDirectory, modDirectories);
 
         val assetContext = assetLoader.loadAssets();
