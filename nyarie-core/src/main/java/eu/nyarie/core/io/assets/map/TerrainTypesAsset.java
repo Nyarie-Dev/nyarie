@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.nyarie.core.io.FileContentDto;
 import eu.nyarie.core.io.FileEntryDto;
-import eu.nyarie.core.io.assets.AssetDto;
-import eu.nyarie.core.io.assets.AssetFileDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

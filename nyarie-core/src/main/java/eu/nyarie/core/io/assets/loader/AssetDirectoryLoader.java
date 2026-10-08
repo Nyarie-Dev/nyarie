@@ -3,7 +3,6 @@ package eu.nyarie.core.io.assets.loader;
 import eu.nyarie.core.io.FileContentDto;
 import eu.nyarie.core.io.FileLoader;
 import eu.nyarie.core.io.FilePath;
-import eu.nyarie.core.io.assets.AssetFileDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;

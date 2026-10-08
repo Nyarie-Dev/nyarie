@@ -1,7 +1,6 @@
 package eu.nyarie.core.io.assets.loader;
 
 import eu.nyarie.core.io.FileContentDto;
-import eu.nyarie.core.io.assets.AssetFileDto;
 import eu.nyarie.core.io.assets.map.RegionsAsset;
 import eu.nyarie.core.io.assets.map.TerrainTypesAsset;
 import lombok.val;
