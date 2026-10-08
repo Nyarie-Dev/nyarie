@@ -1,5 +1,6 @@
 package eu.nyarie.core.io.assets.loader;
 
+import eu.nyarie.core.io.FileContentDto;
 import eu.nyarie.core.io.assets.AssetFileDto;
 import eu.nyarie.core.io.assets.map.RegionsAsset;
 import eu.nyarie.core.io.assets.map.TerrainTypesAsset;
@@ -25,8 +26,8 @@ record LoadedAssetDirectory(
     /// Returns an unmodifiable list containing all the
     /// loaded asset files of this directory.
     /// @return An [unmodifiable List][Collections#unmodifiableList(List)] containing all loaded asset files.
-    public List<AssetFileDto<?>> allAssets() {
-        val list = new ArrayList<AssetFileDto<?>>(2);
+    public List<FileContentDto<?>> allAssets() {
+        val list = new ArrayList<FileContentDto<?>>(2);
         regions.ifPresent(list::add);
         terrainTypes.ifPresent(list::add);
         return Collections.unmodifiableList(list);

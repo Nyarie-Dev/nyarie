@@ -1,7 +1,7 @@
 package eu.nyarie.core.io.assets.loader;
 
 
-import eu.nyarie.core.io.JsonFileLoader;
+import eu.nyarie.core.io.*;
 import eu.nyarie.core.io.assets.map.RegionsAsset;
 import eu.nyarie.core.io.assets.map.TerrainTypesAsset;
 import eu.nyarie.core.util.abstraction.AbstractIoTest;
@@ -24,7 +24,9 @@ class AssetFileLoaderTest extends AbstractIoTest {
 
     private static final Path jarPath = FileSystemUtils.jarPath(AssetFileLoader.class);
     private static final JsonFileLoader jsonFileLoader = new JsonFileLoader();
-    private static final AssetFileLoader assetLoader = new AssetFileLoader(jsonFileLoader);
+    private static final CsvFileLoader csvFileLoader = new CsvFileLoader();
+    private static final PngFileLoader pngFileLoader = new PngFileLoader();
+    private static final FileLoader assetLoader = new FileLoader(jsonFileLoader, csvFileLoader, pngFileLoader);
 
     @Nested
     @DisplayName("loadAssetFile")
@@ -34,7 +36,7 @@ class AssetFileLoaderTest extends AbstractIoTest {
         @DisplayName("with existing asset file")
         class WithExistingAssetFile {
 
-            static final AssetFilePath<@NonNull RegionsAsset> regionAssetFilePath = AssetPaths.REGIONS;
+            static final FilePath<@NonNull RegionsAsset> regionAssetFilePath = AssetPaths.REGIONS;
             Optional<RegionsAsset> result;
 
             @BeforeEach
@@ -63,7 +65,7 @@ class AssetFileLoaderTest extends AbstractIoTest {
         @DisplayName("with non-existing asset file")
         class WithNonExistingAssetFile {
 
-            static final AssetFilePath<@NonNull TerrainTypesAsset> terrainTypeAssetFilePath = AssetPaths.TERRAIN_TYPES;
+            static final FilePath<@NonNull TerrainTypesAsset> terrainTypeAssetFilePath = AssetPaths.TERRAIN_TYPES;
             Optional<TerrainTypesAsset> result;
 
             @BeforeEach
@@ -89,7 +91,7 @@ class AssetFileLoaderTest extends AbstractIoTest {
         @DisplayName("with existing asset file")
         class WithExistingAssetFile {
 
-            static final AssetFilePath<@NonNull RegionsAsset> regionAssetFilePath = AssetPaths.REGIONS;
+            static final FilePath<@NonNull RegionsAsset> regionAssetFilePath = AssetPaths.REGIONS;
             Optional<RegionsAsset> result;
 
             @BeforeEach
@@ -114,7 +116,7 @@ class AssetFileLoaderTest extends AbstractIoTest {
         @DisplayName("with non-existing asset file")
         class WithNonExistingAssetFile {
 
-            static final AssetFilePath<@NonNull TerrainTypesAsset> terrainTypeAssetFilePath = AssetPaths.TERRAIN_TYPES;
+            static final FilePath<@NonNull TerrainTypesAsset> terrainTypeAssetFilePath = AssetPaths.TERRAIN_TYPES;
             Optional<TerrainTypesAsset> result;
 
             @BeforeEach

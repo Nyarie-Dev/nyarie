@@ -2,7 +2,10 @@ package eu.nyarie.core.io.assets.loader;
 
 import eu.nyarie.core.domain.constant.map.Region;
 import eu.nyarie.core.domain.constant.map.TerrainType;
+import eu.nyarie.core.io.CsvFileLoader;
+import eu.nyarie.core.io.FileLoader;
 import eu.nyarie.core.io.JsonFileLoader;
+import eu.nyarie.core.io.PngFileLoader;
 import eu.nyarie.core.io.installation.InstallationDirectory;
 import eu.nyarie.core.util.DurationUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +37,11 @@ public class GameAssets {
         val now = System.nanoTime();
 
         val jsonFileLoader = new JsonFileLoader();
+        val csvFileLoader = new CsvFileLoader();
+        val pngFileLoader = new PngFileLoader();
+        val fileLoader = new FileLoader(jsonFileLoader, csvFileLoader, pngFileLoader);
         val assetFileLoader = new AssetFileLoader(jsonFileLoader);
-        val assetDirectoryLoader = new AssetDirectoryLoader(assetFileLoader);
+        val assetDirectoryLoader = new AssetDirectoryLoader(assetFileLoader, fileLoader);
         val assetLoader = new AssetLoader(assetDirectoryLoader, installationDirectory, modDirectories);
 
         val assetContext = assetLoader.loadAssets();

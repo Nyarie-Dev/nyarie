@@ -2,6 +2,8 @@ package eu.nyarie.core.io.assets.map;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.nyarie.core.io.FileContentDto;
+import eu.nyarie.core.io.FileEntryDto;
 import eu.nyarie.core.io.assets.AssetDto;
 import eu.nyarie.core.io.assets.AssetFileDto;
 import lombok.AccessLevel;
@@ -14,7 +16,7 @@ import java.time.Duration;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TerrainTypesAsset extends AssetFileDto<TerrainTypesAsset.TerrainTypeAsset> {
+public class TerrainTypesAsset extends FileContentDto<TerrainTypesAsset.TerrainTypeAsset> {
 
     public TerrainTypesAsset(TerrainTypeAsset... data) {
         super(data);
@@ -22,7 +24,7 @@ public class TerrainTypesAsset extends AssetFileDto<TerrainTypesAsset.TerrainTyp
 
     @Setter
     @Getter
-    public static class TerrainTypeAsset extends AssetDto {
+    public static class TerrainTypeAsset extends FileEntryDto {
         private final String id;
         private final String name;
         private final Duration movementDuration;

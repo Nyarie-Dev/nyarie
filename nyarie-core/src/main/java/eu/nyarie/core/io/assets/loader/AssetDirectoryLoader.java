@@ -1,5 +1,8 @@
 package eu.nyarie.core.io.assets.loader;
 
+import eu.nyarie.core.io.FileContentDto;
+import eu.nyarie.core.io.FileLoader;
+import eu.nyarie.core.io.FilePath;
 import eu.nyarie.core.io.assets.AssetFileDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,15 +18,16 @@ import java.util.Optional;
 public class AssetDirectoryLoader {
 
     private final AssetFileLoader assetFileLoader;
+    private final FileLoader fileLoader;
 
     LoadedAssetDirectory fromFileSystem(Path assetDirectory) {
         log.debug("Loading assets from directory: {}", assetDirectory);
-        return loadAssetsUsingMethod(assetDirectory, assetFileLoader::fromFileSystem);
+        return loadAssetsUsingMethod(assetDirectory, fileLoader::fromFileSystem);
     }
 
     LoadedAssetDirectory fromFileSystemWithClasspathFallback(Path assetDirectory) {
         log.debug("Loading assets with classpath fallback from directory: {}", assetDirectory);
-        return loadAssetsUsingMethod(assetDirectory, assetFileLoader::fromFileSystemWithClasspathFallback);
+        return loadAssetsUsingMethod(assetDirectory, fileLoader::fromFileSystemWithClasspathFallback);
     }
 
     private LoadedAssetDirectory loadAssetsUsingMethod(Path basePath, AssetLoaderFunction loaderFunction) {
@@ -39,6 +43,6 @@ public class AssetDirectoryLoader {
 
     @FunctionalInterface
     interface AssetLoaderFunction {
-        <T extends AssetFileDto<?>> Optional<T> load(Path basePath, AssetFilePath<T> assetFilePath);
+        <T extends FileContentDto<?>> Optional<T> load(Path basePath, FilePath<T> assetFilePath);
     }
 }

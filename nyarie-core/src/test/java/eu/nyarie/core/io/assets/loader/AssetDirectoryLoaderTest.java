@@ -1,5 +1,6 @@
 package eu.nyarie.core.io.assets.loader;
 
+import eu.nyarie.core.io.FileLoader;
 import eu.nyarie.core.io.assets.map.RegionsAsset;
 import eu.nyarie.core.io.assets.map.TerrainTypesAsset;
 import eu.nyarie.core.util.abstraction.AbstractIoTest;
@@ -17,7 +18,8 @@ import java.util.Optional;
 class AssetDirectoryLoaderTest extends AbstractIoTest {
 
     private final AssetFileLoader mockAssetFileLoader = Mockito.mock(AssetFileLoader.class);
-    private final AssetDirectoryLoader assetDirectoryLoader = new AssetDirectoryLoader(mockAssetFileLoader);
+    private final FileLoader mockFileLoader = Mockito.mock(FileLoader.class);
+    private final AssetDirectoryLoader assetDirectoryLoader = new AssetDirectoryLoader(mockAssetFileLoader, mockFileLoader);
 
     private final Path path = Path.of("some-path");
     private final Optional<RegionsAsset> expectedRegions = Optional.of(new RegionsAsset());
@@ -32,8 +34,8 @@ class AssetDirectoryLoaderTest extends AbstractIoTest {
 
         @BeforeEach
         void act() {
-            Mockito.when(mockAssetFileLoader.fromFileSystem(path, AssetPaths.REGIONS)).thenReturn(expectedRegions);
-            Mockito.when(mockAssetFileLoader.fromFileSystem(path, AssetPaths.TERRAIN_TYPES)).thenReturn(expectedTerrainTypes);
+            Mockito.when(mockFileLoader.fromFileSystem(path, AssetPaths.REGIONS)).thenReturn(expectedRegions);
+            Mockito.when(mockFileLoader.fromFileSystem(path, AssetPaths.TERRAIN_TYPES)).thenReturn(expectedTerrainTypes);
 
             result = assetDirectoryLoader.fromFileSystem(path);
         }
@@ -41,20 +43,20 @@ class AssetDirectoryLoaderTest extends AbstractIoTest {
         @Test
         @DisplayName("should call AssetFileLoader exactly expected times")
         void shouldCallAssetFileLoaderExactlyExpectedTimes() {
-            val totalInvocations = Mockito.mockingDetails(mockAssetFileLoader).getInvocations().size();
+            val totalInvocations = Mockito.mockingDetails(mockFileLoader).getInvocations().size();
             assertThat(totalInvocations).isEqualTo(2);
         }
 
         @Test
         @DisplayName("should call AssetFileLoader for regions")
         void shouldCallAssetFileLoaderForRegions() {
-            Mockito.verify(mockAssetFileLoader, Mockito.times(1)).fromFileSystem(path, AssetPaths.REGIONS);
+            Mockito.verify(mockFileLoader, Mockito.times(1)).fromFileSystem(path, AssetPaths.REGIONS);
         }
 
         @Test
         @DisplayName("should call AssetFileLoader for terrain types")
         void shouldCallAssetFileLoaderForTerrainTypes() {
-            Mockito.verify(mockAssetFileLoader, Mockito.times(1)).fromFileSystem(path, AssetPaths.TERRAIN_TYPES);
+            Mockito.verify(mockFileLoader, Mockito.times(1)).fromFileSystem(path, AssetPaths.TERRAIN_TYPES);
         }
 
         @Test
@@ -72,8 +74,8 @@ class AssetDirectoryLoaderTest extends AbstractIoTest {
 
         @BeforeEach
         void act() {
-            Mockito.when(mockAssetFileLoader.fromFileSystemWithClasspathFallback(path, AssetPaths.REGIONS)).thenReturn(expectedRegions);
-            Mockito.when(mockAssetFileLoader.fromFileSystemWithClasspathFallback(path, AssetPaths.TERRAIN_TYPES)).thenReturn(expectedTerrainTypes);
+            Mockito.when(mockFileLoader.fromFileSystemWithClasspathFallback(path, AssetPaths.REGIONS)).thenReturn(expectedRegions);
+            Mockito.when(mockFileLoader.fromFileSystemWithClasspathFallback(path, AssetPaths.TERRAIN_TYPES)).thenReturn(expectedTerrainTypes);
 
             result = assetDirectoryLoader.fromFileSystemWithClasspathFallback(path);
         }
@@ -81,20 +83,20 @@ class AssetDirectoryLoaderTest extends AbstractIoTest {
         @Test
         @DisplayName("should call AssetFileLoader exactly expected times")
         void shouldCallAssetFileLoaderExactlyExpectedTimes() {
-            val totalInvocations = Mockito.mockingDetails(mockAssetFileLoader).getInvocations().size();
+            val totalInvocations = Mockito.mockingDetails(mockFileLoader).getInvocations().size();
             assertThat(totalInvocations).isEqualTo(2);
         }
 
         @Test
         @DisplayName("should call AssetFileLoader for regions")
         void shouldCallAssetFileLoaderForRegions() {
-            Mockito.verify(mockAssetFileLoader, Mockito.times(1)).fromFileSystemWithClasspathFallback(path, AssetPaths.REGIONS);
+            Mockito.verify(mockFileLoader, Mockito.times(1)).fromFileSystemWithClasspathFallback(path, AssetPaths.REGIONS);
         }
 
         @Test
         @DisplayName("should call AssetFileLoader for terrain types")
         void shouldCallAssetFileLoaderForTerrainTypes() {
-            Mockito.verify(mockAssetFileLoader, Mockito.times(1)).fromFileSystemWithClasspathFallback(path, AssetPaths.TERRAIN_TYPES);
+            Mockito.verify(mockFileLoader, Mockito.times(1)).fromFileSystemWithClasspathFallback(path, AssetPaths.TERRAIN_TYPES);
         }
 
         @Test

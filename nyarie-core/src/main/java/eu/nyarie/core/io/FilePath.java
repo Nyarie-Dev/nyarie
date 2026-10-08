@@ -10,7 +10,7 @@ public class FilePath<T extends FileContentDto<?>> {
     private final Path path;
     private final Class<T> dtoClass;
 
-    FilePath(Path path, Class<T> dtoClass) {
+    public FilePath(Path path, Class<T> dtoClass) {
         this.path = path;
         this.dtoClass = dtoClass;
     }
