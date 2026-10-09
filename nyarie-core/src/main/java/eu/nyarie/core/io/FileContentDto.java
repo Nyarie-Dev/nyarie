@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,5 +24,9 @@ public abstract class FileContentDto<T extends FileEntryDto> {
     @SafeVarargs
     public FileContentDto(T... data) {
         this.data = Arrays.asList(data);
+    }
+
+    public FileContentDto(List<T> data) {
+        this.data = new ArrayList<>(data);
     }
 }

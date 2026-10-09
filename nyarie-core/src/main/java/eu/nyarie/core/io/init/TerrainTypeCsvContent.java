@@ -3,13 +3,15 @@ package eu.nyarie.core.io.init;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import eu.nyarie.core.io.FileContentDto;
+import eu.nyarie.core.io.FileEntryDto;
 import lombok.Getter;
 
 import java.util.List;
 
 /// A serialization DTO representing the content of the `terrain-types.csv`. Gets its data written
 /// to the final `map.json` file after map initialization is done.
-public class TerrainTypeCsvContent extends InitFileContentDto<TerrainTypeCsvContent.TerrainTypeCsvEntry> {
+public class TerrainTypeCsvContent extends FileContentDto<TerrainTypeCsvContent.TerrainTypeCsvEntry> {
 
     public TerrainTypeCsvContent(TerrainTypeCsvEntry... data) {
         super(data);
@@ -32,7 +34,7 @@ public class TerrainTypeCsvContent extends InitFileContentDto<TerrainTypeCsvCont
     /// A single terrain type entry in the `terrain-types.csv`. Gets its data written
     /// to the final `map.json` file after map initialization is done.
     @Getter
-    public static class TerrainTypeCsvEntry extends InitFileEntryDto {
+    public static class TerrainTypeCsvEntry extends FileEntryDto {
         private final Integer id;
         private final String name;
         private final Integer moveIntoDuration;
