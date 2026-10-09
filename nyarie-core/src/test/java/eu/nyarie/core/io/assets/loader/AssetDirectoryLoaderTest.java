@@ -33,8 +33,8 @@ class AssetDirectoryLoaderTest extends AbstractIoTest {
 
         @BeforeEach
         void act() {
-            Mockito.when(mockFileLoader.fromFileSystem(path, AssetPaths.REGIONS)).thenReturn(expectedRegions);
-            Mockito.when(mockFileLoader.fromFileSystem(path, AssetPaths.TERRAIN_TYPES)).thenReturn(expectedTerrainTypes);
+            Mockito.when(mockFileLoader.jsonFromFileSystem(path, AssetPaths.REGIONS)).thenReturn(expectedRegions);
+            Mockito.when(mockFileLoader.jsonFromFileSystem(path, AssetPaths.TERRAIN_TYPES)).thenReturn(expectedTerrainTypes);
 
             result = assetDirectoryLoader.fromFileSystem(path);
         }
@@ -49,13 +49,13 @@ class AssetDirectoryLoaderTest extends AbstractIoTest {
         @Test
         @DisplayName("should call AssetFileLoader for regions")
         void shouldCallAssetFileLoaderForRegions() {
-            Mockito.verify(mockFileLoader, Mockito.times(1)).fromFileSystem(path, AssetPaths.REGIONS);
+            Mockito.verify(mockFileLoader, Mockito.times(1)).jsonFromFileSystem(path, AssetPaths.REGIONS);
         }
 
         @Test
         @DisplayName("should call AssetFileLoader for terrain types")
         void shouldCallAssetFileLoaderForTerrainTypes() {
-            Mockito.verify(mockFileLoader, Mockito.times(1)).fromFileSystem(path, AssetPaths.TERRAIN_TYPES);
+            Mockito.verify(mockFileLoader, Mockito.times(1)).jsonFromFileSystem(path, AssetPaths.TERRAIN_TYPES);
         }
 
         @Test
@@ -73,8 +73,8 @@ class AssetDirectoryLoaderTest extends AbstractIoTest {
 
         @BeforeEach
         void act() {
-            Mockito.when(mockFileLoader.fromFileSystemWithClasspathFallback(path, AssetPaths.REGIONS)).thenReturn(expectedRegions);
-            Mockito.when(mockFileLoader.fromFileSystemWithClasspathFallback(path, AssetPaths.TERRAIN_TYPES)).thenReturn(expectedTerrainTypes);
+            Mockito.when(mockFileLoader.jsonFromFileSystemWithClasspathFallback(path, AssetPaths.REGIONS)).thenReturn(expectedRegions);
+            Mockito.when(mockFileLoader.jsonFromFileSystemWithClasspathFallback(path, AssetPaths.TERRAIN_TYPES)).thenReturn(expectedTerrainTypes);
 
             result = assetDirectoryLoader.fromFileSystemWithClasspathFallback(path);
         }
@@ -89,13 +89,13 @@ class AssetDirectoryLoaderTest extends AbstractIoTest {
         @Test
         @DisplayName("should call AssetFileLoader for regions")
         void shouldCallAssetFileLoaderForRegions() {
-            Mockito.verify(mockFileLoader, Mockito.times(1)).fromFileSystemWithClasspathFallback(path, AssetPaths.REGIONS);
+            Mockito.verify(mockFileLoader, Mockito.times(1)).jsonFromFileSystemWithClasspathFallback(path, AssetPaths.REGIONS);
         }
 
         @Test
         @DisplayName("should call AssetFileLoader for terrain types")
         void shouldCallAssetFileLoaderForTerrainTypes() {
-            Mockito.verify(mockFileLoader, Mockito.times(1)).fromFileSystemWithClasspathFallback(path, AssetPaths.TERRAIN_TYPES);
+            Mockito.verify(mockFileLoader, Mockito.times(1)).jsonFromFileSystemWithClasspathFallback(path, AssetPaths.TERRAIN_TYPES);
         }
 
         @Test

@@ -44,7 +44,7 @@ class FileLoaderTest extends AbstractIoTest {
                 val jsonString = new NyarieObjectMappers().getJsonMapperInstance()
                         .writeValueAsString(new MyFileContentDto(new MyFileEntryDto(1, "Belegorn", "Arnorion")));
                 Files.writeString(finalPath, jsonString);
-                result = fileLoader.fromFileSystem(jarPath, testFilePath);
+                result = fileLoader.jsonFromFileSystem(jarPath, testFilePath);
             }
 
             @Test
@@ -71,7 +71,7 @@ class FileLoaderTest extends AbstractIoTest {
             void setup() throws IOException {
                 val finalPath = jarPath.resolve(testFilePath.getPath());
                 Files.deleteIfExists(finalPath);
-                result = fileLoader.fromFileSystem(jarPath, testFilePath);
+                result = fileLoader.jsonFromFileSystem(jarPath, testFilePath);
             }
 
             @Test
@@ -95,7 +95,7 @@ class FileLoaderTest extends AbstractIoTest {
 
             @BeforeEach
             void setup() throws IOException {
-                result = fileLoader.fromFileSystemWithClasspathFallback(jarPath, testFilePath);
+                result = fileLoader.jsonFromFileSystemWithClasspathFallback(jarPath, testFilePath);
             }
 
             @Test
@@ -120,7 +120,7 @@ class FileLoaderTest extends AbstractIoTest {
 
             @BeforeEach
             void setup() throws IOException {
-                result = fileLoader.fromFileSystemWithClasspathFallback(jarPath, testFilePath);
+                result = fileLoader.jsonFromFileSystemWithClasspathFallback(jarPath, testFilePath);
             }
 
             @Test

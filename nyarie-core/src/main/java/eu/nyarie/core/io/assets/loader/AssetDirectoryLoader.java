@@ -20,12 +20,12 @@ public class AssetDirectoryLoader {
 
     LoadedAssetDirectory fromFileSystem(Path assetDirectory) {
         log.debug("Loading assets from directory: {}", assetDirectory);
-        return loadAssetsUsingMethod(assetDirectory, fileLoader::fromFileSystem);
+        return loadAssetsUsingMethod(assetDirectory, fileLoader::jsonFromFileSystem);
     }
 
     LoadedAssetDirectory fromFileSystemWithClasspathFallback(Path assetDirectory) {
         log.debug("Loading assets with classpath fallback from directory: {}", assetDirectory);
-        return loadAssetsUsingMethod(assetDirectory, fileLoader::fromFileSystemWithClasspathFallback);
+        return loadAssetsUsingMethod(assetDirectory, fileLoader::jsonFromFileSystemWithClasspathFallback);
     }
 
     private LoadedAssetDirectory loadAssetsUsingMethod(Path basePath, AssetLoaderFunction loaderFunction) {

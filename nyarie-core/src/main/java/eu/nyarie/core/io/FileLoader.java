@@ -34,7 +34,7 @@ public class FileLoader {
     /// @param parentDir The path where the asset should be searched in the file system.
     /// @param filePath The [FilePath] of the file that should be loaded.
     /// @return [Optional] containing the data mapped to class [T], or [Optional#empty()] if the file does not exist.
-    public <T extends FileContentDto<?>> Optional<T> fromFileSystem(Path parentDir, FilePath<T> filePath) {
+    public <T extends FileContentDto<?>> Optional<T> jsonFromFileSystem(Path parentDir, FilePath<T> filePath) {
         val path = parentDir.resolve(filePath.getPath());
         log.debug("Loading file for class '{}': {}", filePath.getDtoClass().getSimpleName(), path);
 
@@ -55,7 +55,7 @@ public class FileLoader {
         });
     }
 
-    /// Loads a file from the file system by calling [#fromFileSystem(Path, FilePath)].
+    /// Loads a file from the file system by calling [#jsonFromFileSystem(Path, FilePath)].
     ///
     /// If the file does not exist on the file system, the classpath is searched under the
     /// specified `filePath`.
@@ -72,8 +72,8 @@ public class FileLoader {
     /// @param parentDir The path where the file should be searched in the file system.
     /// @param filePath The [FilePath] of the file that should be loaded.
     /// @return [Optional] containing the loaded [FileContentDto], or [Optional#empty()] if the file does not exist.
-    public <T extends FileContentDto<?>> Optional<T> fromFileSystemWithClasspathFallback(Path parentDir, FilePath<T> filePath) {
-        val fileSystemAsset = fromFileSystem(parentDir, filePath);
+    public <T extends FileContentDto<?>> Optional<T> jsonFromFileSystemWithClasspathFallback(Path parentDir, FilePath<T> filePath) {
+        val fileSystemAsset = jsonFromFileSystem(parentDir, filePath);
         if(fileSystemAsset.isPresent()) {
             log.debug("Asset was loaded using file system - skipping classpath loading");
             return fileSystemAsset;
