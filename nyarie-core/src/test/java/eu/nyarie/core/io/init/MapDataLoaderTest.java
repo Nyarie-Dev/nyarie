@@ -2,6 +2,8 @@ package eu.nyarie.core.io.init;
 
 
 import eu.nyarie.core.io.CsvFileLoader;
+import eu.nyarie.core.io.FileLoader;
+import eu.nyarie.core.io.JsonFileLoader;
 import eu.nyarie.core.io.PngFileLoader;
 import eu.nyarie.core.util.abstraction.AbstractIoTest;
 import eu.nyarie.core.util.io.FileSystemUtils;
@@ -19,9 +21,11 @@ import java.nio.file.Path;
 class MapDataLoaderTest extends AbstractIoTest {
 
     private static final Path jarPath = FileSystemUtils.jarPath(MapDataLoader.class);
+    private static final JsonFileLoader jsonFileLoader = new JsonFileLoader();
     private static final CsvFileLoader csvFileLoader = new CsvFileLoader();
     private static final PngFileLoader pngFileLoader = new PngFileLoader();
-    private static final MapDataLoader mapDataLoader = new MapDataLoader(csvFileLoader, pngFileLoader);
+    private static final FileLoader fileLoader = new FileLoader(jsonFileLoader, csvFileLoader, pngFileLoader);
+    private static final MapDataLoader mapDataLoader = new MapDataLoader(fileLoader);
 
     private static final String sourceCsvString = """
             1,Plains,1
