@@ -21,7 +21,13 @@ public class FileLoader {
     private final CsvFileLoader csvFileLoader;
     private final PngFileLoader pngFileLoader;
 
-    public FileLoader(JsonFileLoader jsonFileLoader, CsvFileLoader csvFileLoader, PngFileLoader pngFileLoader) {
+    public FileLoader() {
+        this.jsonFileLoader = new JsonFileLoader();
+        this.csvFileLoader = new CsvFileLoader();
+        this.pngFileLoader = new PngFileLoader();
+    }
+
+    FileLoader(JsonFileLoader jsonFileLoader, CsvFileLoader csvFileLoader, PngFileLoader pngFileLoader) {
         this.jsonFileLoader = jsonFileLoader;
         this.csvFileLoader = csvFileLoader;
         this.pngFileLoader = pngFileLoader;
