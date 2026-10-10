@@ -11,6 +11,7 @@ version = "1.0-SNAPSHOT"
 val lombokVersion by extra("1.18.44")
 val jacksonVersion by extra("2.21.2")
 val mockitoVersion by extra("5.23.0")
+val log4jVersion = "2.26.1"
 
 repositories {
     mavenCentral()
@@ -31,7 +32,7 @@ dependencies {
     testImplementation("org.junit.platform:junit-platform-launcher")
     testImplementation("org.assertj:assertj-core:3.27.7")
 
-    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.25.4")
+    testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl:${log4jVersion}")
     testImplementation("org.mockito:mockito-core:${mockitoVersion}")
     testImplementation("org.mockito:mockito-junit-jupiter:${mockitoVersion}")
 
@@ -79,4 +80,8 @@ tasks.withType<JavaExec> {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+testlogger {
+    showStandardStreams = true
 }
