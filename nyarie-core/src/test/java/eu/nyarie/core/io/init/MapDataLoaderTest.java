@@ -29,8 +29,8 @@ class MapDataLoaderTest extends AbstractIoTest {
             """;
 
     @Nested
-    @DisplayName("")
-    class LoadAssetFile {
+    @DisplayName("loadTerrainTypes")
+    class LoadTerrainTypes {
 
         @Nested
         @DisplayName("with existing file")
