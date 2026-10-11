@@ -1,7 +1,6 @@
 package eu.nyarie.core.io.installation;
 
 import eu.luktronic.logblock.LogBlock;
-import eu.nyarie.core.io.assets.exception.AssetLoadingException;
 import eu.nyarie.core.io.installation.exception.InstallationDirectoryException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;

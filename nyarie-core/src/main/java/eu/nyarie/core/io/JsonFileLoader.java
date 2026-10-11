@@ -3,7 +3,7 @@ package eu.nyarie.core.io;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import eu.luktronic.logblock.LogBlock;
-import eu.nyarie.core.io.assets.exception.AssetLoadingException;
+import eu.nyarie.core.io.exception.FileLoadingException;
 import eu.nyarie.core.util.serialization.NyarieObjectMappers;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -38,7 +38,7 @@ public class JsonFileLoader {
         catch (JsonMappingException e) {
             log.trace("Encountered {} while reading asset file - creating pretty log block", e.getClass().getSimpleName());
             logJsonError(path, e, inputStreamSupplier);
-            throw AssetLoadingException.invalidStructure(path, e);
+            throw FileLoadingException.invalidStructure(path, e);
         }
         catch (Exception e) {
             val logBlock = LogBlock.withLogger(log);
@@ -49,7 +49,7 @@ public class JsonFileLoader {
                     An unexpected {} occurred while trying to read the asset file:
                     '{}'
                     """, path, e.getClass().getSimpleName(), e.getMessage());
-            throw AssetLoadingException.unexpectedErrorReadingFile(path, e);
+            throw FileLoadingException.unexpectedErrorReadingFile(path, e);
         }
     }
 
@@ -101,7 +101,7 @@ public class JsonFileLoader {
 
             LogBlock.withLogger(log).error(sb.toString());
         } catch (IOException ex) {
-            throw AssetLoadingException.unexpectedErrorWhileGettingJsonErrorLocation(ex);
+            throw FileLoadingException.unexpectedErrorWhileGettingJsonErrorLocation(ex);
         }
     }
 }

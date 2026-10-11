@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import eu.luktronic.logblock.LogBlock;
-import eu.nyarie.core.io.assets.exception.AssetLoadingException;
+import eu.nyarie.core.io.exception.FileLoadingException;
 import eu.nyarie.core.util.serialization.NyarieObjectMappers;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -42,7 +42,7 @@ public class CsvFileLoader {
         catch (JsonMappingException e) {
             log.trace("Encountered {} while reading CSV file - creating pretty log block", e.getClass().getSimpleName());
             logJsonError(path, e, inputStreamSupplier);
-            throw AssetLoadingException.invalidStructure(path, e);
+            throw FileLoadingException.invalidStructure(path, e);
         }
         catch (Exception e) {
             val logBlock = LogBlock.withLogger(log);
@@ -53,7 +53,7 @@ public class CsvFileLoader {
                     An unexpected {} occurred while trying to read the CSV file:
                     '{}'
                     """, path, e.getClass().getSimpleName(), e.getMessage());
-            throw AssetLoadingException.unexpectedErrorReadingFile(path, e);
+            throw FileLoadingException.unexpectedErrorReadingFile(path, e);
         }
     }
 
@@ -105,7 +105,7 @@ public class CsvFileLoader {
 
             LogBlock.withLogger(log).error(sb.toString());
         } catch (IOException ex) {
-            throw AssetLoadingException.unexpectedErrorWhileGettingJsonErrorLocation(ex);
+            throw FileLoadingException.unexpectedErrorWhileGettingJsonErrorLocation(ex);
         }
     }
 }
