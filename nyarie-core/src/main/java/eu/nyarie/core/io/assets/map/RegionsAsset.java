@@ -1,38 +1,9 @@
 package eu.nyarie.core.io.assets.map;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import eu.nyarie.core.io.FileContentDto;
-import eu.nyarie.core.io.FileEntryDto;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import eu.nyarie.core.io.FileDto;
 
-@Getter
-@Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class RegionsAsset extends FileContentDto<RegionsAsset.RegionAsset> {
+import java.util.List;
 
-    public RegionsAsset(RegionAsset... data) {
-        super(data);
-    }
+public record RegionsAsset(List<RegionAsset> data) implements FileDto {
 
-    @Getter
-    @Setter
-    public static class RegionAsset extends FileEntryDto {
-        private final String id;
-        private final String name;
-        private final String terrainType;
-
-        @JsonCreator
-        public RegionAsset(
-                @JsonProperty(value = "id", required = true) String id,
-                @JsonProperty(value = "name", required = true) String name,
-                @JsonProperty(value = "terrainType", required = true) String terrainType) {
-            this.id = id;
-            this.name = name;
-            this.terrainType = terrainType;
-        }
-    }
 }

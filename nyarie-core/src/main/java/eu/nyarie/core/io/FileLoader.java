@@ -44,7 +44,7 @@ public class FileLoader {
     /// @param parentDir The path where the file should be searched in the file system.
     /// @param filePath The [FilePath] of the file that should be loaded.
     /// @return [Optional] containing the data mapped to class [T], or [Optional#empty()] if the file does not exist.
-    public <T extends FileContentDto<?>> Optional<T> jsonFromFileSystem(Path parentDir, FilePath<T> filePath) {
+    public <T extends FileDto> Optional<T> jsonFromFileSystem(Path parentDir, FilePath<T> filePath) {
         val path = parentDir.resolve(filePath.getPath());
         log.debug("Loading JSON file for class '{}': {}", filePath.getDtoClass().getSimpleName(), path);
 
@@ -72,8 +72,8 @@ public class FileLoader {
     /// ```
     /// @param parentDir The path where the file should be searched in the file system.
     /// @param filePath The [FilePath] of the file that should be loaded.
-    /// @return [Optional] containing the loaded [FileContentDto], or [Optional#empty()] if the file does not exist.
-    public <T extends FileContentDto<?>> Optional<T> jsonFromFileSystemWithClasspathFallback(Path parentDir, FilePath<T> filePath) {
+    /// @return [Optional] containing the loaded [FileDto], or [Optional#empty()] if the file does not exist.
+    public <T extends FileDto> Optional<T> jsonFromFileSystemWithClasspathFallback(Path parentDir, FilePath<T> filePath) {
         val fileSystemAsset = jsonFromFileSystem(parentDir, filePath);
         if(fileSystemAsset.isPresent()) {
             log.debug("JSON file was loaded using file system - skipping classpath loading");
@@ -99,8 +99,8 @@ public class FileLoader {
     /// @param parentDir The path where the file should be searched in the file system.
     /// @param filePath The [FilePath] of the file that should be loaded.
     /// @param csvSchema The [CsvSchema] that should be used to map the CSV columns to the target class.
-    /// @return [List] containing the loaded [FileEntryDto], or empty [List] if the file does not exist.
-    public <T extends FileEntryDto> List<T> csvFromFileSystem(Path parentDir, FilePath<T> filePath, CsvSchema csvSchema) {
+    /// @return [List] containing the loaded [FileDto], or empty [List] if the file does not exist.
+    public <T extends FileDto> List<T> csvFromFileSystem(Path parentDir, FilePath<T> filePath, CsvSchema csvSchema) {
         val path = parentDir.resolve(filePath.getPath());
         log.debug("Loading CSV file for class '{}': {}", filePath.getDtoClass().getSimpleName(), path);
 
@@ -129,8 +129,8 @@ public class FileLoader {
     /// @param parentDir The path where the file should be searched in the file system.
     /// @param filePath The [FilePath] of the file that should be loaded.
     /// @param csvSchema The [CsvSchema] that should be used to map the CSV columns to the target class.
-    /// @return [List] containing the loaded [FileEntryDto], or empty [List] if the file does not exist.
-    public <T extends FileEntryDto> List<T> csvFromFileSystemWithClasspathFallback(Path parentDir, FilePath<T> filePath, CsvSchema csvSchema) {
+    /// @return [List] containing the loaded [FileDto], or empty [List] if the file does not exist.
+    public <T extends FileDto> List<T> csvFromFileSystemWithClasspathFallback(Path parentDir, FilePath<T> filePath, CsvSchema csvSchema) {
         val fileSystemAsset = csvFromFileSystem(parentDir, filePath, csvSchema);
         if(!fileSystemAsset.isEmpty()) {
             log.debug("CSV file was loaded using file system - skipping classpath loading");

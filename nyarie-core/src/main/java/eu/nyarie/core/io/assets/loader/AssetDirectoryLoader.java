@@ -1,6 +1,6 @@
 package eu.nyarie.core.io.assets.loader;
 
-import eu.nyarie.core.io.FileContentDto;
+import eu.nyarie.core.io.FileDto;
 import eu.nyarie.core.io.FileLoader;
 import eu.nyarie.core.io.FilePath;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class AssetDirectoryLoader {
     }
 
     private LoadedAssetDirectory loadAssetsUsingMethod(Path basePath, AssetLoaderFunction loaderFunction) {
-        log.trace("Calling AssetFileLoader for regions");
+        log.trace("Calling AssetFileLoader for data");
         val regions = loaderFunction.load(basePath, AssetPaths.REGIONS);
         log.trace("Calling AssetFileLoader for terrain types");
         val terrainTypes = loaderFunction.load(basePath, AssetPaths.TERRAIN_TYPES);
@@ -41,6 +41,6 @@ public class AssetDirectoryLoader {
 
     @FunctionalInterface
     interface AssetLoaderFunction {
-        <T extends FileContentDto<?>> Optional<T> load(Path basePath, FilePath<T> assetFilePath);
+        <T extends FileDto> Optional<T> load(Path basePath, FilePath<T> assetFilePath);
     }
 }

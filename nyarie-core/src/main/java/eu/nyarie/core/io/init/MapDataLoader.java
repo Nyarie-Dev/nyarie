@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.nio.file.Path;
+import java.util.List;
 
 /// Uses file loaders to load all the data needed for map creation,
 @Slf4j
@@ -16,7 +17,7 @@ public class MapDataLoader {
         this.fileLoader = fileLoader;
     }
 
-    public TerrainTypeCsvContent loadTerrainTypes(Path basePath) {
+    public List<TerrainTypeCsvEntry> loadTerrainTypes(Path basePath) {
         log.trace("Entered loadTerrainTypes method with basePath: {}", basePath);
 
         val terrainTypeInitPath = InitFilePaths.TERRAIN_TYPES;
@@ -24,13 +25,14 @@ public class MapDataLoader {
         log.debug("Loading terrain types from file: {}", path);
 
         log.trace("Calling FileLoader");
-        val entries = fileLoader.csvFromFileSystem(basePath, InitFilePaths.TERRAIN_TYPES, TerrainTypeCsvContent.getSchema());
+
+        val entries = fileLoader.csvFromFileSystem(basePath, InitFilePaths.TERRAIN_TYPES, TerrainTypeCsvEntry.getSchema());
 
         log.debug("Successfully initialized {} terrain types:", entries.size());
         entries.forEach(entry -> {
-            log.debug("|--- [{}] {} (movement duration: {})", entry.getId(), entry.getName(), entry.getMoveIntoDuration());
+            log.debug("|--- [{}] {} (movement duration: {})", entry.id(), entry.name(), entry.moveIntoDuration());
         });
 
-        return new TerrainTypeCsvContent(entries);
+        return entries;
     }
 }

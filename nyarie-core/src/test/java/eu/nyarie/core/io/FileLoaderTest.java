@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("ALL")
@@ -42,7 +43,7 @@ class FileLoaderTest extends AbstractIoTest {
                 val finalPath = jarPath.resolve(testFilePath.getPath());
                 Files.createDirectories(finalPath.getParent());
                 val jsonString = new NyarieObjectMappers().getJsonMapperInstance()
-                        .writeValueAsString(new MyFileContentDto(new MyFileEntryDto(1, "Belegorn", "Arnorion")));
+                        .writeValueAsString(new MyFileContentDto(List.of(new MyFileEntryDto(1, "Belegorn", "Arnorion"))));
                 Files.writeString(finalPath, jsonString);
                 result = fileLoader.jsonFromFileSystem(jarPath, testFilePath);
             }
@@ -56,7 +57,7 @@ class FileLoaderTest extends AbstractIoTest {
             @Test
             @DisplayName("should have correct id")
             void shouldHaveCorrectEntriesInList() {
-                assertThat(result.orElseThrow().getData().getFirst().getId()).isEqualTo(1);
+                assertThat(result.orElseThrow().data().getFirst().getId()).isEqualTo(1);
             }
         }
 
@@ -107,7 +108,7 @@ class FileLoaderTest extends AbstractIoTest {
             @Test
             @DisplayName("should have correct id")
             void shouldHaveCorrectEntriesInList() {
-                assertThat(result.orElseThrow().getData().getFirst().getId()).isEqualTo(1);
+                assertThat(result.orElseThrow().data().getFirst().getId()).isEqualTo(1);
             }
         }
 
@@ -132,7 +133,7 @@ class FileLoaderTest extends AbstractIoTest {
     }
 
     @Getter
-    private static class MyFileEntryDto extends FileEntryDto {
+    private static class MyFileEntryDto implements FileDto {
         private final Integer id;
         private final String name;
         private final String lastname;
@@ -148,10 +149,6 @@ class FileLoaderTest extends AbstractIoTest {
         }
     }
 
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    private static class MyFileContentDto extends FileContentDto<MyFileEntryDto> {
-        public MyFileContentDto(MyFileEntryDto... data) {
-            super(data);
-        }
+    private static record MyFileContentDto(List<MyFileEntryDto> data) implements FileDto {
     }
 }

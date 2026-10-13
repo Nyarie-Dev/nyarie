@@ -22,17 +22,17 @@ record MergedAssetContext(
     /// This will be properly implemented in: [Merging of loaded assets #5](https://github.com/Nyarie-Dev/nyarie/issues/5)
     GameAssets mapToDomain() {
         val mappedTerrainTypes = terrainTypes
-                .map(TerrainTypesAsset::getData)
+                .map(TerrainTypesAsset::data)
                 .orElse(List.of())
                 .stream()
-                .map(tt -> new TerrainType(tt.getId(), tt.getName(), tt.getMovementDuration()))
+                .map(tt -> new TerrainType(tt.id(), tt.name(), tt.movementDuration()))
                 .toList();
         val mappedRegions = regions
-                .map(RegionsAsset::getData)
+                .map(RegionsAsset::data)
                 .orElse(List.of())
                 .stream()
                 .map(region ->
-                        new Region(region.getId(), region.getName(), resolveTerrainType(region.getTerrainType(), mappedTerrainTypes), Set.of(), Set.of(), Set.of()))
+                        new Region(region.id(), region.name(), resolveTerrainType(region.terrainType(), mappedTerrainTypes), Set.of(), Set.of(), Set.of()))
                 .toList();
         return new GameAssets(mappedRegions, mappedTerrainTypes);
     }

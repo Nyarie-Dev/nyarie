@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("ALL")
@@ -21,8 +22,8 @@ class AssetDirectoryLoaderTest extends AbstractIoTest {
     private final AssetDirectoryLoader assetDirectoryLoader = new AssetDirectoryLoader(mockFileLoader);
 
     private final Path path = Path.of("some-path");
-    private final Optional<RegionsAsset> expectedRegions = Optional.of(new RegionsAsset());
-    private final Optional<TerrainTypesAsset> expectedTerrainTypes = Optional.of(new TerrainTypesAsset());
+    private final Optional<RegionsAsset> expectedRegions = Optional.of(new RegionsAsset(List.of()));
+    private final Optional<TerrainTypesAsset> expectedTerrainTypes = Optional.of(new TerrainTypesAsset(List.of()));
     private final LoadedAssetDirectory expectedResult = new LoadedAssetDirectory(expectedRegions, expectedTerrainTypes);
 
     @Nested
@@ -47,7 +48,7 @@ class AssetDirectoryLoaderTest extends AbstractIoTest {
         }
 
         @Test
-        @DisplayName("should call AssetFileLoader for regions")
+        @DisplayName("should call AssetFileLoader for data")
         void shouldCallAssetFileLoaderForRegions() {
             Mockito.verify(mockFileLoader, Mockito.times(1)).jsonFromFileSystem(path, AssetPaths.REGIONS);
         }
@@ -87,7 +88,7 @@ class AssetDirectoryLoaderTest extends AbstractIoTest {
         }
 
         @Test
-        @DisplayName("should call AssetFileLoader for regions")
+        @DisplayName("should call AssetFileLoader for data")
         void shouldCallAssetFileLoaderForRegions() {
             Mockito.verify(mockFileLoader, Mockito.times(1)).jsonFromFileSystemWithClasspathFallback(path, AssetPaths.REGIONS);
         }

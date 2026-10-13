@@ -3,9 +3,9 @@ package eu.nyarie.core.io;
 import java.nio.file.Path;
 
 /// Class defining a [Path] of a file that should be loaded.
-/// Each subclass needs to specify a [FileContentDto] which represents
+/// Each instance needs to specify a [FileDto] which represents
 /// the DTO class into which the file can be deserialized into.
-public class FilePath<T> {
+public class FilePath<T extends FileDto> {
 
     private final Path path;
     private final Class<T> dtoClass;

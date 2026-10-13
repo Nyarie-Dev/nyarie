@@ -60,7 +60,7 @@ public class Character extends Identity implements CharacterCommands {
 
     @Override
     public String getCurrentRegionId() {
-        //TODO: fix this when we have regions
+        //TODO: fix this when we have data
         return "this.currentRegion.getId()";
     }
 }

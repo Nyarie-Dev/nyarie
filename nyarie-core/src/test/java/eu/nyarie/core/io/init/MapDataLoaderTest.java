@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @SuppressWarnings("ALL")
 class MapDataLoaderTest extends AbstractIoTest {
@@ -36,7 +37,7 @@ class MapDataLoaderTest extends AbstractIoTest {
         @DisplayName("with existing file")
         class WithExistingFile {
 
-            TerrainTypeCsvContent result;
+            List<TerrainTypeCsvEntry> result;
 
             @BeforeEach
             void setup() throws IOException {
@@ -49,34 +50,34 @@ class MapDataLoaderTest extends AbstractIoTest {
             @Test
             @DisplayName("should return List with correct size")
             void shouldReturnOptionalOfList() {
-                assertThat(result.getData()).hasSize(4);
+                assertThat(result).hasSize(4);
             }
 
             @Test
             @DisplayName("should have correct id")
             void shouldHaveCorrectId() {
-                assertThat(result.getData().getFirst().getId()).isEqualTo(1);
-                assertThat(result.getData().get(1).getId()).isEqualTo(2);
-                assertThat(result.getData().get(2).getId()).isEqualTo(3);
-                assertThat(result.getData().get(3).getId()).isEqualTo(4);
+                assertThat(result.getFirst().id()).isEqualTo(1);
+                assertThat(result.get(1).id()).isEqualTo(2);
+                assertThat(result.get(2).id()).isEqualTo(3);
+                assertThat(result.get(3).id()).isEqualTo(4);
             }
 
             @Test
             @DisplayName("should have correct name")
             void shouldHaveCorrectName() {
-                assertThat(result.getData().getFirst().getName()).isEqualTo("Plains");
-                assertThat(result.getData().get(1).getName()).isEqualTo("Mountains");
-                assertThat(result.getData().get(2).getName()).isEqualTo("Hills");
-                assertThat(result.getData().get(3).getName()).isEqualTo("Desert");
+                assertThat(result.getFirst().name()).isEqualTo("Plains");
+                assertThat(result.get(1).name()).isEqualTo("Mountains");
+                assertThat(result.get(2).name()).isEqualTo("Hills");
+                assertThat(result.get(3).name()).isEqualTo("Desert");
             }
 
             @Test
             @DisplayName("should have correct someString")
             void shouldHaveCorrectSomeString() {
-                assertThat(result.getData().getFirst().getMoveIntoDuration()).isEqualTo(1);
-                assertThat(result.getData().get(1).getMoveIntoDuration()).isEqualTo(10);
-                assertThat(result.getData().get(2).getMoveIntoDuration()).isEqualTo(3);
-                assertThat(result.getData().get(3).getMoveIntoDuration()).isEqualTo(1);
+                assertThat(result.getFirst().moveIntoDuration()).isEqualTo(1);
+                assertThat(result.get(1).moveIntoDuration()).isEqualTo(10);
+                assertThat(result.get(2).moveIntoDuration()).isEqualTo(3);
+                assertThat(result.get(3).moveIntoDuration()).isEqualTo(1);
             }
         }
 

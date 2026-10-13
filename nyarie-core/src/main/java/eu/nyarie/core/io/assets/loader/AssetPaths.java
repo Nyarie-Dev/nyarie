@@ -11,7 +11,7 @@ import java.util.Set;
 @Getter
 class AssetPaths {
     static final Path ROOT = Path.of("assets");
-    static final FilePath<RegionsAsset> REGIONS = new FilePath<>(ROOT.resolve("map", "regions.json"), RegionsAsset.class);
+    static final FilePath<RegionsAsset> REGIONS = new FilePath<>(ROOT.resolve("map", "data.json"), RegionsAsset.class);
     static final FilePath<TerrainTypesAsset> TERRAIN_TYPES = new FilePath<>(ROOT.resolve("map", "terrain-types.json"), TerrainTypesAsset.class);
 
     /// Gets all the subpaths of the asset path as an [unmodifiable Set][java.util.Collections#unmodifiableSet(Set)].
