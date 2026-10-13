@@ -37,7 +37,7 @@ class MapDataLoaderTest extends AbstractIoTest {
         @DisplayName("with existing file")
         class WithExistingFile {
 
-            List<TerrainTypeCsvEntry> result;
+            List<TerrainTypeCsvDto> result;
 
             @BeforeEach
             void setup() throws IOException {

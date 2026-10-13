@@ -9,7 +9,7 @@ import java.util.Set;
 @Getter
 class InitFilePaths {
     static final Path ROOT = Path.of("init");
-    static final FilePath<TerrainTypeCsvEntry> TERRAIN_TYPES = new FilePath<>(ROOT.resolve("map", "terrain-types.csv"), TerrainTypeCsvEntry.class);
+    static final FilePath<TerrainTypeCsvDto> TERRAIN_TYPES = new FilePath<>(ROOT.resolve("map", "terrain-types.csv"), TerrainTypeCsvDto.class);
 
     /// Gets all the subpaths of the init file path as an [unmodifiable Set][java.util.Collections#unmodifiableSet(Set)].
     ///

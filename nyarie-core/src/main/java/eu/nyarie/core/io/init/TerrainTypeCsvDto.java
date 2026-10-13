@@ -6,7 +6,7 @@ import eu.nyarie.core.io.FileDto;
 
 /// A single terrain type entry in the `terrain-types.csv`. Gets its data written
 /// to the final `map.json` file after map initialization is done.
-public record TerrainTypeCsvEntry(
+public record TerrainTypeCsvDto(
         @JsonProperty(value = "id", required = true) Integer id,
         @JsonProperty(value = "name", required = true) String name,
         @JsonProperty(value = "moveIntoDuration", required = true) Integer moveIntoDuration

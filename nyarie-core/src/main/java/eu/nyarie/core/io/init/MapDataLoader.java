@@ -17,7 +17,7 @@ public class MapDataLoader {
         this.fileLoader = fileLoader;
     }
 
-    public List<TerrainTypeCsvEntry> loadTerrainTypes(Path basePath) {
+    public List<TerrainTypeCsvDto> loadTerrainTypes(Path basePath) {
         log.trace("Entered loadTerrainTypes method with basePath: {}", basePath);
 
         val terrainTypeInitPath = InitFilePaths.TERRAIN_TYPES;
@@ -26,7 +26,7 @@ public class MapDataLoader {
 
         log.trace("Calling FileLoader");
 
-        val entries = fileLoader.csvFromFileSystem(basePath, InitFilePaths.TERRAIN_TYPES, TerrainTypeCsvEntry.getSchema());
+        val entries = fileLoader.csvFromFileSystem(basePath, InitFilePaths.TERRAIN_TYPES, TerrainTypeCsvDto.getSchema());
 
         log.debug("Successfully initialized {} terrain types:", entries.size());
         entries.forEach(entry -> {
