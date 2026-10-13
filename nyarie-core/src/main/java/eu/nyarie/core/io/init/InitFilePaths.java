@@ -10,6 +10,7 @@ import java.util.Set;
 class InitFilePaths {
     static final Path ROOT = Path.of("init");
     static final FilePath<TerrainTypeCsvDto> TERRAIN_TYPES = new FilePath<>(ROOT.resolve("map", "terrain-types.csv"), TerrainTypeCsvDto.class);
+    static final FilePath<RegionsCsvDto> REGIONS = new FilePath<>(ROOT.resolve("map", "regions.csv"), RegionsCsvDto.class);
 
     /// Gets all the subpaths of the init file path as an [unmodifiable Set][java.util.Collections#unmodifiableSet(Set)].
     ///
@@ -17,7 +18,8 @@ class InitFilePaths {
     /// @return An unmodifiable [Set] containing all the subpaths of the asset path
     public static Set<FilePath<?>> getSubpaths() {
         return Set.of(
-                TERRAIN_TYPES
+                TERRAIN_TYPES,
+                REGIONS
         );
     }
 

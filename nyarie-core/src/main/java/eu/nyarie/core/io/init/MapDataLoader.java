@@ -35,4 +35,22 @@ public class MapDataLoader {
 
         return entries;
     }
+
+    public List<RegionsCsvDto> loadRegions(Path basePath) {
+        log.trace("Entered loadRegions method with basePath: {}", basePath);
+
+        val regionTypePath = InitFilePaths.REGIONS;
+        val path = basePath.resolve(regionTypePath.getPath());
+        log.debug("Loading region definitions from file: {}", path);
+
+        log.trace("Calling FileLoader");
+        val entries = fileLoader.csvFromFileSystem(basePath, regionTypePath, RegionsCsvDto.getSchema());
+
+        log.debug("Successfully loaded {} region definitions:", entries.size());
+        entries.forEach(entry -> {
+            log.debug("|--- [{}] [RGB: {},{},{}] [Terrain: {}] \"{}\"", entry.id(), entry.red(), entry.green(), entry.blue(), entry.terrainTypeId(), entry.name());
+        });
+
+        return entries;
+    }
 }
