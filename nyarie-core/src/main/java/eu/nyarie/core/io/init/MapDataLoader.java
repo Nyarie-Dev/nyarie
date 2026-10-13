@@ -30,7 +30,7 @@ public class MapDataLoader {
 
         log.debug("Successfully initialized {} terrain types:", entries.size());
         entries.forEach(entry -> {
-            log.debug("|--- [{}] {} (movement duration: {})", entry.id(), entry.name(), entry.moveIntoDuration());
+            log.debug("|--- [{}] {} (movement duration: {})", entry.id(), String.format("%-15s", entry.name()), String.format("%2d", entry.moveIntoDuration()));
         });
 
         return entries;
@@ -48,7 +48,7 @@ public class MapDataLoader {
 
         log.debug("Successfully loaded {} region definitions:", entries.size());
         entries.forEach(entry -> {
-            log.debug("|--- [{}] [RGB: {},{},{}] [Terrain: {}] \"{}\"", entry.id(), entry.red(), entry.green(), entry.blue(), entry.terrainTypeId(), entry.name());
+            log.debug("|--- [{}] [RGB: {},{},{}] [Terrain: {}] \"{}\"", entry.id(), String.format("%3d", entry.red()), String.format("%3d", entry.green()), String.format("%3d", entry.blue()), String.format("%3d", entry.terrainTypeId()), entry.name());
         });
 
         return entries;

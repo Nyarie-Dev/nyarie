@@ -12,7 +12,7 @@ public record RegionsCsvDto(
         @JsonProperty(value = "green", required = true) Integer green,
         @JsonProperty(value = "blue", required = true) Integer blue,
         @JsonProperty(value = "name", required = true) String name,
-        @JsonProperty(value = "terrainTypeID", required = true) Integer terrainTypeId
+        @JsonProperty(value = "terrainTypeId", required = true) Integer terrainTypeId
 ) implements FileDto {
 
     public static CsvSchema getSchema() {
