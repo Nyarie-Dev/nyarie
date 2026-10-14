@@ -2,6 +2,7 @@ package eu.nyarie.core.io.init;
 
 
 import eu.nyarie.core.io.FileLoader;
+import eu.nyarie.core.io.FilePath;
 import eu.nyarie.core.util.abstraction.AbstractIoTest;
 import eu.nyarie.core.util.io.FileSystemUtils;
 import lombok.val;
@@ -25,7 +26,7 @@ class MapDataLoaderTest extends AbstractIoTest {
     @Nested
     @DisplayName("loadTerrainTypes")
     class LoadTerrainTypes {
-
+        List<TerrainTypeCsvDto> result;
         private static final String sourceCsvString = """
             1,Plains,1
             2,Mountains,10
@@ -37,8 +38,6 @@ class MapDataLoaderTest extends AbstractIoTest {
         @Nested
         @DisplayName("with existing file")
         class WithExistingFile {
-
-            List<TerrainTypeCsvDto> result;
 
             @BeforeEach
             void setup() throws IOException {
@@ -82,31 +81,31 @@ class MapDataLoaderTest extends AbstractIoTest {
             }
         }
 
-//        @Nested
-//        @DisplayName("with non-existing file")
-//        class WithNonExistingFile {
-//
-//            static final AssetFilePath<@NonNull TerrainTypesAsset> terrainTypeAssetFilePath = AssetPaths.TERRAIN_TYPES;
-//            Optional<TerrainTypesAsset> result;
-//
-//            @BeforeEach
-//            void setup() throws IOException {
-//                val finalPath = jarPath.resolve(terrainTypeAssetFilePath.getPath());
-//                Files.deleteIfExists(finalPath);
-//                result = assetLoader.fromFileSystem(jarPath, terrainTypeAssetFilePath);
-//            }
-//
-//            @Test
-//            @DisplayName("should return empty optional")
-//            void shouldReturnOptionalOfList() {
-//                assertThat(result).isEmpty();
-//            }
-//        }
+        @Nested
+        @DisplayName("with non-existing file")
+        class WithNonExistingFile {
+
+            static final FilePath testFilePath = new FilePath(Path.of("some", "nonexisting", "path", "SomeNonExistingFile.json"), MapDataLoaderTest.class);
+
+            @BeforeEach
+            void setup() throws IOException {
+                val finalPath = jarPath.resolve(testFilePath.getPath());
+                Files.deleteIfExists(finalPath);
+                result = mapDataLoader.loadTerrainTypes(finalPath);
+            }
+
+            @Test
+            @DisplayName("should return empty list")
+            void shouldReturnEmptyList() {
+                assertThat(result).isEmpty();
+            }
+        }
     }
 
     @Nested
     @DisplayName("loadRegions")
     class LoadRegions {
+        List<RegionsCsvDto> result;
 
         private static final String sourceCsvString = """
             1,1,0,255,Pelennor Fields,1
@@ -119,8 +118,6 @@ class MapDataLoaderTest extends AbstractIoTest {
         @Nested
         @DisplayName("with existing file")
         class WithExistingFile {
-
-            List<RegionsCsvDto> result;
 
             @BeforeEach
             void setup() throws IOException {
@@ -191,26 +188,25 @@ class MapDataLoaderTest extends AbstractIoTest {
             }
         }
 
-//        @Nested
-//        @DisplayName("with non-existing file")
-//        class WithNonExistingFile {
-//
-//            static final AssetFilePath<@NonNull TerrainTypesAsset> terrainTypeAssetFilePath = AssetPaths.TERRAIN_TYPES;
-//            Optional<TerrainTypesAsset> result;
-//
-//            @BeforeEach
-//            void setup() throws IOException {
-//                val finalPath = jarPath.resolve(terrainTypeAssetFilePath.getPath());
-//                Files.deleteIfExists(finalPath);
-//                result = assetLoader.fromFileSystem(jarPath, terrainTypeAssetFilePath);
-//            }
-//
-//            @Test
-//            @DisplayName("should return empty optional")
-//            void shouldReturnOptionalOfList() {
-//                assertThat(result).isEmpty();
-//            }
-//        }
+        @Nested
+        @DisplayName("with non-existing file")
+        class WithNonExistingFile {
+
+            static final FilePath testFilePath = new FilePath(Path.of("some", "nonexisting", "path", "SomeNonExistingFile.json"), MapDataLoaderTest.class);
+
+            @BeforeEach
+            void setup() throws IOException {
+                val finalPath = jarPath.resolve(testFilePath.getPath());
+                Files.deleteIfExists(finalPath);
+                result = mapDataLoader.loadRegions(finalPath);
+            }
+
+            @Test
+            @DisplayName("should return empty list")
+            void shouldReturnEmptyList() {
+                assertThat(result).isEmpty();
+            }
+        }
     }
 
     private static final record CsvDto(
