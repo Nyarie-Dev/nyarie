@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
 
 /// Uses file loaders to load all the data needed for map creation,
@@ -17,7 +18,23 @@ public class MapDataLoader {
         this.fileLoader = fileLoader;
     }
 
+    /// Loads the content of the `init/map/terrain-types.csv` file (as defined in [InitFilePaths#TERRAIN_TYPES])
+    /// inside the specified `basePath`.
     ///
+    /// For example, if the `basePath` is set to `/nyarie`, then the path of the file will be:
+    /// ```text
+    /// /nyarie/init/map/terrain-types.csv
+    /// ```
+    /// ### CSV content
+    /// This file contains the definition of all existing terrain types, as well as their:
+    /// - ID
+    /// - name
+    /// - movement duration
+    ///
+    /// It is important that the CSV file content matches exactly the schema as it is returned in [TerrainTypeCsvDto#getSchema()].
+    ///
+    /// @param basePath The directory in which the `init/map/terrain-type.csv` file will be searched
+    /// @return A [List] containing the Terrain Types. Empty [List] if the file was not found or empty.
     public List<TerrainTypeCsvDto> loadTerrainTypes(Path basePath) {
         log.trace("Entered loadTerrainTypes method with basePath: {}", basePath);
 
@@ -37,6 +54,24 @@ public class MapDataLoader {
         return entries;
     }
 
+    /// Loads the content of the `init/map/regions.csv` file (as defined in [InitFilePaths#REGIONS])
+    /// inside the specified `basePath`.
+    ///
+    /// For example, if the `basePath` is set to `/nyarie`, then the path of the file will be:
+    /// ```text
+    /// /nyarie/init/map/regions.csv
+    /// ```
+    /// ### CSV content
+    /// This file contains the definition of all existing regions, as well as their:
+    /// - ID
+    /// - name
+    /// - terrain type
+    /// - RGB values for the `regions.png` file
+    ///
+    /// It is important that the CSV file content matches exactly the schema as it is returned in [RegionsCsvDto#getSchema()].
+    ///
+    /// @param basePath The directory in which the `init/map/regions.csv` file will be searched
+    /// @return A [List] containing the Region definitions. Empty [List] if the file was not found or empty.
     public List<RegionsCsvDto> loadRegions(Path basePath) {
         log.trace("Entered loadRegions method with basePath: {}", basePath);
 
