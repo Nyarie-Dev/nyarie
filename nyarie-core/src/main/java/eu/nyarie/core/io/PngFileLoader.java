@@ -16,11 +16,20 @@ import java.util.function.Supplier;
 public class PngFileLoader {
 
 
-    //TODO add logs and Javadoc
+    /// Loads a PNG image file by creating an [InputStream] from the
+    /// passed [Supplier] and loading its data into a [BufferedImage].
+    ///
+    /// @param path The path where the image is located. Mainly used for logging.
+    /// @param inputStreamSupplier [Supplier] that gets executed to create the [InputStream] to the PNG file.
+    /// @return A [BufferedImage] containing PNG data.
+    /// @throws FileLoadingException When encountering an error while reading PNG file.
     public BufferedImage readFile(Path path, Supplier<InputStream> inputStreamSupplier) {
-        try(val inputStream = inputStreamSupplier.get() ) {
+        log.debug("Loading PNG: {}", path);
+        try(val inputStream = inputStreamSupplier.get()) {
+            log.trace("Loading file into BufferedImage");
             val image = ImageIO.read(inputStream);
 
+            log.debug("Successfully loaded PNG: {}", path);
             return image;
         }
         catch (Exception e) {
